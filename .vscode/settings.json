@@ -61,6 +61,7 @@
         "streambuf": "cpp",
         "system_error": "cpp",
         "iostream": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "__cxx_version": "cpp"
     }
 }

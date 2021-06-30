@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/06/30 16:37:49 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/06/30 18:27:42 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ TEST_PATH	=	test/
 
 SRC		=	main.cpp
 
-TEST	=	testStack.cpp
+TEST	=	testStack.cpp \
+			testVector.cpp
 
 
 CC			=	clang++
