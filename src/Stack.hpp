@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 14:08:07 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/06/30 18:07:35 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/06/30 22:11:12 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ namespace ft
     class stack
 	{
 		private:
-			typedef Container container_type;
-			typedef T value_type;
-			typedef size_t size_type;
-			Container   _c;
+			typedef Container	container_type;
+			typedef	T			value_type;
+			typedef size_t		size_type;
+
+			Container			_c;
 
 		public:
-			stack(const container_type& ctnr = container_type());
+			explicit stack(const container_type& ctnr = container_type());
 			
 			bool                empty() const;
 			size_type           size() const;

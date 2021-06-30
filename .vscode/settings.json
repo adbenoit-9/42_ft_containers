@@ -62,6 +62,8 @@
         "system_error": "cpp",
         "iostream": "cpp",
         "iomanip": "cpp",
-        "__cxx_version": "cpp"
+        "__cxx_version": "cpp",
+        "__split_buffer": "cpp",
+        "bitset": "cpp"
     }
 }
