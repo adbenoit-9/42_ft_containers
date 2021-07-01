@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/01 13:04:54 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:41:34 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,37 @@ namespace ft
 	template < class T, class Alloc = std::allocator<T> >
 	class vector
 	{
+			/**************************************************************************\
+			 * Iterators
+			 * 
+			 * iterator					begin();
+			 * const_iterator			begin() const;
+			 * iterator					end();
+			 * const_iterator			end() const;
+			 * reverse_iterator			rbegin();
+			 * const_reverse_iterator	rbegin() const;
+			 * reverse_iterator			rend();
+			 * const_reverse_iterator	rend() const;
+			 * 
+			 * ** Element acces
+			 * 
+			 * 
+			 * ** Modifiers
+			 * 
+			 * void						push_back(const T& value);
+			 * void						pop_back();
+			 * iterator					insert(iterator pos, const T& value);
+			 * void						insert(iterator pos, size_type count, const T& value);
+			 * template<class InputIt>
+			 * void						insert(iterator pos, InputIt first, InputIt last);
+			 * iterator					erase(iterator pos);
+			 * iterator					erase(iterator first, iterator last);
+			 * void						push_front(const T& va
+			 * void						resize(size_type count, T value = T());
+			 * void						swap(List& other);
+			 * void 					clear();
+			\**************************************************************************/
+
 		private:
 			typedef	T											value_type;
 			typedef	Alloc										allocator_type;
@@ -154,38 +185,6 @@ namespace ft
 				this->_alloc.deallocate(tmp, this->_capacity);
 				this->_capacity = n;
 			}
-			/*
-			** Iterators
-			*/
-			// iterator				begin();
-			// const_iterator			begin() const;
-			// iterator				end();
-			// const_iterator			end() const;
-			// reverse_iterator		rbegin();
-			// const_reverse_iterator	rbegin() const;
-			// reverse_iterator		rend();
-			// const_reverse_iterator	rend() const;
-
-
-			/*
-			** Element access
-			*/
-
-			/*
-			** Modifiers
-			*/
-			// void		push_back(const T& value);
-			// void		pop_back();
-			// iterator	insert(iterator pos, const T& value);
-			// void		insert(iterator pos, size_type count, const T& value);
-			// template<class InputIt>
-			// void		insert(iterator pos, InputIt first, InputIt last);
-			// iterator	erase(iterator pos);
-			// iterator	erase(iterator first, iterator last);
-			// void		push_front(const T& va
-			// void		resize(size_type count, T value = T());
-			// void		swap(List& other);
-			// void 		clear();
 	};
 
 	
