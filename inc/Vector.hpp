@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/01 14:41:34 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/01 18:09:40 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,38 @@
 # define VECTOR_HPP
 
 # include <memory>
-# include <tgmath.h> 
+# include <tgmath.h>
+# include "iter/Iterator.hpp"
 
 namespace ft
 {
 	template < class T, class Alloc = std::allocator<T> >
 	class vector
 	{
-			/**************************************************************************\
-			 * Iterators
+			/**
+			 * ================================================= PUBLIC =================================================
+			 * 
+			 * explicit vector(const allocator_type& alloc = allocator_type());
+			 * explicit vector(size_type n, const value_type& val = value_type(), 
+			 * 					const allocator_type& alloc = allocator_type());
+			 * 			template <class InputIterator>
+			 * 			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+			 * 			vector(const vector& x);
+			 *
+			 * 	~vector();
+			 * 
+			 * vector&	operator= (const vector& x);
+			 * 
+			 * 					~ Capacity ~
+			 * 
+			 * size_type				size() const;
+			 * size_type				max_size() const;
+			 * void						resize(size_type n, value_type val = value_type());
+			 * size_type				capacity() const;
+			 * bool						empty() const;
+			 * void						reserve(size_type n); 
+			 * 
+			 * 					~ Iterators ~
 			 * 
 			 * iterator					begin();
 			 * const_iterator			begin() const;
@@ -33,10 +56,11 @@ namespace ft
 			 * reverse_iterator			rend();
 			 * const_reverse_iterator	rend() const;
 			 * 
-			 * ** Element acces
+			 * 					~ Element access ~
 			 * 
 			 * 
-			 * ** Modifiers
+			 * 
+			 * 					~ Modifiers ~
 			 * 
 			 * void						push_back(const T& value);
 			 * void						pop_back();
@@ -50,7 +74,15 @@ namespace ft
 			 * void						resize(size_type count, T value = T());
 			 * void						swap(List& other);
 			 * void 					clear();
-			\**************************************************************************/
+			 * 
+			 * ================================================= PRIVATE =================================================
+			 * 
+			 * pointer			_begin; 
+			 * Alloc			_alloc;
+			 * size_type 		_size;
+			 * size_type 		_capacity;
+			 * 
+			 **/
 
 		private:
 			typedef	T											value_type;
@@ -59,10 +91,10 @@ namespace ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			// typedef	LegacyBidirectionalIterator iterator;		//to value_type
-			// typedef	LegacyBidirectionalIterator const_iterator;	//to const value_type
-			// typedef	std::reverse_iterator<iterator> reverse_iterator;	
-			// typedef	std::reverse_iterator<const_iterator> const_reverse_iterator;
+			typedef	Iterator<T>									iterator;
+			typedef	const Iterator<T>							const_iterator;
+			// typedef	std::reverse_iterator<iterator>				reverse_iterator;	
+			// typedef	std::reverse_iterator<const_iterator>		const_reverse_iterator;
 			typedef	ptrdiff_t									difference_type;
 			typedef	size_t										size_type;
 
@@ -74,22 +106,30 @@ namespace ft
 
 		public:
 			explicit vector(const allocator_type& alloc = allocator_type())  :
-			_alloc(alloc), _size(0), _capacity(0)
-			{
-				this->_begin = this->_alloc.allocate(0);
-			}
+			_alloc(alloc), _size(0), _capacity(0) { this->_begin = this->_alloc.allocate(0); }
 			
 			explicit vector(size_type n, const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type()) :
 			_alloc(alloc), _size(n), _capacity(n)
 			{
 				this->_begin = this->_alloc.allocate(n);
-				for (int i = 0; i < n; i++)
+				for (size_type i = 0; i < n; i++)
 					this->_alloc.construct(&this->_begin[i], val);		
 			}
 			
-			// template <class InputIterator>
-			// vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+			template <class InputIterator>
+			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) :
+			_alloc(alloc)
+			{
+				for (InputIterator it = first; it < last; it++)
+					++this->_size;
+
+				this->_capacity = this->_size;
+				this->_begin = this->_alloc.allocate(this->_size);
+				
+				for (InputIterator it = first; it < last; it++)
+					this->_alloc.construct(&this->_begin[i], *it);
+			}
 			
 			vector(const vector& x)
 			{
@@ -101,9 +141,8 @@ namespace ft
 					this->_alloc.construct(&this->_begin[i], x._begin[i]);
 			}
 			
-			/*
-			** Capacity
-			*/
+			~vector() {}
+
 			vector& operator= (const vector& x)
 			{		
 				if (this == &x)
@@ -118,16 +157,15 @@ namespace ft
 				this->_capacity = x._capacity;
 				this->_begin = this->_alloc.allocate(this->_capacity);
 
-				for (int i = 0; i < this->_size; i++)
+				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.construct(&this->_begin[i], x._begin[i]);
 
 				return *this;
 			}
+
+			// Capacity
 	
-			size_type	size() const
-			{
-				return this->_size;
-			}
+			size_type	size() const { return this->_size; }
 			
 			size_type	max_size() const
 			{
@@ -157,15 +195,9 @@ namespace ft
 				this->_capacity = n;
 			}
 			
-			size_type	capacity() const
-			{
-				return this->_capacity;
-			}
+			size_type	capacity() const	{ return this->_capacity; }
 			
-			bool		empty() const
-			{
-				return (this->_size == 0);
-			}
+			bool		empty() const		{ return (this->_size == 0); }
 			
 			void			reserve(size_type n)
 			{
@@ -186,9 +218,6 @@ namespace ft
 				this->_capacity = n;
 			}
 	};
-
-	
-
 }
 
 #endif

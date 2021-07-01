@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/06/30 18:27:42 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/07/01 15:37:47 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,10 @@ NAME 		=	containers
 SRC_PATH	=	src/
 TEST_PATH	=	test/
 
-SRC		=	main.cpp
+SRC		=
 
-TEST	=	testStack.cpp \
+TEST	=	main.cpp \
+			testStack.cpp \
 			testVector.cpp
 
 
