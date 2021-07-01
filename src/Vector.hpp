@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/06/30 23:45:21 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/01 13:04:54 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define VECTOR_HPP
 
 # include <memory>
+# include <tgmath.h> 
 
 namespace ft
 {
@@ -41,13 +42,118 @@ namespace ft
 			
 
 		public:
-			explicit vector(const allocator_type& alloc = allocator_type());
+			explicit vector(const allocator_type& alloc = allocator_type())  :
+			_alloc(alloc), _size(0), _capacity(0)
+			{
+				this->_begin = this->_alloc.allocate(0);
+			}
+			
 			explicit vector(size_type n, const value_type& val = value_type(),
-							const allocator_type& alloc = allocator_type());
+							const allocator_type& alloc = allocator_type()) :
+			_alloc(alloc), _size(n), _capacity(n)
+			{
+				this->_begin = this->_alloc.allocate(n);
+				for (int i = 0; i < n; i++)
+					this->_alloc.construct(&this->_begin[i], val);		
+			}
+			
 			// template <class InputIterator>
 			// vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-			vector(const vector& x);
+			
+			vector(const vector& x)
+			{
+				this->_alloc = x._alloc;
+				this->_size = x._size;
+				this->_capacity = x._capacity;
+				this->_begin = this->_alloc.allocate(this->_capacity);
+				for (size_type i = 0; i < this->_size; i++)
+					this->_alloc.construct(&this->_begin[i], x._begin[i]);
+			}
+			
+			/*
+			** Capacity
+			*/
+			vector& operator= (const vector& x)
+			{		
+				if (this == &x)
+					return *this;
 
+				for (size_type i = 0; i < this->_size; i++)
+					this->_alloc.destroy(&this->_begin[i]);
+				this->_alloc.deallocate(this->_begin, this->_capaity);
+				
+				this->_alloc = x._alloc;
+				this->_size = x._size;
+				this->_capacity = x._capacity;
+				this->_begin = this->_alloc.allocate(this->_capacity);
+
+				for (int i = 0; i < this->_size; i++)
+					this->_alloc.construct(&this->_begin[i], x._begin[i]);
+
+				return *this;
+			}
+	
+			size_type	size() const
+			{
+				return this->_size;
+			}
+			
+			size_type	max_size() const
+			{
+				if (sizeof(value_type) == 1)
+					return (static_cast<size_type>(pow(2.0, 64.0) / 2.0) - 1);
+				return (static_cast<size_type>(pow(2.0, 64.0) / static_cast<double>(sizeof(value_type))) - 1);
+			} 
+			
+			void		resize(size_type n, value_type val = value_type())
+			{
+				pointer tmp = this->_begin;
+
+				this->_begin = this->_alloc.allocate(n);
+
+				for (size_type i = 0; i < this->_size && i < n; i++)
+				{
+					this->_alloc.construct(&this->_begin[i], tmp[i]);
+					this->_alloc.destroy(&tmp[i]);
+				}
+				for (size_type i = this->_size; i < n; i++)
+					this->_alloc.construct(&this->_begin[i], val);
+				for (size_type i = n; i < this->_size; i++)
+					this->_alloc.destroy(&tmp[i]);
+
+				this->_alloc.deallocate(tmp, this->_capacity);
+				this->_size = n;
+				this->_capacity = n;
+			}
+			
+			size_type	capacity() const
+			{
+				return this->_capacity;
+			}
+			
+			bool		empty() const
+			{
+				return (this->_size == 0);
+			}
+			
+			void			reserve(size_type n)
+			{
+				if (n <= this->_capacity)
+					return ;
+
+				pointer tmp = this->_begin;
+ 
+				this->_begin = this->_alloc.allocate(n);
+
+				for (size_type i = 0; i < this->_size; i++)
+				{
+					this->_alloc.construct(&this->_begin[i], tmp[i]);
+					this->_alloc.destroy(&tmp[i]);
+				}
+
+				this->_alloc.deallocate(tmp, this->_capacity);
+				this->_capacity = n;
+			}
 			/*
 			** Iterators
 			*/
@@ -60,15 +166,6 @@ namespace ft
 			// reverse_iterator		rend();
 			// const_reverse_iterator	rend() const;
 
-			/*
-			** Capacity
-			*/
-			size_type		size() const;
-			size_type		max_size() const; 
-			void			resize(size_type n, value_type val = value_type());
-			size_type		capacity() const;
-			bool			empty() const;
-			void			reserve(size_type n);
 
 			/*
 			** Element access
@@ -91,100 +188,8 @@ namespace ft
 			// void 		clear();
 	};
 
-	template < class T, class Alloc>
-	vector<T, Alloc>::vector(const vector<T, Alloc>::allocator_type& alloc)  :
-	_alloc(alloc), _size(0), _capacity(0)
-	{
-		this->_begin = this->_alloc.allocate(0);
-	}
 	
-	template < class T, class Alloc>
-	vector<T, Alloc>::vector(size_type n, const value_type& val, const allocator_type& alloc) :
-	_alloc(alloc), _size(n), _capacity(n)
-	{
-		this->_begin = this->_alloc.allocate(n);
-		for (int i = 0; i < n; i++)
-			this->_alloc.construct(&this->_begin[i], val);		
-	}
-	
-	template < class T, class Alloc>
-	vector<T, Alloc>::vector(const vector& x)
-	{
-		this->_alloc = x._alloc;
-		this->_size = x._size;
-		this->_capacity = x._capacity;
-		this->_begin = this->_alloc.allocate(this->_capacity);
-		for (int i = 0; i < this->_size; i++)
-			this->_alloc.construct(&this->_begin[i], x._begin[i]);
-	}
 
-	template < class T, class Alloc>
-	typename vector<T, Alloc>::size_type	vector<T, Alloc>::size() const
-	{
-		return this->_size;
-	}
-	
-	template < class T, class Alloc>
-	typename vector<T, Alloc>::size_type	vector<T, Alloc>::max_size() const
-	{
-		if (sizeof(value_type) == 1)
-            return (static_cast<size_type>(pow(2.0, 64.0) / 2.0) - 1);
-        return (static_cast<size_type>(pow(2.0, 64.0) / static_cast<double>(sizeof(value_type))) - 1);
-	} 
-	
-	template < class T, class Alloc>
-	void									vector<T, Alloc>::resize(size_type n, value_type val)
-	{
-		pointer tmp = this->_begin;
-
-		this->_begin = this->_alloc.allocate(n);
-
-		for (size_t i = 0; i < this->_size && i < n; i++)
-		{
-			this->_alloc.construct(&this->_begin[i], tmp[i]);
-			this->_alloc.destroy(&tmp[i]);
-		}
-		for (size_t i = this->_size; i < n; i++)
-			this->_alloc.construct(&this->_begin[i], val);
-		for (size_t i = n; i < this->_size; i++)
-			this->_alloc.destroy(&tmp[i]);
-
-		this->_alloc.deallocate(tmp, this->_capacity);
-		this->_size = n;
-		this->_capacity = n;
-	}
-	
-	template < class T, class Alloc>
-	typename vector<T, Alloc>::size_type	vector<T, Alloc>::capacity() const
-	{
-		return this->_capacity;
-	}
-	
-	template < class T, class Alloc>
-	bool			vector<T, Alloc>::empty() const
-	{
-		return (this->_size == 0);
-	}
-	
-	template < class T, class Alloc>
-	void									vector<T, Alloc>::reserve (size_type n)
-	{
-		if (n <= this->_capacity)
-			return ;
-
-		pointer tmp = this->_begin;
-
-		this->_begin = this->_alloc.allocate(n);
-
-		for (size_t i = 0; i < this->_size; i++)
-		{
-			this->_alloc.construct(&this->_begin[i], tmp[i]);
-			this->_alloc.destroy(&tmp[i]);
-		}
-
-		this->_alloc.deallocate(tmp, this->_capacity);
-		this->_capacity = n;
-	}
 }
 
 #endif
