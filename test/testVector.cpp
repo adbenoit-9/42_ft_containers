@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/02 15:03:28 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/02 15:10:35 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,16 @@ void    testVector(void)
 			<< "-------------------------------------------------------------------------" << std::endl
 			<< "|\tempty()\t\t|\t\t" << stdVector.empty()
 			<< "\t|\t\t" << myVector.empty() << "\t|" << std::endl
+			<< "-------------------------------------------------------------------------" << std::endl
+			<< "|\tbegin() + end()\t|\t";
+	for (std::vector<int>::iterator it = stdVector.begin() ; it != stdVector.end(); ++it)
+    	std::cout << ' ' << *it;
+	std::cout << "\t|\t";
+	for (ft::vector<int>::iterator it = myVector.begin() ; it != myVector.end(); ++it)
+    	std::cout << ' ' << *it;
+  	std::cout << "\t|" << std::endl
 			<< "-------------------------------------------------------------------------" << std::endl;
 
-for (ft::vector<int>::iterator it = myVector.begin() ; it != myVector.end(); ++it)
-    std::cout << ' ' << *it;
-  std::cout << '\n';
 // 	for (int i = 0; i < 5; i++)
 // 	{
 // 		stdVector.push(i);
