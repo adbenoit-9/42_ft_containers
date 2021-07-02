@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/01 18:09:40 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/02 14:50:14 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <memory>
 # include <tgmath.h>
 # include "iter/Iterator.hpp"
+# include "iter/Reverse_iterator.hpp"
 
 namespace ft
 {
@@ -93,8 +94,8 @@ namespace ft
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	Iterator<T>									iterator;
 			typedef	const Iterator<T>							const_iterator;
-			// typedef	std::reverse_iterator<iterator>				reverse_iterator;	
-			// typedef	std::reverse_iterator<const_iterator>		const_reverse_iterator;
+			typedef	std::reverse_iterator<iterator>				reverse_iterator;	
+			typedef	std::reverse_iterator<const_iterator>		const_reverse_iterator;
 			typedef	ptrdiff_t									difference_type;
 			typedef	size_t										size_type;
 
@@ -127,8 +128,12 @@ namespace ft
 				this->_capacity = this->_size;
 				this->_begin = this->_alloc.allocate(this->_size);
 				
+				int i = 0;
 				for (InputIterator it = first; it < last; it++)
+				{
 					this->_alloc.construct(&this->_begin[i], *it);
+					++i;
+				}
 			}
 			
 			vector(const vector& x)

@@ -6,14 +6,14 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/01 18:24:26 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/02 14:37:04 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
 
-# include <iterator>
+// # include <iterator>
 
 template <class T>
 class Iterator
@@ -30,19 +30,20 @@ class Iterator
 	public:
 		Iterator() {}
 		Iterator(const Iterator &toCopy) : _ptr(toCopy._ptr) {}
+		Iterator(const pointer ptr) : _ptr(ptr) {}
 		~Iterator() {}
 
 		// operators : assignment
 		Iterator&	operator=(Iterator &it) { this->_ptr = it->_ptr; return this; }
 		Iterator&	operator=(pointer ptr) { this->_ptr = ptr; return this; }
-		Iterator&	operator+=(const int &n) { this->_ptr = this->_ptr + n; return *this; }
-		Iterator&	operator+=(const Iterator &it) { this->_ptr = this->_ptr + it; return *this; }
-		Iterator&	operator-=(const int &n) { this->_ptr = this->_ptr - n; return *this; }
-		Iterator&	operator-=(const Iterator &it) { this->_ptr = this->_ptr - it; return *this; }
+		Iterator&	operator+=(difference_type n) { this->_ptr += n; return *this; }
+		Iterator&	operator+=(const Iterator &it) { this->_ptr += it._ptr; return *this; }
+		Iterator&	operator-=(difference_type n) { this->_ptr -= n; return *this; }
+		Iterator&	operator-=(const Iterator &it) { this->_ptr -= it._ptr; return *this; }
 
 		// operators : member access
 		reference   operator*() const { return *_ptr; }
-		pointer     operator->() { return this->_ptr; }
+		pointer     operator->() { return &(operator*()); }
 		T&			operator[](const int &i) { return this->_ptr[i]; }
 
 		// operators : increment / decrement
@@ -52,18 +53,18 @@ class Iterator
 		Iterator    operator--(int) { Iterator tmp = *this; --(*this); return tmp; }
 
 		// operators : arithmetic
-		friend Iterator	operator+(const Iterator& it, const int &n) { return Iterator(it.__ptr + n); }
+		friend Iterator	operator+(const Iterator& it, difference_type n) { return Iterator(it.__ptr + n); }
 		friend Iterator	operator+(const Iterator& a, const Iterator& b) { return Iterator(a._ptr + b._ptr); }
-		friend Iterator	operator-(const Iterator& it, const int &n) { return Iterator(it.__ptr - n); }
+		friend Iterator	operator-(const Iterator& it, difference_type n) { return Iterator(it.__ptr - n); }
 		friend Iterator	operator-(const Iterator& a, const Iterator& b) { return Iterator(a._ptr - b._ptr); }
 
 		// operators : comparison
-		friend bool operator== (const Iterator& a, const Iterator& b) { return a._ptr == b._ptr; }
-		friend bool operator!= (const Iterator& a, const Iterator& b) { return a._ptr != b._ptr; }
-		friend bool operator< (const Iterator& a, const Iterator& b) { return a._ptr < b._ptr; }
-		friend bool operator> (const Iterator& a, const Iterator& b) { return a._ptr > b._ptr; }
-		friend bool operator<= (const Iterator& a, const Iterator& b) { return a._ptr <= b._ptr; }
-		friend bool operator>= (const Iterator& a, const Iterator& b) { return a._ptr >= b._ptr; }
+		friend bool operator== (const Iterator& lhs, const Iterator& rhs) { return lhs._ptr == rhs._ptr; }
+		friend bool operator!= (const Iterator& lhs, const Iterator& rhs) { return lhs._ptr != rhs._ptr; }
+		friend bool operator< (const Iterator& lhs, const Iterator& rhs) { return lhs._ptr < rhs._ptr; }
+		friend bool operator<= (const Iterator& lhs, const Iterator& rhs) { return lhs._ptr <= rhs._ptr; }
+		friend bool operator> (const Iterator& lhs, const Iterator& rhs) { return lhs._ptr > rhs._ptr; }
+		friend bool operator>= (const Iterator& lhs, const Iterator& rhs) { return lhs._ptr >= rhs._ptr; }
 };
 
 #endif
