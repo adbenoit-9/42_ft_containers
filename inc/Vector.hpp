@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/02 14:50:14 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/02 15:04:54 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,6 @@ namespace ft
 			 * 
 			 * vector&	operator= (const vector& x);
 			 * 
-			 * 					~ Capacity ~
-			 * 
-			 * size_type				size() const;
-			 * size_type				max_size() const;
-			 * void						resize(size_type n, value_type val = value_type());
-			 * size_type				capacity() const;
-			 * bool						empty() const;
-			 * void						reserve(size_type n); 
-			 * 
 			 * 					~ Iterators ~
 			 * 
 			 * iterator					begin();
@@ -56,6 +47,15 @@ namespace ft
 			 * const_reverse_iterator	rbegin() const;
 			 * reverse_iterator			rend();
 			 * const_reverse_iterator	rend() const;
+			 * 
+			 * 					~ Capacity ~
+			 * 
+			 * size_type				size() const;
+			 * size_type				max_size() const;
+			 * void						resize(size_type n, value_type val = value_type());
+			 * size_type				capacity() const;
+			 * bool						empty() const;
+			 * void						reserve(size_type n); 
 			 * 
 			 * 					~ Element access ~
 			 * 
@@ -85,7 +85,7 @@ namespace ft
 			 * 
 			 **/
 
-		private:
+		public:
 			typedef	T											value_type;
 			typedef	Alloc										allocator_type;
 			typedef	typename allocator_type::reference			reference;
@@ -97,15 +97,8 @@ namespace ft
 			typedef	std::reverse_iterator<iterator>				reverse_iterator;	
 			typedef	std::reverse_iterator<const_iterator>		const_reverse_iterator;
 			typedef	ptrdiff_t									difference_type;
-			typedef	size_t										size_type;
+			typedef	size_t									size_type;
 
-			pointer			_begin;
-			Alloc			_alloc;
-			size_type 		_size;
-			size_type 		_capacity;
-			
-
-		public:
 			explicit vector(const allocator_type& alloc = allocator_type())  :
 			_alloc(alloc), _size(0), _capacity(0) { this->_begin = this->_alloc.allocate(0); }
 			
@@ -168,6 +161,12 @@ namespace ft
 				return *this;
 			}
 
+			// Iterators
+			iterator begin() { return iterator(this->_begin); }
+			const_iterator begin() const { return const_iterator(this->_begin); }
+			iterator end() { return iterator(this->_begin) + this->_size; }
+			const_iterator end() const { return const_iterator(this->_begin + this->_size); }
+			
 			// Capacity
 	
 			size_type	size() const { return this->_size; }
@@ -222,6 +221,12 @@ namespace ft
 				this->_alloc.deallocate(tmp, this->_capacity);
 				this->_capacity = n;
 			}
+
+		private:
+			pointer			_begin;
+			Alloc			_alloc;
+			size_type 		_size;
+			size_type 		_capacity;
 	};
 }
 

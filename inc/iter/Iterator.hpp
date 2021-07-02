@@ -6,14 +6,12 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/02 14:37:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/02 15:05:33 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
-
-// # include <iterator>
 
 template <class T>
 class Iterator
@@ -53,9 +51,9 @@ class Iterator
 		Iterator    operator--(int) { Iterator tmp = *this; --(*this); return tmp; }
 
 		// operators : arithmetic
-		friend Iterator	operator+(const Iterator& it, difference_type n) { return Iterator(it.__ptr + n); }
+		friend Iterator	operator+(const Iterator& it, difference_type n) { return Iterator(it._ptr + n); }
 		friend Iterator	operator+(const Iterator& a, const Iterator& b) { return Iterator(a._ptr + b._ptr); }
-		friend Iterator	operator-(const Iterator& it, difference_type n) { return Iterator(it.__ptr - n); }
+		friend Iterator	operator-(const Iterator& it, difference_type n) { return Iterator(it._ptr - n); }
 		friend Iterator	operator-(const Iterator& a, const Iterator& b) { return Iterator(a._ptr - b._ptr); }
 
 		// operators : comparison
