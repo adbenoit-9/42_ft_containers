@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/02 15:04:54 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/06 16:42:51 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ namespace ft
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	Iterator<T>									iterator;
 			typedef	const Iterator<T>							const_iterator;
-			typedef	std::reverse_iterator<iterator>				reverse_iterator;	
-			typedef	std::reverse_iterator<const_iterator>		const_reverse_iterator;
+			typedef	reverse_iterator<iterator>					reverse_iterator;	
+			// typedef	reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef	ptrdiff_t									difference_type;
 			typedef	size_t									size_type;
 
@@ -162,15 +162,23 @@ namespace ft
 			}
 
 			// Iterators
+			
 			iterator begin() { return iterator(this->_begin); }
 			const_iterator begin() const { return const_iterator(this->_begin); }
+
 			iterator end() { return iterator(this->_begin) + this->_size; }
 			const_iterator end() const { return const_iterator(this->_begin + this->_size); }
-			
+
+			reverse_iterator rbegin() { return reverse_iterator(iterator(this->_begin)) - this->_size; }
+			// const_reverse_iterator rbegin() const { return const_reverse_iterator(iterator(this->_begin)); }
+
+			reverse_iterator rend() { return reverse_iterator(iterator(this->_begin)); }
+			// const_reverse_iterator rend() const { return const_reverse_iterator(iterator(this->_begin + this->_size)); } 
+
 			// Capacity
-	
+
 			size_type	size() const { return this->_size; }
-			
+
 			size_type	max_size() const
 			{
 				if (sizeof(value_type) == 1)

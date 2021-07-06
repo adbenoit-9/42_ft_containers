@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/02 15:10:35 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/06 18:22:21 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,45 @@ void    testVector(void)
 			<< "|\tempty()\t\t|\t\t" << stdVector.empty()
 			<< "\t|\t\t" << myVector.empty() << "\t|" << std::endl
 			<< "-------------------------------------------------------------------------" << std::endl
-			<< "|\tbegin() + end()\t|\t";
+			<< "|    begin() + end()\t|\t";
+
+	int i = 0;
 	for (std::vector<int>::iterator it = stdVector.begin() ; it != stdVector.end(); ++it)
+	{
+		*it = ++i;
     	std::cout << ' ' << *it;
-	std::cout << "\t|\t";
+	}
+	std::cout << "\t\t|\t";
+	i = 0;
 	for (ft::vector<int>::iterator it = myVector.begin() ; it != myVector.end(); ++it)
+	{
+		*it = ++i;
     	std::cout << ' ' << *it;
-  	std::cout << "\t|" << std::endl
+	}
+  	std::cout << "\t\t|" << std::endl
+			<< "-------------------------------------------------------------------------" << std::endl
+			<< "|    rbegin() + rend()\t|\t";
+
+	std::vector<int>::reverse_iterator rit = stdVector.rbegin();
+
+	i = 0;
+	for (rit = stdVector.rbegin(); rit!= stdVector.rend(); ++rit)
+		*rit = ++i;
+
+	for (std::vector<int>::iterator it = stdVector.begin(); it != stdVector.end(); ++it)
+		std::cout << ' ' << *it;
+
+	std::cout << "\t\t|\t";
+
+	ft::vector<int>::reverse_iterator rit1 = myVector.rbegin();
+
+	i = 0;
+	for (rit1 = myVector.rbegin(); rit1!= myVector.rend(); ++rit)
+		*rit1 = ++i;
+
+	for (ft::vector<int>::iterator it = myVector.begin(); it != myVector.end(); ++it)
+		std::cout << ' ' << *it;
+  	std::cout << "\t\t|" << std::endl
 			<< "-------------------------------------------------------------------------" << std::endl;
 
 // 	for (int i = 0; i < 5; i++)
