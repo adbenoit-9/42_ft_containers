@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/06 17:14:16 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/07 17:59:16 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ class Iterator
 
 		// operators : increment / decrement
 		Iterator&   operator++() { this->_ptr++; return *this; }
-		Iterator    operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
+		Iterator    operator++(int) { Iterator tmp = *this; ++*this; return tmp; }
 		Iterator&   operator--() { this->_ptr--; return *this; }
-		Iterator    operator--(int) { Iterator tmp = *this; --(*this); return tmp; }
+		Iterator    operator--(int) { Iterator tmp = *this; --*this; return tmp; }
 
 		// operators : arithmetic
 		friend Iterator	operator+(const Iterator& it, difference_type n) { return Iterator(it._ptr + n); }

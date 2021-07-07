@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/06 16:42:51 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/07 18:10:20 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ namespace ft
 			 * 
 			 * 					~ Element access ~
 			 * 
+			 * reference				operator[] (size_type n);
+			 * const_reference			operator[] (size_type n) const;
+			 * reference				at (size_type n);
+			 * const_reference			at (size_type n) const;
+			 * reference				front();
+			 * const_reference			front() const;
+			 * reference				back();
+			 * const_reference			back() const;
 			 * 
 			 * 
 			 * 					~ Modifiers ~
@@ -94,10 +102,10 @@ namespace ft
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	Iterator<T>									iterator;
 			typedef	const Iterator<T>							const_iterator;
+			typedef	reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef	reverse_iterator<iterator>					reverse_iterator;	
-			// typedef	reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef	ptrdiff_t									difference_type;
-			typedef	size_t									size_type;
+			typedef	size_t										size_type;
 
 			explicit vector(const allocator_type& alloc = allocator_type())  :
 			_alloc(alloc), _size(0), _capacity(0) { this->_begin = this->_alloc.allocate(0); }
@@ -122,11 +130,8 @@ namespace ft
 				this->_begin = this->_alloc.allocate(this->_size);
 				
 				int i = 0;
-				for (InputIterator it = first; it < last; it++)
-				{
+				for (InputIterator it = first; it < last; it++, i++)
 					this->_alloc.construct(&this->_begin[i], *it);
-					++i;
-				}
 			}
 			
 			vector(const vector& x)
@@ -169,11 +174,11 @@ namespace ft
 			iterator end() { return iterator(this->_begin) + this->_size; }
 			const_iterator end() const { return const_iterator(this->_begin + this->_size); }
 
-			reverse_iterator rbegin() { return reverse_iterator(iterator(this->_begin)) - this->_size; }
-			// const_reverse_iterator rbegin() const { return const_reverse_iterator(iterator(this->_begin)); }
+			reverse_iterator rbegin() { return reverse_iterator(iterator(this->_begin + this->_size)); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(iterator(this->_begin + this->_size)); }
 
 			reverse_iterator rend() { return reverse_iterator(iterator(this->_begin)); }
-			// const_reverse_iterator rend() const { return const_reverse_iterator(iterator(this->_begin + this->_size)); } 
+			const_reverse_iterator rend() const { return const_reverse_iterator(iterator(this->_begin)); } 
 
 			// Capacity
 
@@ -228,6 +233,69 @@ namespace ft
 
 				this->_alloc.deallocate(tmp, this->_capacity);
 				this->_capacity = n;
+			}
+
+			// Element access
+			
+			reference		operator[] (size_type n) { return this->_begin[n]; }
+			const_reference	operator[] (size_type n) const { return this->_begin[n]; }
+			
+			reference		at (size_type n)
+			{
+				if (n >= this->_size)
+					throw std::out_of_range("vector");
+				return this->_begin[n];
+			}
+
+			const_reference	at (size_type n) const
+			{
+				if (n >= this->_size)
+					throw std::out_of_range("vector");
+				return this->_begin[n];
+			}
+
+			reference		front() { return this->_begin[0]; }
+			const_reference	front() const { return this->_begin[0]; }
+			reference		back() { return this->_begin[this->_size - 1]; }
+			const_reference	back() const { return this->_begin[this->size - 1]; }
+
+			// Modifiers
+			
+			template <class InputIterator>
+  			void assign (InputIterator first, InputIterator last)
+			{
+				size_type	size = 0;
+				for (InputIterator it = first; it < last; it++)
+					++size;
+				for (size_type i = 0; i < this->_size; i++)
+					this->_alloc.destroy(&this->_begin[i]);
+				if (this->_capacity < size)
+				{
+					this->_alloc.deallocate(this->_begin, this->_capacity);
+					this->_capacity = size;
+					this->_begin = this->_alloc.allocate(size);
+				}
+				this->_size = size;
+
+				size_type i = 0;
+				for (InputIterator it = first; it < last; it++, i++)
+					this->_alloc.construct(&this->_begin[i], *it);
+			}
+
+			void assign (size_type n, const value_type& val)
+			{
+				for (size_type i = 0; i < this->_size; i++)
+					this->_alloc.destroy(&this->begin[i]);
+				if (this->_capacity < n)
+				{
+					this->_alloc.deallocate(this->_begin, this->_capacity);
+					this->_capacity = n;
+					this->_begin = this->_alloc.allocate(n);
+				}
+				this->_size = n;
+
+				for (size_type i = 0; i < n; i++)
+					this->_alloc.construct(&this->_begin[i], val);
 			}
 
 		private:

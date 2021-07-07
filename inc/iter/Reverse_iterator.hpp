@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/06 19:11:32 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/07 15:54:55 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class reverse_iterator
 		typedef typename iterator_traits<Iterator>::reference			reference;
 
 		reverse_iterator() {}
-		explicit reverse_iterator (iterator_type toCopy) : _it(toCopy) {}
+		explicit reverse_iterator (iterator_type toCopy) : _it(toCopy - 1) {}
 		template <class Iter>
   		reverse_iterator (const reverse_iterator<Iter>& rev_it) : _it(rev_it._it) {}
 
@@ -49,9 +49,9 @@ class reverse_iterator
 
 		// // operators : increment / decrement
 		reverse_iterator&   operator++() { this->_it--; return *this; }
-		reverse_iterator    operator++(int) { reverse_iterator tmp = *this; ++(*this); return tmp; }
+		reverse_iterator    operator++(int) { reverse_iterator tmp = *this; --*this; return tmp; }
 		reverse_iterator&   operator--() { this->_it++; return *this; }
-		reverse_iterator    operator--(int) { reverse_iterator tmp = *this; --(*this); return tmp; }
+		reverse_iterator    operator--(int) { reverse_iterator tmp = *this; ++*this; return tmp; }
 
 		// operators : arithmetic
   		reverse_iterator	operator+(difference_type n) const { reverse_iterator tmp(*this); tmp._it -= n; return tmp; }
