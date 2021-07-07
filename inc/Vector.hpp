@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/07 18:10:20 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/07 19:54:43 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,9 +264,8 @@ namespace ft
 			template <class InputIterator>
   			void assign (InputIterator first, InputIterator last)
 			{
-				size_type	size = 0;
-				for (InputIterator it = first; it < last; it++)
-					++size;
+				size_type size = last - first;
+
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.destroy(&this->_begin[i]);
 				if (this->_capacity < size)

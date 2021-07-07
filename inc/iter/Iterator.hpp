@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/07 17:59:16 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/07 19:49:24 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class Iterator
 		friend Iterator	operator+(const Iterator& it, difference_type n) { return Iterator(it._ptr + n); }
 		friend Iterator	operator+(const Iterator& a, const Iterator& b) { return Iterator(a._ptr + b._ptr); }
 		friend Iterator	operator-(const Iterator& it, difference_type n) { return Iterator(it._ptr - n); }
-		friend Iterator	operator-(const Iterator& a, const Iterator& b) { return Iterator(a._ptr - b._ptr); }
+		friend difference_type	operator-(const Iterator& a, const Iterator& b) { return (a._ptr - b._ptr); }
 
 		// operators : comparison
 		friend bool operator== (const Iterator& lhs, const Iterator& rhs) { return lhs._ptr == rhs._ptr; }

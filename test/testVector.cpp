@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/07 18:06:28 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/07 19:54:23 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,18 +116,30 @@ void    testVector(void)
 			<< "|\t\tback()\t|\t\t" << stdVector.back() << "\t|\t\t" << myVector.back()
 			<< "\t|" << std::endl
 			<< "-------------------------------------------------------------------------" << std::endl
-			<< "|\t\tassign()\t|\t";
-	std::vector<int> stdCpy(7, 42);
-	ft::vector<int> ftCpy(7, 42);
-	stdVector.assign(stdCpy.begin(), stdCpy.end());
-	myVector.assign(ftCpy.begin(), ftCpy.end());
-	// myVector.assign(1, 42);
+			<< "|\tassign()\t|";
+
+	stdVector.assign(1, 9);
+	myVector.assign(1, 9);
 	for (std::vector<int>::iterator it = stdVector.begin(); it != stdVector.end(); ++it)
 		std::cout << ' ' << *it;
-	std::cout << "\t|\t";
+	std::cout << "\t|";
+	for (ft::vector<int>::iterator it = myVector.begin(); it != myVector.end(); ++it)
+		std::cout << ' ' << *it;
+  	std::cout << "\t|" << std::endl
+			<< "-------------------------------------------------------------------------" << std::endl
+			<< "|\tassign()\t|";
+
+	ft::vector<int> toCopy(7, 42);
+	stdVector.assign(toCopy.begin(), toCopy.end());
+	myVector.assign(toCopy.begin(), toCopy.end());
 	for (std::vector<int>::iterator it = stdVector.begin(); it != stdVector.end(); ++it)
 		std::cout << ' ' << *it;
-  	std::cout << "\t\t|" << std::endl;
+	std::cout << "\t|";
+	for (ft::vector<int>::iterator it = myVector.begin(); it != myVector.end(); ++it)
+		std::cout << ' ' << *it;
+
+  	std::cout << "\t|" << std::endl
+			<< "-------------------------------------------------------------------------" << std::endl;
 // 	for (int i = 0; i < 5; i++)
 // 	{
 // 		stdVector.push(i);
@@ -156,7 +168,7 @@ void    testVector(void)
 // 			<< "-------------------------------------------------------------------------" << std::endl
 // 			<< std::endl;
 
-std::cout << "-------------------------------------------------------------------------" << std::endl
+std::cout << "\n-------------------------------------------------------------------------" << std::endl
 			<< "|\tOperators\t|" << "\tstd::stack\t|" << "\tft::stack\t|" << std::endl
 			<< "-------------------------------------------------------------------------" << std::endl
 			<< "|\t[]\t\t|\t\t" << stdVector[1]
