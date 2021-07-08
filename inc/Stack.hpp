@@ -6,18 +6,18 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 14:08:07 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/01 16:12:36 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/09 00:18:53 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACK_HPP
 # define STACK_HPP
 
-# include <deque>
+#include "Vector.hpp"
 
 namespace ft
 {
-	template <class T, class Container = std::deque<T> > // replace default container by ft::vector<T>
+	template <class T, class Container = ft::vector<T> > // replace default container by ft::vector<T>
     class stack
 	{
 		private:

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/06/30 18:12:32 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/09 00:22:03 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void    testStack(void)
 				<< "\033[0m" << std::endl;
 
 	std::stack<int, std::vector<int> > stdStack;
-	ft::stack<int, std::vector<int> > myStack;
+	ft::stack<int, ft::vector<int> > myStack;
 
 	std::cout << "-------------------------------------------------------------------------" << std::endl
 			<< "|\tMethodes\t|" << "\tstd::stack\t|" << "\tft::stack\t|" << std::endl
@@ -53,7 +53,7 @@ void    testStack(void)
 			<< "\t|\t\t" << myStack.top() << "\t|" << std::endl
 			<< "-------------------------------------------------------------------------" << std::endl;
 
-	ft::stack<int, std::vector<int> > myCopy(myStack);
+	ft::stack<int, ft::vector<int> > myCopy(myStack);
 	std::stack<int, std::vector<int> > stdCopy(stdStack);
 	
 	std::cout << "|  size() of copy\t|\t\t" << stdCopy.size()
