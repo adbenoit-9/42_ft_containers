@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/08 15:46:46 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/08 21:13:40 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ namespace ft
 			 * 
 			 * 					~ Modifiers ~
 			 * 
-			 * void						push_back(const T& value);
+			 * void						push_back (const value_type& val);
 			 * void						pop_back();
-			 * iterator					insert(iterator pos, const T& value);
-			 * void						insert(iterator pos, size_type count, const T& value);
-			 * template<class InputIt>
-			 * void						insert(iterator pos, InputIt first, InputIt last);
+			 * iterator					insert (iterator position, const value_type& val);
+			 * void						insert (iterator position, size_type n, const value_type& val);
+			 * template <class InputIterator>
+			 * void						insert (iterator position, InputIterator first, InputIterator last);
 			 * iterator					erase(iterator pos);
 			 * iterator					erase(iterator first, iterator last);
 			 * void						push_front(const T& va
@@ -138,8 +138,8 @@ namespace ft
 			{
 				this->_alloc = x._alloc;
 				this->_size = x._size;
-				this->_capacity = x._capacity;
-				this->_begin = this->_alloc.allocate(this->_capacity);
+				this->_capacity = x._size;
+				this->_begin = this->_alloc.allocate(this->_size);
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.construct(&this->_begin[i], x._begin[i]);
 			}
@@ -157,7 +157,7 @@ namespace ft
 				
 				this->_alloc = x._alloc;
 				this->_size = x._size;
-				this->_capacity = x._capacity;
+				this->_capacity = x._size;
 				this->_begin = this->_alloc.allocate(this->_capacity);
 
 				for (size_type i = 0; i < this->_size; i++)
@@ -262,7 +262,7 @@ namespace ft
 			// Modifiers
 			
 			template <class InputIterator>
-  			void assign (InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type * = 0)
+  			void			assign (InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type * = 0)
 			{
 				size_type size = last - first;
 
@@ -281,7 +281,9 @@ namespace ft
 					this->_alloc.construct(&this->_begin[i], *it);
 			}
 
-			void assign (size_type n, const value_type& val)
+			//
+			
+			void			assign (size_type n, const value_type& val)
 			{
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.destroy(&this->_begin[i]);
@@ -296,6 +298,95 @@ namespace ft
 				for (size_type i = 0; i < n; i++)
 					this->_alloc.construct(&this->_begin[i], val);
 			}
+
+			void			push_back (const value_type& val)
+			{
+				++this->_size;
+				
+				if (this->_capacity >= this->_size)
+				{
+					this->_alloc.construct(&this->_begin[this->_size - 1], val);
+					return ;
+				}
+
+				pointer tmp = this->_begin;
+					
+				this->_begin = this->_alloc.allocate(this->_size);
+				for (size_type i = 0; i < this->_size - 1; i++)
+				{
+					this->_alloc.construct(&this->_begin[i], tmp[i]);
+					this->_alloc.destroy(&tmp[i]);
+				}
+				this->_alloc.construct(&this->_begin[this->_size - 1], val);
+				this->_alloc.deallocate(tmp, this->_capacity);
+				this->_capacity = this->_size;
+			}
+			
+			void			pop_back ()
+			{
+				--this->_size;
+				this->_alloc.destroy(&this->_begin[this->_size]);
+			}
+
+			iterator		insert (iterator position, const value_type& val)
+			{
+				value_type tmp = *position;
+				value_type tmp1;
+				
+				*position = val;
+				for (iterator it = position + 1; it < this->end(); it++)
+				{
+					tmp1 = *it;
+					*it = tmp;
+					tmp = tmp1;
+				}			
+				this->push_back(tmp);
+
+				return position;
+			}
+
+			void			insert (iterator position, size_type n, const value_type& val)
+			{
+				vector tmp = *this;
+				
+				iterator iter = position;
+				for (iterator it = iter; it < position + n && it < this->end(); it++, iter++)
+					*it = val;
+				for (iterator it = iter; it < position + n; it++, iter++)
+					this->push_back(val);
+
+				for (iterator it = tmp.begin() - (position - tmp.begin()); it < tmp.end(); it++, iter++)
+				{
+					if (iter < this->end() - 1)
+						*iter = *it;
+					else
+						this->push_back(*it);
+				}
+			}	
+
+			template <class InputIterator>
+			void			insert (iterator position, InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type * = 0)
+			{
+				vector tmp = *this;
+				
+				iterator iter = position;
+				for (iterator it = first; it < last; it++, iter++)
+				{
+					if (iter < this->end())
+						*iter = *it;
+					else
+						this->push_back(*it);
+				}
+
+				for (iterator it = tmp.begin() - (position - tmp.begin()); it < tmp.end(); it++, iter++)
+				{
+					if (iter < this->end() - 1)
+						*iter = *it;
+					else
+						this->push_back(*it);
+				}
+			}	
+
 
 		private:
 			pointer			_begin;
