@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/08 21:13:40 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/08 23:42:15 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,9 @@ namespace ft
 			 * void						insert (iterator position, size_type n, const value_type& val);
 			 * template <class InputIterator>
 			 * void						insert (iterator position, InputIterator first, InputIterator last);
-			 * iterator					erase(iterator pos);
-			 * iterator					erase(iterator first, iterator last);
-			 * void						push_front(const T& va
-			 * void						resize(size_type count, T value = T());
-			 * void						swap(List& other);
+			 * iterator erase (iterator position);
+			 * iterator erase (iterator first, iterator last);
+			 * void						swap (vector& x);
 			 * void 					clear();
 			 * 
 			 * ================================================= PRIVATE =================================================
@@ -144,7 +142,11 @@ namespace ft
 					this->_alloc.construct(&this->_begin[i], x._begin[i]);
 			}
 			
-			~vector() {}
+			~vector()
+			{
+				this->clear();
+				this->_alloc.deallocate(this->_begin, this->_capacity);
+			}
 
 			vector& operator= (const vector& x)
 			{		
@@ -153,7 +155,7 @@ namespace ft
 
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.destroy(&this->_begin[i]);
-				this->_alloc.deallocate(this->_begin, this->_capaity);
+				this->_alloc.deallocate(this->_begin, this->_capacity);
 				
 				this->_alloc = x._alloc;
 				this->_size = x._size;
@@ -311,7 +313,7 @@ namespace ft
 
 				pointer tmp = this->_begin;
 					
-				this->_begin = this->_alloc.allocate(this->_size);
+				this->_begin = this->_alloc.allocate((this->_size - 1) * 2);
 				for (size_type i = 0; i < this->_size - 1; i++)
 				{
 					this->_alloc.construct(&this->_begin[i], tmp[i]);
@@ -319,7 +321,7 @@ namespace ft
 				}
 				this->_alloc.construct(&this->_begin[this->_size - 1], val);
 				this->_alloc.deallocate(tmp, this->_capacity);
-				this->_capacity = this->_size;
+				this->_capacity = (this->_size - 1) * 2;
 			}
 			
 			void			pop_back ()
@@ -355,9 +357,9 @@ namespace ft
 				for (iterator it = iter; it < position + n; it++, iter++)
 					this->push_back(val);
 
-				for (iterator it = tmp.begin() - (position - tmp.begin()); it < tmp.end(); it++, iter++)
+				for (iterator it = tmp.begin() + (position - this->begin()); it < tmp.end(); it++, iter++)
 				{
-					if (iter < this->end() - 1)
+					if (iter < this->end())
 						*iter = *it;
 					else
 						this->push_back(*it);
@@ -378,15 +380,49 @@ namespace ft
 						this->push_back(*it);
 				}
 
-				for (iterator it = tmp.begin() - (position - tmp.begin()); it < tmp.end(); it++, iter++)
+				for (iterator it = tmp.begin() + (position - this->begin()); it < tmp.end(); it++, iter++)
 				{
 					if (iter < this->end() - 1)
 						*iter = *it;
 					else
 						this->push_back(*it);
 				}
-			}	
+			}
+			
+			iterator erase (iterator position)
+			{
+				for (iterator it = position; it < this->end() - 1; it++)
+					*it = *(it + 1);
+				this->pop_back();
 
+				return position;
+			}
+			
+			iterator erase (iterator first, iterator last)
+			{
+				for (iterator it = first; it < this->end() - 1; it++)
+					*it = *(it + (last - first));
+				for (difference_type i = 0; i < last - first; i++)
+					this->pop_back();
+				
+				return first;
+			}
+
+			void swap (vector& x)
+			{
+				vector tmp = *this;
+				
+				*this = x;
+				x = tmp;
+			}
+
+			void clear()
+			{
+				for (iterator it = this->begin(); it < this->end(); it++)
+					this->_alloc.destroy(&*it);
+				this->_size = 0;
+			}
+			
 
 		private:
 			pointer			_begin;

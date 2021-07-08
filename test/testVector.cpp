@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/08 21:11:23 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/08 23:41:00 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ template< class T, class T1 >
 void check_attributs(T &myVector, T1 &stdVector)
 {
 	if (myVector.capacity() != stdVector.capacity())
-		std::cout << "| Failed " << "capac. " << myVector.capacity() << " - " << stdVector.capacity()<< "\t|";
+		std::cout << "| KO : " << "capac. " << myVector.capacity() << " - " << stdVector.capacity()<< "\t|";
 	else if (myVector.size() != stdVector.size())
-		std::cout << "| Failed " << "size " << myVector.size() << " - " << stdVector.size()<< "\t|";
+		std::cout << "| KO : " << "size " << myVector.size() << " - " << stdVector.size()<< "\t|";
 	else if (myVector.max_size() != stdVector.max_size())
-		std::cout << "| Failed " << "max_size " << myVector.max_size() << " - " << stdVector.max_size()<< "\t|";
+		std::cout << "| KO : " << "max_size " << myVector.max_size() << " - " << stdVector.max_size()<< "\t|";
 	else
-		std::cout << "|\tSucceed\t\t|";
+		std::cout << "|\tOK\t\t|";
 }
 
 void    testVector(void)
@@ -241,7 +241,52 @@ void    testVector(void)
   	std::cout << "\t";
 	check_attributs(myVector, stdVector);
 	std::cout << std::endl
-			<< "-------------------------------------------------------------------------------------------------" << std::endl;
+			<< "-------------------------------------------------------------------------------------------------" << std::endl
+			<< "|\terase() (1)\t|";
+	stdVector.erase(stdVector.begin() + 2);
+	myVector.erase(myVector.begin() + 2);
+	print_vector(stdVector);
+	std::cout << "\t|";
+	print_vector(myVector);
+
+  	std::cout << "\t";
+	check_attributs(myVector, stdVector);
+	std::cout << std::endl
+			<< "-------------------------------------------------------------------------------------------------" << std::endl
+			<< "|\terase() (2)\t|\t\t";
+	stdVector.erase(stdVector.begin() + 2, stdVector.end() - 1);
+	myVector.erase(myVector.begin() + 2, myVector.end() - 1);
+	print_vector(stdVector);
+	std::cout << "\t|\t\t";
+	print_vector(myVector);
+
+  	std::cout << "\t";
+	check_attributs(myVector, stdVector);
+	std::cout << std::endl
+			<< "-------------------------------------------------------------------------------------------------" << std::endl
+			<< "|\tswap()\t\t|\t";
+	ft::vector<int> ftSwap(5, 8);
+	std::vector<int> stdSwap(5, 8);
+	myVector.swap(ftSwap);
+	stdVector.swap(stdSwap);
+	print_vector(stdVector);
+	std::cout << "\t|\t";
+	print_vector(myVector);
+
+  	std::cout << "\t";
+	check_attributs(myVector, stdVector);
+	std::cout << std::endl
+			<< "-------------------------------------------------------------------------------------------------" << std::endl
+			<< "|\tclear()\t\t|";
+	stdVector.clear();
+	myVector.clear();
+	print_vector(stdVector);
+	std::cout << "\t\t\t|\t\t\t";
+	print_vector(myVector);
+
+	check_attributs(myVector, stdVector);
+	std::cout << std::endl
+			<< "-------------------------------------------------------------------------------------------------\n" << std::endl;
 	std::cout << "\n-------------------------------------------------------------------------------------------------" << std::endl
 			<< "|\tOperators\t|" << "\tstd::stack\t|" << "\tft::stack\t|" << std::endl
 			<< "-------------------------------------------------------------------------------------------------" << std::endl
