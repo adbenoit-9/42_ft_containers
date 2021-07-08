@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/08 23:42:15 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/09 00:11:17 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,6 +423,59 @@ namespace ft
 				this->_size = 0;
 			}
 			
+			// Operators
+			
+			friend bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			{
+				if (lhs._size != rhs._size)
+					return false;
+				for (size_type i = 0; i < lhs._size && i < rhs._size; i++)
+				{
+					if (lhs[i] != rhs[i])
+						return false;
+				}
+				return true;
+			}
+			
+			friend bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			{
+				if (lhs._size == rhs._size)
+					return false;
+				for (size_type i = 0; i < lhs._size && i < rhs._size; i++)
+				{
+					if (lhs[i] == rhs[i])
+						return false;
+				}
+				return true;
+			}
+			
+			friend bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			{
+				return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+			}
+
+			friend bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			{
+				if (lhs == rhs)
+					return true;
+				return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+			}
+			
+			friend bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			{
+				if (lhs == rhs)
+					return false;
+				if (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
+					return false;
+				return true;
+			}
+			
+			friend bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+			{
+				if (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
+					return false;
+				return true;
+			}
 
 		private:
 			pointer			_begin;
@@ -430,6 +483,14 @@ namespace ft
 			size_type 		_size;
 			size_type 		_capacity;
 	};
+
+	template <class T, class Alloc>
+  	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+	{
+		vector<T, Alloc> tmp(x);
+		x = y;
+		y = tmp; 
+	}
 }
 
 #endif
