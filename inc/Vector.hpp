@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/07 19:54:43 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/08 14:43:01 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ namespace ft
 			}
 			
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) :
+			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename std::enable_if<!std::is_integral<InputIterator>::value>::type * = 0) :
 			_alloc(alloc)
 			{
 				for (InputIterator it = first; it < last; it++)
@@ -262,7 +262,7 @@ namespace ft
 			// Modifiers
 			
 			template <class InputIterator>
-  			void assign (InputIterator first, InputIterator last)
+  			void assign (InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type * = 0)
 			{
 				size_type size = last - first;
 
@@ -284,7 +284,7 @@ namespace ft
 			void assign (size_type n, const value_type& val)
 			{
 				for (size_type i = 0; i < this->_size; i++)
-					this->_alloc.destroy(&this->begin[i]);
+					this->_alloc.destroy(&this->_begin[i]);
 				if (this->_capacity < n)
 				{
 					this->_alloc.deallocate(this->_begin, this->_capacity);
