@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/09 15:18:26 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/09 17:25:40 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ namespace ft
 			reference		front() { return this->_begin[0]; }
 			const_reference	front() const { return this->_begin[0]; }
 			reference		back() { return this->_begin[this->_size - 1]; }
-			const_reference	back() const { return this->_begin[this->size - 1]; }
+			const_reference	back() const { return this->_begin[this->_size - 1]; }
 
 			// Modifiers
 			
@@ -439,14 +439,14 @@ namespace ft
 			
 			friend bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 			{
-				if (lhs._size == rhs._size)
-					return false;
+				if (lhs._size != rhs._size)
+					return true;
 				for (size_type i = 0; i < lhs._size && i < rhs._size; i++)
 				{
-					if (lhs[i] == rhs[i])
-						return false;
+					if (lhs[i] != rhs[i])
+						return true;
 				}
-				return true;
+				return false;
 			}
 			
 			friend bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/09 15:48:13 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/09 16:55:21 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace ft
 			// operators : member access
 			reference   operator*() const { return *this->_ptr; }
 			pointer     operator->() { return &(operator*()); }
-			T&			operator[](const int &i) { return this->_ptr[i]; }
+			reference	operator[](const difference_type &i) { return this->_ptr[i]; }
 
 			// operators : increment / decrement
 			iterator&   operator++() { this->_ptr++; return *this; }
@@ -54,8 +54,10 @@ namespace ft
 
 			// operators : arithmetic
 			friend iterator	operator+(const iterator& it, difference_type n) { return iterator(it._ptr + n); }
+			friend iterator	operator+(difference_type n, const iterator& it) { return iterator(it._ptr + n); }
 			friend iterator	operator+(const iterator& a, const iterator& b) { return iterator(a._ptr + b._ptr); }
 			friend iterator	operator-(const iterator& it, difference_type n) { return iterator(it._ptr - n); }
+			friend iterator	operator-(difference_type n, const iterator& it) { return iterator(it._ptr - n); }
 			friend difference_type	operator-(const iterator& a, const iterator& b) { return (a._ptr - b._ptr); }
 
 			// operators : comparison
@@ -96,7 +98,7 @@ namespace ft
 			// operators : member access
 			reference   operator*() const { return *this->_ptr; }
 			pointer     operator->() { return &(operator*()); }
-			// T&			operator[](const int &i) { return this->_ptr[i]; }
+			// T&			operator[](const difference_type &i) { return this->_ptr[i]; }
 
 			// operators : increment / decrement
 			const_iterator&   operator++() { this->_ptr++; return *this; }

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/09 14:22:36 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/09 16:24:45 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,15 @@ void    testVector(void)
 	print_vector(stdCpy);
 
 	check_attributs(myVector, stdVector);
+	ft::vector<int> vct(4);
+	ft::vector<int> vct2(4);
+
+	vct2.resize(10);
+	std::vector<int> vct0(4);
+	std::vector<int> vct1(4);
+
+	vct1.resize(10);
+
 	std::cout << std::endl
 			<< "-------------------------------------------------------------------------------------------------\n" << std::endl;
 	std::cout << "\n-------------------------------------------------------------------------" << std::endl
@@ -295,8 +304,8 @@ void    testVector(void)
 			<< "|\t[]\t\t|\t\t" << stdVector[1]
 			<< "\t|\t\t" << myVector[1] << "\t|" << std::endl
 			<< "-------------------------------------------------------------------------" << std::endl
-			<< "|\t==\t\t|\t\t" << (stdVector == stdSwap)
-			<< "\t|\t\t" << (myVector == ftSwap) << "\t|" << std::endl
+			<< "|\t==\t\t|\t\t" << (vct1 == vct0)
+			<< "\t|\t\t" << (vct == vct2) << "\t|" << std::endl
 			<< "-------------------------------------------------------------------------" << std::endl
 			<< "|\t!=\t\t|\t\t" << (stdVector != stdSwap)
 			<< "\t|\t\t" << (myVector != ftSwap) << "\t|" << std::endl
