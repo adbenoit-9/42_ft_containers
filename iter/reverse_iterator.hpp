@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/09 18:05:27 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/09 18:51:59 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ namespace ft
 
 			// operators : arithmetic
 			reverse_iterator	operator+(difference_type n) const { return reverse_iterator(this->base() - n); }
-			reverse_iterator	operator-(difference_type n) const { return reverse_iterator(this->base() - n); }
+			reverse_iterator	operator-(difference_type n) const { return reverse_iterator(this->base() + n); }
 
 
 		private:
@@ -72,8 +72,10 @@ namespace ft
 	reverse_iterator<It> operator-(typename reverse_iterator<It>::difference_type n, const reverse_iterator<It>& rev_it) { reverse_iterator<It> tmp(rev_it); tmp.base() += n; return tmp; }
 	template<class It>
 	reverse_iterator<It> operator-(const reverse_iterator<It>& rev_it, typename reverse_iterator<It>::difference_type n) { reverse_iterator<It> tmp(rev_it); tmp.base() += n; return tmp; }
+	template<class It>
+	typename reverse_iterator<It>::difference_type	operator-(const reverse_iterator<It>& lhs, const reverse_iterator<It>& rhs) { return rhs.base() - lhs.base(); }
 	template<class It1, class It2>
-	typename reverse_iterator<It1>::difference_type	operator-(const reverse_iterator<It1>& a, const reverse_iterator<It2>& b) { return b.base() - a.base(); }
+	typename reverse_iterator<It1>::difference_type	operator-(const reverse_iterator<It1>& lhs, const reverse_iterator<It2>& rhs) { return rhs.base() - lhs.base(); }
 	
 	// operators : comparison
 	template< class It1, class It2 >
