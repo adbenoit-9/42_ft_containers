@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/09 00:15:53 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/09 14:22:36 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,13 +317,26 @@ void    testVector(void)
 			
 	swap(myVector, ftSwap);
 	swap(stdVector, stdSwap);
-	std::cout << "-- swap() --\nstd::vector\t: ";
+	std::cout << "-- swap() --\nstd::vector\t:";
 	print_vector(stdVector);
-	std::cout << " - "; 
+	std::cout << " -"; 
 	print_vector(stdSwap);
-	std::cout << "\nft::vector\t: ";
+	std::cout << "\nft::vector\t:";
 	print_vector(myVector);
-	std::cout << " - "; 
+	std::cout << " -"; 
 	print_vector(ftSwap);
-	std::cout << std::endl;
+	std::cout << std::endl << std::endl;
+	
+	const ft::vector<int> v(10, 42);
+	const std::vector<int> v1(10, 42);
+	std::cout << "-- const_iterator() --\nstd::vector\t:";
+	for (std::vector<int>::const_iterator it = v1.begin(); it != v1.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << "\nft::vector\t:";
+	for (ft::vector<int>::const_iterator it = v.begin(); it != v.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << std::endl << std::endl;
+
+	ft::vector<int> v2(1, 1);
+	ft::vector<int>::const_iterator it = v2.begin();
 }

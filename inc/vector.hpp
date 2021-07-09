@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/09 00:11:17 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/09 15:18:26 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <memory>
 # include <tgmath.h>
-# include "iter/Iterator.hpp"
-# include "iter/Reverse_iterator.hpp"
+# include "iter/iterator.hpp"
+# include "iter/reverse_iterator.hpp"
 
 namespace ft
 {
@@ -98,8 +98,8 @@ namespace ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			typedef	Iterator<T>									iterator;
-			typedef	const Iterator<T>							const_iterator;
+			typedef	iterator<T>									iterator;
+			typedef	const_iterator<T>							const_iterator;
 			typedef	reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef	reverse_iterator<iterator>					reverse_iterator;	
 			typedef	ptrdiff_t									difference_type;
