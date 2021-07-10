@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector.hpp                                         :+:      :+:    :+:   */
+/*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/09 17:25:40 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/10 02:00:04 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,19 +370,19 @@ namespace ft
 			void			insert (iterator position, InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type * = 0)
 			{
 				vector tmp = *this;
+				typename iterator::difference_type start = position - this->begin();
 				
-				iterator iter = position;
-				for (iterator it = first; it < last; it++, iter++)
+				iterator iter = position + (last - first);
+				for (iterator it = position; first < last; first++, it++)
 				{
-					if (iter < this->end())
-						*iter = *it;
+					if (it < this->end())
+						*it = *first;
 					else
 						this->push_back(*it);
 				}
-
-				for (iterator it = tmp.begin() + (position - this->begin()); it < tmp.end(); it++, iter++)
+				for (iterator it = tmp.begin() + start; it < tmp.end(); it++, iter++)
 				{
-					if (iter < this->end() - 1)
+					if (iter < this->end())
 						*iter = *it;
 					else
 						this->push_back(*it);

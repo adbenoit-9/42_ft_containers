@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/09 16:24:45 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/10 01:31:26 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,8 @@ void    testVector(void)
 		stdVector.push_back(i);
 		myVector.push_back(i);
 	}
-	stdVector.insert(stdVector.begin() + 4, toCopy.begin(), toCopy.end() - 3);
-	myVector.insert(myVector.begin() + 4, toCopy.begin(), toCopy.end() - 3);
+	stdVector.insert(stdVector.begin(), toCopy.begin(), toCopy.end() - 3);
+	myVector.insert(myVector.begin(), toCopy.begin(), toCopy.end() - 3);
 	print_vector(stdVector);
 	std::cout << "\t|";
 	print_vector(myVector);
