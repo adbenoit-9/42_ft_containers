@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/10 01:31:26 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/12 17:58:42 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,8 +203,8 @@ void    testVector(void)
 		stdVector.push_back(i);
 		myVector.push_back(i);
 	}
-	stdVector.insert(stdVector.begin() + 2, 42);
-	myVector.insert(myVector.begin() + 2, 42);
+	stdVector.insert(stdVector.end(), 42);
+	myVector.insert(myVector.end(), 42);
 	print_vector(stdVector);
 	std::cout << "\t|\t";
 	print_vector(myVector);
@@ -222,18 +222,34 @@ void    testVector(void)
 
   	std::cout << "\t";
 	check_attributs(myVector, stdVector);
+	std::vector<int> stdVector0;
+	ft::vector<int> myVector0;
 	std::cout << std::endl
 			<< "-------------------------------------------------------------------------------------------------" << std::endl
 			<< "|\tinsert() (3)\t|";
 	stdVector.assign(0, 0);
 	myVector.assign(0, 0);
-	for (int i = 0; i < 5; i++)
+	for (int i = 1; i < 5; i++)
 	{
 		stdVector.push_back(i);
 		myVector.push_back(i);
 	}
-	stdVector.insert(stdVector.begin(), toCopy.begin(), toCopy.end() - 3);
-	myVector.insert(myVector.begin(), toCopy.begin(), toCopy.end() - 3);
+	myVector0.resize(4);
+	stdVector0.resize(4);
+	stdVector0.insert(stdVector0.begin() + 2, stdVector.begin(), stdVector.end());
+	myVector0.insert(myVector0.begin() + 2, myVector.begin(), myVector.end());
+	print_vector(stdVector0);
+	std::cout << "\t|";
+	print_vector(myVector0);
+
+  	std::cout << "\t";
+	check_attributs(myVector0, stdVector0);
+	std::cout << std::endl
+			<< "-------------------------------------------------------------------------------------------------" << std::endl
+			<< "|\tinsert() (3)\t|";
+	
+	stdVector.insert(stdVector.begin(), 2, 42);
+	myVector.insert(myVector.begin(), 2, 42);
 	print_vector(stdVector);
 	std::cout << "\t|";
 	print_vector(myVector);
@@ -253,11 +269,11 @@ void    testVector(void)
 	check_attributs(myVector, stdVector);
 	std::cout << std::endl
 			<< "-------------------------------------------------------------------------------------------------" << std::endl
-			<< "|\terase() (2)\t|\t\t";
+			<< "|\terase() (2)\t|\t";
 	stdVector.erase(stdVector.begin() + 2, stdVector.end() - 1);
 	myVector.erase(myVector.begin() + 2, myVector.end() - 1);
 	print_vector(stdVector);
-	std::cout << "\t|\t\t";
+	std::cout << "\t|\t";
 	print_vector(myVector);
 
   	std::cout << "\t";

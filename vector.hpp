@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/10 02:00:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/12 17:09:11 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,7 +378,7 @@ namespace ft
 					if (it < this->end())
 						*it = *first;
 					else
-						this->push_back(*it);
+						this->push_back(*first);
 				}
 				for (iterator it = tmp.begin() + start; it < tmp.end(); it++, iter++)
 				{
