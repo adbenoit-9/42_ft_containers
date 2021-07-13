@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   testVector.cpp                                     :+:      :+:    :+:   */
+/*   vectorTests.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/13 23:53:18 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/14 00:20:13 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	ft_iterators(T &std, T1 &ft)
 {
 	std::cout << "-------------------------------------------------------------------------" << std::endl
 			<< "|    begin() + end()\t|\t";
-
 	int i = 0;
 	for (std::vector<int>::iterator it = std.begin() ; it != std.end(); ++it)
 	{
@@ -72,18 +71,13 @@ void	ft_iterators(T &std, T1 &ft)
 
 	std::cout << "-------------------------------------------------------------------------" << std::endl
 			<< "|    rbegin() + rend()\t|\t";
-
 	std::vector<int>::reverse_iterator rit = std.rbegin();
-
 	i = 0;
 	for (rit = std.rbegin(); rit != std.rend(); ++rit)
 		*rit = ++i;
 	print_vector(std);
-
 	std::cout << "\t\t|\t";
-
 	ft::vector<int>::reverse_iterator rit1 = ft.rbegin();
-
 	i = 0;
 	for (rit1 = ft.rbegin(); rit1 != ft.rend(); ++rit1)
 		*rit1 = ++i;

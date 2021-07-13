@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/07/13 22:29:14 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/07/14 00:07:42 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ TEST_PATH	=	test/
 SRC		=
 
 TEST	=	main.cpp \
-			testStack.cpp \
-			testVector.cpp \
+			stackTests.cpp \
+			vectorTests.cpp \
 			utils.cpp
 
 
@@ -51,7 +51,7 @@ $(OBJ_PATH)%.o:	$(TEST_PATH)%.cpp
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-run: all
+run: re
 	@./$(NAME)
 
 clean:
