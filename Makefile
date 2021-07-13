@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/07/08 14:28:47 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/07/13 15:59:04 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ TEST	=	main.cpp \
 
 CC			=	clang++
 
-CFLAGS		=	-Wall -Wextra -Werror -std=c++98
+CFLAGS		=	-Wall -Wextra -Werror -std=c++98 -g3 -fsanitize=address
 
 OBJ_PATH	=	obj/
 

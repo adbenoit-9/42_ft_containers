@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/12 17:58:42 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/13 18:38:24 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,20 @@ void	print_vector(T &v)
 template< class T, class T1 >
 void check_attributs(T &myVector, T1 &stdVector)
 {
+	for (size_t i = 0; i < myVector.size() && i < stdVector.size(); i++)
+	{
+		if (myVector[i] != stdVector[i])
+		{
+			std::cout << "| KO : " << "vectors diff\t| ";
+			return ;
+		}
+	}
 	if (myVector.capacity() != stdVector.capacity())
-		std::cout << "| KO : " << "capac. " << myVector.capacity() << " - " << stdVector.capacity()<< "\t|";
+		std::cout << "| KO : " << "capac. " << stdVector.capacity() << " - " << myVector.capacity()<< "\t|";
 	else if (myVector.size() != stdVector.size())
-		std::cout << "| KO : " << "size " << myVector.size() << " - " << stdVector.size()<< "\t|";
+		std::cout << "| KO : " << "size " << stdVector.size() << " - " << myVector.size()<< "\t|";
 	else if (myVector.max_size() != stdVector.max_size())
-		std::cout << "| KO : " << "max_size " << myVector.max_size() << " - " << stdVector.max_size()<< "\t|";
+		std::cout << "| KO : " << "max_size " << stdVector.max_size() << " - " << myVector.max_size()<< "\t|";
 	else
 		std::cout << "|\tOK\t\t|";
 }
@@ -246,23 +254,23 @@ void    testVector(void)
 	check_attributs(myVector0, stdVector0);
 	std::cout << std::endl
 			<< "-------------------------------------------------------------------------------------------------" << std::endl
-			<< "|\tinsert() (3)\t|";
+			<< "|\tinsert() (3)\t|\t";
 	
 	stdVector.insert(stdVector.begin(), 2, 42);
 	myVector.insert(myVector.begin(), 2, 42);
 	print_vector(stdVector);
-	std::cout << "\t|";
+	std::cout << "\t|\t";
 	print_vector(myVector);
 
   	std::cout << "\t";
 	check_attributs(myVector, stdVector);
 	std::cout << std::endl
 			<< "-------------------------------------------------------------------------------------------------" << std::endl
-			<< "|\terase() (1)\t|";
+			<< "|\terase() (1)\t|\t";
 	stdVector.erase(stdVector.begin() + 2);
 	myVector.erase(myVector.begin() + 2);
 	print_vector(stdVector);
-	std::cout << "\t|";
+	std::cout << "\t|\t";
 	print_vector(myVector);
 
   	std::cout << "\t";

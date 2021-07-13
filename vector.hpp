@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/12 17:09:11 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/13 19:15:27 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,16 +119,15 @@ namespace ft
 			
 			template <class InputIterator>
 			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0) :
-			_alloc(alloc)
+			_alloc(alloc), _size(0)
 			{
-				for (InputIterator it = first; it < last; it++)
-					++this->_size;
+				for (InputIterator it = first; it != last; it++)
 
 				this->_capacity = this->_size;
-				this->_begin = this->_alloc.allocate(this->_size);
+				this->_begin = this->_alloc.allocate(this->_capacity);
 				
 				int i = 0;
-				for (InputIterator it = first; it < last; it++, i++)
+				for (InputIterator it = first; it != last; it++, i++) // weird
 					this->_alloc.construct(&this->_begin[i], *it);
 			}
 			
@@ -176,11 +175,11 @@ namespace ft
 			iterator end() { return iterator(this->_begin) + this->_size; }
 			const_iterator end() const { return const_iterator(this->_begin + this->_size); }
 
-			reverse_iterator rbegin() { return reverse_iterator(iterator(this->_begin + this->_size)); }
-			const_reverse_iterator rbegin() const { return const_reverse_iterator(iterator(this->_begin + this->_size)); }
+			reverse_iterator rbegin() { return reverse_iterator(iterator(this->_begin + this->_size - 1)); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(iterator(this->_begin + this->_size - 1)); }
 
-			reverse_iterator rend() { return reverse_iterator(iterator(this->_begin)); }
-			const_reverse_iterator rend() const { return const_reverse_iterator(iterator(this->_begin)); } 
+			reverse_iterator rend() { return reverse_iterator(iterator(this->_begin - 1)); }
+			const_reverse_iterator rend() const { return const_reverse_iterator(iterator(this->_begin - 1)); } 
 
 			// Capacity
 
@@ -279,7 +278,7 @@ namespace ft
 				this->_size = size;
 
 				size_type i = 0;
-				for (InputIterator it = first; it < last; it++, i++)
+				for (InputIterator it = first; it != last; it++, i++)
 					this->_alloc.construct(&this->_begin[i], *it);
 			}
 
@@ -303,64 +302,68 @@ namespace ft
 
 			void			push_back (const value_type& val)
 			{
-				++this->_size;
 				
-				if (this->_capacity >= this->_size)
+				if (this->_capacity >= this->_size + 1)
 				{
-					this->_alloc.construct(&this->_begin[this->_size - 1], val);
+					this->_alloc.construct(&this->_begin[this->_size], val);
+					++this->_size;
+					return ;
+				}
+				else if (this->_size == 0)
+				{
+					this->_begin = this->_alloc.allocate(1);
+					this->_alloc.construct(&this->_begin[this->_size], val);
+					++this->_size;
+					this->_capacity = this->_size;
 					return ;
 				}
 
 				pointer tmp = this->_begin;
-					
-				this->_begin = this->_alloc.allocate((this->_size - 1) * 2);
-				for (size_type i = 0; i < this->_size - 1; i++)
+				
+				this->_begin = this->_alloc.allocate(this->_size * 2);
+				for (size_type i = 0; i < this->_size; i++)
 				{
 					this->_alloc.construct(&this->_begin[i], tmp[i]);
 					this->_alloc.destroy(&tmp[i]);
 				}
-				this->_alloc.construct(&this->_begin[this->_size - 1], val);
+				this->_alloc.construct(&this->_begin[this->_size], val);
 				this->_alloc.deallocate(tmp, this->_capacity);
-				this->_capacity = (this->_size - 1) * 2;
+				this->_capacity = this->_size * 2;
+				++this->_size;
 			}
 			
 			void			pop_back ()
 			{
-				--this->_size;
-				this->_alloc.destroy(&this->_begin[this->_size]);
+				if (this->_size > 0)
+				{
+					--this->_size;
+					this->_alloc.destroy(&this->_begin[this->_size]);
+				}
 			}
 
 			iterator		insert (iterator position, const value_type& val)
 			{
-				value_type tmp = *position;
-				value_type tmp1;
-				
-				*position = val;
-				for (iterator it = position + 1; it < this->end(); it++)
-				{
-					tmp1 = *it;
-					*it = tmp;
-					tmp = tmp1;
-				}			
-				this->push_back(tmp);
+				size_type n = position - this->begin();
+				this->insert(position, 1, val);
 
-				return position;
+				return this->_begin + n;
 			}
 
 			void			insert (iterator position, size_type n, const value_type& val)
 			{
-				vector tmp = *this;
-				
-				iterator iter = position;
-				for (iterator it = iter; it < position + n && it < this->end(); it++, iter++)
-					*it = val;
-				for (iterator it = iter; it < position + n; it++, iter++)
+				vector		tmp = *this;
+				size_type	start = position - this->begin();
+				size_type	i;
+
+				for (i = start; i < n + start && i < this->size(); i++)
+					(*this)[i] = val;
+				for (size_type j = i; j < n + start; j++, i++)
 					this->push_back(val);
 
-				for (iterator it = tmp.begin() + (position - this->begin()); it < tmp.end(); it++, iter++)
+				for (iterator it = tmp.begin() + start; it != tmp.end(); it++, i++)
 				{
-					if (iter < this->end())
-						*iter = *it;
+					if (i < this->size())
+						(*this)[i] = *it;
 					else
 						this->push_back(*it);
 				}
@@ -369,43 +372,41 @@ namespace ft
 			template <class InputIterator>
 			void			insert (iterator position, InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value>::type * = 0)
 			{
-				vector tmp = *this;
-				typename iterator::difference_type start = position - this->begin();
-				
-				iterator iter = position + (last - first);
-				for (iterator it = position; first < last; first++, it++)
+				vector		tmp = *this;
+				size_type	start = position - this->begin();
+				size_type	i;
+
+				for (i = start; first != last; first++, i++)
 				{
-					if (it < this->end())
-						*it = *first;
+					if (i < this->size())
+						(*this)[i] = *first;
 					else
 						this->push_back(*first);
 				}
-				for (iterator it = tmp.begin() + start; it < tmp.end(); it++, iter++)
+				for (iterator it = tmp.begin() + start; it != tmp.end(); it++, i++)
 				{
-					if (iter < this->end())
-						*iter = *it;
+					if (i < this->size())
+						(*this)[i] = *it;
 					else
 						this->push_back(*it);
 				}
 			}
 			
-			iterator erase (iterator position)
-			{
-				for (iterator it = position; it < this->end() - 1; it++)
-					*it = *(it + 1);
-				this->pop_back();
-
-				return position;
-			}
+			iterator erase (iterator position) { return erase(position, position + 1); }
 			
 			iterator erase (iterator first, iterator last)
 			{
-				for (iterator it = first; it < this->end() - 1; it++)
-					*it = *(it + (last - first));
+				size_type n = first - this->begin();
+				size_type len = last - first;
+
+				for (size_type i = n; i < this->_size && i + len < this->_size; i++)
+				{
+					(*this)[i] = (*this)[i + len];
+				}
 				for (difference_type i = 0; i < last - first; i++)
 					this->pop_back();
 				
-				return first;
+				return this->_begin + n;
 			}
 
 			void swap (vector& x)
@@ -418,7 +419,7 @@ namespace ft
 
 			void clear()
 			{
-				for (iterator it = this->begin(); it < this->end(); it++)
+				for (iterator it = this->begin(); it != this->end(); it++)
 					this->_alloc.destroy(&*it);
 				this->_size = 0;
 			}

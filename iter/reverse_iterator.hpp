@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/10 01:07:50 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/13 15:55:29 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ namespace ft
 			typedef typename iterator_traits<iterator_type>::reference			reference;
 
 			reverse_iterator() {}
-			explicit reverse_iterator (iterator_type toCopy) : _it(toCopy) {}
+			explicit reverse_iterator (iterator_type it) : _it(it) {}
 			template <class Iter>
 			reverse_iterator (const reverse_iterator<Iter>& rev_it) : _it(rev_it.base()) {}
 

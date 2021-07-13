@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/10 00:19:30 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/13 17:17:39 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ namespace ft
 
 			// operators : member access
 			reference   operator*() const { return *this->_ptr; }
-			pointer     operator->() { return &(operator*()); }
+			pointer     operator->() const { return &(operator*()); }
 			reference	operator[](const difference_type &i) { return this->_ptr[i]; }
 
 			// operators : increment / decrement
@@ -55,7 +55,6 @@ namespace ft
 			// operators : arithmetic
 			friend iterator	operator+(const iterator& it, difference_type n) { return iterator(it._ptr + n); }
 			friend iterator	operator+(difference_type n, const iterator& it) { return iterator(it._ptr + n); }
-			friend iterator	operator+(const iterator& a, const iterator& b) { return iterator(a._ptr + b._ptr); }
 			friend iterator	operator-(const iterator& it, difference_type n) { return iterator(it._ptr - n); }
 			friend iterator	operator-(difference_type n, const iterator& it) { return iterator(it._ptr - n); }
 			friend difference_type	operator-(const iterator& a, const iterator& b) { return (a._ptr - b._ptr); }
@@ -77,10 +76,10 @@ namespace ft
 	{
 
 		public:
-			typedef const T         				value_type;
+			typedef T         						value_type;
 			typedef ptrdiff_t						difference_type;
-			typedef T*   							pointer;
-			typedef T& 								reference;
+			typedef	const T*   						pointer;
+			typedef const T& 						reference;
 			typedef std::random_access_iterator_tag	iterator_category;
 
 			const_iterator() {}
@@ -96,15 +95,15 @@ namespace ft
 			const_iterator&	operator-=(const const_iterator &it) { this->_ptr -= it._ptr; return *this; }
 
 			// operators : member access
-			reference   operator*() const { return *this->_ptr; }
-			pointer     operator->() { return &(operator*()); }
-			// T&			operator[](const difference_type &i) { return this->_ptr[i]; }
+			reference		operator*() const { return *this->_ptr; }
+			pointer			operator->() const { return this->_ptr; }
+			reference		operator[](const difference_type &i) { return this->_ptr[i]; }
 
 			// operators : increment / decrement
-			const_iterator&   operator++() { this->_ptr++; return *this; }
-			const_iterator    operator++(int) { const_iterator tmp = *this; ++*this; return tmp; }
-			const_iterator&   operator--() { this->_ptr--; return *this; }
-			const_iterator    operator--(int) { const_iterator tmp = *this; --*this; return tmp; }
+			const_iterator&	operator++() { this->_ptr++; return *this; }
+			const_iterator	operator++(int) { const_iterator tmp = *this; ++*this; return tmp; }
+			const_iterator&	operator--() { this->_ptr--; return *this; }
+			const_iterator	operator--(int) { const_iterator tmp = *this; --*this; return tmp; }
 
 			// operators : arithmetic
 			friend const_iterator	operator+(const const_iterator& it, difference_type n) { return const_iterator(it._ptr + n); }
@@ -121,7 +120,7 @@ namespace ft
 			friend bool operator>= (const const_iterator& lhs, const const_iterator& rhs) { return lhs._ptr >= rhs._ptr; }
 
 		private:
-			pointer _ptr;
+			T* _ptr;
 	};
 }
 
