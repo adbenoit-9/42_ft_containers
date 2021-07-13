@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/13 19:15:27 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/13 19:18:31 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ namespace ft
 			_alloc(alloc), _size(0)
 			{
 				for (InputIterator it = first; it != last; it++)
-
+					++this->_size;
 				this->_capacity = this->_size;
 				this->_begin = this->_alloc.allocate(this->_capacity);
 				
