@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/14 00:20:13 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/16 18:00:19 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,7 @@ void	ft_modifiers(T &std, T1 &ft)
 	checkAttributs(ft, std);
 }
 
-void    testVector(void)
+void    vectorTests(void)
 {
 	title("Vector");
 

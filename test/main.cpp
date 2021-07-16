@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/13 23:44:46 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/16 18:01:20 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,16 @@ int main(void)
 	std::string input;
 	std::getline(std::cin, input);
 
-	testVector();
+	vectorTests();
 	std::cout << std::endl
 				<< "(Press enter to continue ...) ";
 	std::getline(std::cin, input);
 
-	testStack();
+	stackTests();
+	std::cout << std::endl
+				<< "(Press enter to continue ...) ";
+	std::getline(std::cin, input);
+
+	mapTests();
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/07/14 00:07:42 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/07/16 17:00:30 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC		=
 TEST	=	main.cpp \
 			stackTests.cpp \
 			vectorTests.cpp \
+			mapTests.cpp \
 			utils.cpp
 
 

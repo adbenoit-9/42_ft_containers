@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/13 19:18:31 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/16 17:22:51 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ namespace ft
 			 * void						insert (iterator position, size_type n, const value_type& val);
 			 * template <class InputIterator>
 			 * void						insert (iterator position, InputIterator first, InputIterator last);
-			 * iterator erase (iterator position);
-			 * iterator erase (iterator first, iterator last);
+			 * iterator					erase (iterator position);
+			 * iterator					erase (iterator first, iterator last);
 			 * void						swap (vector& x);
 			 * void 					clear();
 			 * 
@@ -409,13 +409,7 @@ namespace ft
 				return this->_begin + n;
 			}
 
-			void swap (vector& x)
-			{
-				vector tmp = *this;
-				
-				*this = x;
-				x = tmp;
-			}
+			void swap (vector& x) { vector tmp = *this; *this = x; x = tmp; }
 
 			void clear()
 			{
@@ -437,46 +431,14 @@ namespace ft
 				}
 				return true;
 			}
-			
-			friend bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-			{
-				if (lhs._size != rhs._size)
-					return true;
-				for (size_type i = 0; i < lhs._size && i < rhs._size; i++)
-				{
-					if (lhs[i] != rhs[i])
-						return true;
-				}
-				return false;
-			}
-			
+			friend bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)	{ return !(lhs == rhs); }
 			friend bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 			{
 				return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 			}
-
-			friend bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-			{
-				if (lhs == rhs)
-					return true;
-				return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-			}
-			
-			friend bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-			{
-				if (lhs == rhs)
-					return false;
-				if (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
-					return false;
-				return true;
-			}
-			
-			friend bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-			{
-				if (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
-					return false;
-				return true;
-			}
+			friend bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(rhs < lhs); }
+			friend bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return rhs < lhs; }
+			friend bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(lhs < rhs); }
 
 		private:
 			pointer			_begin;
@@ -489,6 +451,7 @@ namespace ft
   	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
 	{
 		vector<T, Alloc> tmp(x);
+		
 		x = y;
 		y = tmp; 
 	}
