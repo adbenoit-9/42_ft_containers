@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/16 19:41:31 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/16 19:51:12 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ namespace ft
 			
 			mapped_type& 				operator[](const key_type& k)
 			{
-				 
+				 // va falloir reflechir ma petite (binary search trees)
 			}
 
 			// Modifiers

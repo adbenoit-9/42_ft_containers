@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:33:21 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/16 17:59:34 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/16 19:49:30 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,24 @@ namespace ft
             
             pair() {}
             template<class U, class V>
-            pair (const pair<U,V>& pr) : _first(pr._first), _second(pr._second) {}
-            pair (const first_type& a, const second_type& b) : _first(a), _second(b) {}
+            pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
+            pair (const first_type& a, const second_type& b) : first(a), second(b) {}
             pair& operator= (const pair& pr)
             {
-                this->_first = pr._first;
-                this->_second = pr._second;
+                this->first = pr.first;
+                this->second = pr.second;
             }
             
-            friend bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return lhs._first==rhs._first && lhs._second==rhs._second; }
+            friend bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return lhs.first==rhs.first && lhs.second==rhs.second; }
             friend bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return !(lhs == rhs); }
-            friend bool operator< (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return lhs._first<rhs._first || (!(rhs._first<lhs._first) && lhs._second<rhs._second); }
+            friend bool operator< (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second); }
             friend bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return !(rhs < lhs); }
             friend bool operator> (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return rhs < lhs; }
             friend bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return !(lhs < rhs); }
 
-        private:
-            first_type  _first;
-            second_type _second;
+        public:
+            first_type  first;
+            second_type second;
     };
 }
 
