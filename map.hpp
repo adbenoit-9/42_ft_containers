@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/19 17:57:51 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/20 01:09:13 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ namespace ft
 				while (this->_tree)
 				{
 					if (k == this->_tree->value.first)
-						this->_tree->value = val;
+						this->_tree->value = val; // ne pas inserer si cest egal
 					else if (Compare(k, this->_tree->value))
 						this->_tree = this->_tree->left;
 					else if (!Compare(k, this->_tree->value))
@@ -218,7 +218,11 @@ namespace ft
 				
 				return ret;
 			}
-			// iterator					insert(iterator position, const value_type& val);
+			
+			iterator					insert(iterator position, const value_type& val)
+			{
+				// utilise la position uniquement si c'est coherent
+			}
 			// template <class InputIterator>
   			// void						insert(InputIterator first, InputIterator last);
 			
