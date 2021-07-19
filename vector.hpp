@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/16 17:22:51 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/19 17:41:17 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define VECTOR_HPP
 
 # include <memory>
-# include <tgmath.h>
 # include "iter/iterator.hpp"
 # include "iter/reverse_iterator.hpp"
 
@@ -92,18 +91,19 @@ namespace ft
 			 **/
 
 		public:
-			typedef	T											value_type;
-			typedef	Alloc										allocator_type;
-			typedef	typename allocator_type::reference			reference;
-			typedef	typename allocator_type::const_reference	const_reference;
-			typedef	typename allocator_type::pointer			pointer;
-			typedef	typename allocator_type::const_pointer		const_pointer;
-			typedef	iterator<T>									iterator;
-			typedef	const_iterator<T>							const_iterator;
-			typedef	reverse_iterator<const_iterator>			const_reverse_iterator;
-			typedef	reverse_iterator<iterator>					reverse_iterator;	
-			typedef	ptrdiff_t									difference_type;
-			typedef	size_t										size_type;
+			typedef	T															value_type;
+			typedef	Alloc														allocator_type;
+			typedef	typename allocator_type::reference							reference;
+			typedef	typename allocator_type::const_reference					const_reference;
+			typedef	typename allocator_type::pointer							pointer;
+			typedef	typename allocator_type::const_pointer						const_pointer;
+			typedef	vector_iterator<random_access_iterator_tag, value_type,
+					ptrdiff_t, const T*, const T&>								const_iterator;
+			typedef	vector_iterator<random_access_iterator_tag, value_type>		iterator;
+			typedef	reverse_iterator<const_iterator>							const_reverse_iterator;
+			typedef	reverse_iterator<iterator>									reverse_iterator;	
+			typedef	typename iterator::difference_type							difference_type;
+			typedef	size_t														size_type;
 
 			explicit vector(const allocator_type& alloc = allocator_type())  :
 			_alloc(alloc), _size(0), _capacity(0) { this->_begin = this->_alloc.allocate(0); }
@@ -187,9 +187,10 @@ namespace ft
 
 			size_type	max_size() const
 			{
-				if (sizeof(value_type) == 1)
-					return (static_cast<size_type>(pow(2.0, 64.0) / 2.0) - 1);
-				return (static_cast<size_type>(pow(2.0, 64.0) / static_cast<double>(sizeof(value_type))) - 1);
+				return this->_alloc.max_size();
+				// if (sizeof(value_type) == 1)
+				// 	return (static_cast<size_type>(pow(2.0, 64.0) / 2.0) - 1);
+				// return (static_cast<size_type>(pow(2.0, 64.0) / static_cast<double>(sizeof(value_type))) - 1);
 			} 
 			
 			void		resize(size_type n, value_type val = value_type())
@@ -434,7 +435,7 @@ namespace ft
 			friend bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)	{ return !(lhs == rhs); }
 			friend bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 			{
-				return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+				return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 			}
 			friend bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(rhs < lhs); }
 			friend bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return rhs < lhs; }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterators_traits.hpp                               :+:      :+:    :+:   */
+/*   iterator_utils.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/09 14:50:30 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/19 17:28:55 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 
 namespace ft
 {
+	// ~ iterator_traits ~
+	
 	template <class Iterator>
 	class iterator_traits
 	{
 		public:
-			typedef typename Iterator::difference_type	difference_type;
-			typedef typename Iterator::value_type		value_type;
-			typedef typename Iterator::pointer			pointer;
-			typedef typename Iterator::reference		reference;
-			typedef std::random_access_iterator_tag		iterator_category;
+			typedef typename Iterator::difference_type		difference_type;
+			typedef typename Iterator::value_type			value_type;
+			typedef typename Iterator::pointer				pointer;
+			typedef typename Iterator::reference			reference;
+			typedef typename Iterator::iterator_category	iterator_category;
 	};
 
 	// ~ enable_if ~
@@ -69,6 +71,20 @@ namespace ft
 	struct is_integral<unsigned long int> { static const bool value = true; };
 	template <>
 	struct is_integral<unsigned long long int> { static const bool value = true; };
+
+	// ~ lexicographical_compare ~
+	
+	template< class InputIt1, class InputIt2 >
+	bool lexicographical_compare(InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2)
+	{
+		    for ( ; (first1 != last1) && (first2 != last2); ++first1, (void) ++first2 )
+			{
+				if (*first1 < *first2) return true;
+				if (*first2 < *first1) return false;
+			}
+			
+			return (first1 == last1) && (first2 != last2);
+	}
 }
 
 #endif

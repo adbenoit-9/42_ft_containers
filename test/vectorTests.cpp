@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/16 18:00:19 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/19 17:32:51 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,8 @@ void	ft_modifiers(T &std, T1 &ft)
 	std::cout << "-------------------------------------------------------------------------" << std::endl
 			<< "|\tassign()\t|";
 	ft::vector<int> toCopy(7, 42);
-	std.assign(toCopy.begin(), toCopy.end());
+	std::vector<int> toCopy0(7, 42);
+	std.assign(toCopy0.begin(), toCopy0.end());
 	ft.assign(toCopy.begin(), toCopy.end());
 	print_vector(std);
 	std::cout << "\t|";
