@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:33:21 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/16 19:49:30 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/20 14:44:25 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ namespace ft
             typedef T2  second_type;
             
             pair() {}
-            template<class U, class V>
-            pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
-            pair (const first_type& a, const second_type& b) : first(a), second(b) {}
+            pair(const pair& pr) : first(pr.first), second(pr.second) {}
+            pair(const first_type& a, const second_type& b) : first(a), second(b) {}
             pair& operator= (const pair& pr)
             {
                 this->first = pr.first;
@@ -42,7 +41,8 @@ namespace ft
         public:
             first_type  first;
             second_type second;
-    };
+    };    
 }
+
 
 #endif
