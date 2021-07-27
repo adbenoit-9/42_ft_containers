@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterator.hpp                                       :+:      :+:    :+:   */
+/*   iterators.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/27 18:42:15 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/27 19:28:11 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ namespace ft
 	struct random_access_iterator_tag {};
 	struct bidirectional_iterator_tag {};
 	
+	/*
+	**		VECTOR ITERATOR
+	*/
+
 	template <	class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T& >
 	class vector_iterator
 	{
@@ -71,7 +75,12 @@ namespace ft
 		private:
 			T*	_ptr;
 	};
-	
+
+
+	/*
+	**		MAP ITERATOR
+	*/
+
 	template <	class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T& >
 	class map_iterator
 	{
@@ -88,6 +97,12 @@ namespace ft
 			virtual ~map_iterator() {}
 
 			T*				base() const { return this->_ptr ; }
+
+			bool			equalKey(pointeur value1, pointeur value2) const
+			{
+				return !(value1->comp(value1->value.first, value2->value.first))
+						&& !(value1->comp(value2->value.first,value1->value.first));
+			}
 			
 			// operators : assignment
 			map_iterator&	operator=(pointer ptr) { this->_ptr = ptr; return *this; }
@@ -104,17 +119,17 @@ namespace ft
 				if (this->_ptr->right)
 					while (this->_ptr->left)
 							this->ptr = this->_ptr->left;
-				else if (this->_ptr.top != this->_ptr)
+				else if (this->_ptr.parent != this->_ptr)
 				{
 					// find first previous greater node
-					t_tree *tmp = this->_ptr.top;
-					while (tmp.value.first < this->_ptr->value.first)
+					t_tree *tmp = this->_ptr.parent;
+					while (this->_ptr.comp(tmp.value.first,this->_ptr->value.first))
 					{
-						while (tmp.right.value.first != this->_ptr->value.first && tmp.left.value.first != this->_ptr->value.first)
+						while (!equalKey(this->_ptr, tmp.right) && !equalKey(this->_ptr, tmp.left))
 						{
-							if (this->_ptr->value.first > tmp.value.first)
+							if (this->_ptr.comp(tmp.value.first,this->_ptr->value.first))
 								tmp = tmp.right;
-							else if (this->_ptr->value.first < tmp.value.first)
+							else if (this->_ptr.comp(this->_ptr->value.first, tmp.value.first))
 								tmp = tmp.left;
 						}
 						this->_ptr = tmp;
@@ -134,20 +149,20 @@ namespace ft
 			{
 				// find the greatest smaller
 				if (this->_ptr->left)
-					while (this->_ptr->left)
+					while (this->_ptr->right)
 							this->ptr = this->_ptr->right;
-				else if (this->_ptr.top != this->_ptr)
+				else if (this->_ptr.parent != this->_ptr)
 				{
 					// find first previous smaller node
-					t_tree *tmp = this->_ptr.top;
-					while (tmp.value.first > this->_ptr->value.first)
+					t_tree *tmp = this->_ptr.parent;
+					while (this->_ptr.comp(this->_ptr->value.first, tmp.value.first))
 					{
-						while (tmp.right.value.first != this->_ptr->value.first && tmp.left.value.first != this->_ptr->value.first)
+						while (!equalKey(this->_ptr, tmp->right) && !equalKey(this->_ptr, tmp->left))
 						{
-							if (this->_ptr->value.first > tmp.value.first)
-								tmp = tmp.right;
-							else if (this->_ptr->value.first < tmp.value.first)
-								tmp = tmp.left;
+							if (this->_ptr.comp(tmp->value.first,this->_ptr->value.first))
+								tmp = tmp->right;
+							else if (this->_ptr.comp(this->_ptr->value.first, tmp->value.first))
+								tmp = tmp->left;
 						}
 						this->_ptr = tmp;
 					}
@@ -163,8 +178,8 @@ namespace ft
 			map_iterator    operator--(int) { map_iterator tmp = *this; --*this; return tmp; }
 
 			// operators : comparison
-			friend bool		operator== (const map_iterator& lhs, const map_iterator& rhs) { return lhs._ptr == rhs._ptr; }
-			friend bool 	operator!= (const map_iterator& lhs, const map_iterator& rhs) { return lhs._ptr != rhs._ptr; }
+			friend bool		operator== (const map_iterator& lhs, const map_iterator& rhs) { return lhs._ptr->value == rhs._ptr->value; }
+			friend bool 	operator!= (const map_iterator& lhs, const map_iterator& rhs) { return lhs._ptr->value != rhs._ptr->value; }
 
 		private:
 			T*	_ptr;

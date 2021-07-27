@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/27 16:27:30 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/27 19:06:15 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include <memory>
 #include <functional>
-# include "pair.hpp"
-# include "iter/iterator.hpp"
-# include "iter/reverse_iterator.hpp"
+# include "includes/pair.hpp"
+# include "includes/iterators.hpp"
+# include "includes/reverse_iterator.hpp"
 
 namespace ft
 {
@@ -112,7 +112,7 @@ namespace ft
 			{
 				value_type		value;
 				key_compare		comp;
-				struct s_node	*top;
+				struct s_node	*parent;
 				struct s_node	*left;
 				struct s_node	*right;
 			} 															t_node;

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/19 17:41:17 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/27 19:06:15 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define VECTOR_HPP
 
 # include <memory>
-# include "iter/iterator.hpp"
-# include "iter/reverse_iterator.hpp"
+# include "includes/iterators.hpp"
+# include "includes/reverse_iterator.hpp"
 
 namespace ft
 {

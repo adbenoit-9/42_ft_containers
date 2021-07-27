@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iterator_utils.hpp                                 :+:      :+:    :+:   */
+/*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/19 17:28:55 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/27 19:09:06 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 namespace ft
 {
-	// ~ iterator_traits ~
+	/*
+	**		ITERATOR_TRAITS
+	*/
 	
 	template <class Iterator>
 	class iterator_traits
@@ -28,15 +30,21 @@ namespace ft
 			typedef typename Iterator::iterator_category	iterator_category;
 	};
 
-	// ~ enable_if ~
+
+	/*
+	**		ENABLE_IF
+	*/
  
 	template <bool Cond>
 	struct enable_if {};
 
 	template <>
 	struct enable_if<true> { typedef int type; };
-	
-	// ~ is_integral ~ 
+
+
+	/*
+	**		IS_INTEGRAL
+	*/
 	
 	template <class T>
 	struct is_integral { static const bool value = false; };

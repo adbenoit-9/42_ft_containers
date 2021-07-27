@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:33:21 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/20 14:44:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/27 18:52:36 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ namespace ft
         public:
             first_type  first;
             second_type second;
-    };    
+    };
 }
 
 
