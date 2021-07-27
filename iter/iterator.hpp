@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/19 17:44:45 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/27 18:42:15 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ namespace ft
 			vector_iterator&	operator-=(const vector_iterator &it) { this->_ptr -= it._ptr; return *this; }
 
 			// operators : member access
-			reference   operator*() const { return *this->_ptr; }
-			pointer     operator->() const { return &(operator*()); }
-			reference	operator[](const difference_type &i) { return this->_ptr[i]; }
+			reference   		operator*() const { return *this->_ptr; }
+			pointer     		operator->() const { return &(operator*()); }
+			reference			operator[](const difference_type &i) { return this->_ptr[i]; }
 
 			// operators : increment / decrement
 			vector_iterator&   operator++() { this->_ptr++; return *this; }
@@ -61,12 +61,12 @@ namespace ft
 			friend difference_type	operator-(const vector_iterator& a, const vector_iterator& b) { return (a._ptr - b._ptr); }
 
 			// operators : comparison
-			friend bool operator== (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr == rhs._ptr; }
-			friend bool operator!= (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr != rhs._ptr; }
-			friend bool operator< (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr < rhs._ptr; }
-			friend bool operator<= (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr <= rhs._ptr; }
-			friend bool operator> (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr > rhs._ptr; }
-			friend bool operator>= (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr >= rhs._ptr; }
+			friend bool 	operator== (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr == rhs._ptr; }
+			friend bool 	operator!= (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr != rhs._ptr; }
+			friend bool 	operator< (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr < rhs._ptr; }
+			friend bool 	operator<= (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr <= rhs._ptr; }
+			friend bool 	operator> (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr > rhs._ptr; }
+			friend bool 	operator>= (const vector_iterator& lhs, const vector_iterator& rhs) { return lhs._ptr >= rhs._ptr; }
 
 		private:
 			T*	_ptr;
@@ -87,25 +87,84 @@ namespace ft
 			map_iterator(T* ptr) : _ptr(ptr) {}
 			virtual ~map_iterator() {}
 
-			T*			base() const { return this->_ptr ; }
+			T*				base() const { return this->_ptr ; }
 			
 			// operators : assignment
 			map_iterator&	operator=(pointer ptr) { this->_ptr = ptr; return *this; }
 			map_iterator&	operator=(const map_iterator &toCopy) { this->_ptr = toCopy._ptr; return *this; }
 
 			// operators : member access
-			reference   operator*() const { return *this->_ptr; }
-			pointer     operator->() const { return &(operator*()); }
+			reference   	operator*() const { return *this->_ptr; }
+			pointer     	operator->() const { return &(operator*()); }
 
 			// operators : increment / decrement
-			map_iterator&   operator++() { this->_ptr++; return *this; }
+			map_iterator&   operator++()
+			{
+				// find the smallest greater
+				if (this->_ptr->right)
+					while (this->_ptr->left)
+							this->ptr = this->_ptr->left;
+				else if (this->_ptr.top != this->_ptr)
+				{
+					// find first previous greater node
+					t_tree *tmp = this->_ptr.top;
+					while (tmp.value.first < this->_ptr->value.first)
+					{
+						while (tmp.right.value.first != this->_ptr->value.first && tmp.left.value.first != this->_ptr->value.first)
+						{
+							if (this->_ptr->value.first > tmp.value.first)
+								tmp = tmp.right;
+							else if (this->_ptr->value.first < tmp.value.first)
+								tmp = tmp.left;
+						}
+						this->_ptr = tmp;
+					}
+				}
+				else
+				{
+					// ptr = end
+				}
+				
+				return *this;
+			}
+			
 			map_iterator    operator++(int) { map_iterator tmp = *this; ++*this; return tmp; }
-			map_iterator&   operator--() { this->_ptr--; return *this; }
+			
+			map_iterator&   operator--()
+			{
+				// find the greatest smaller
+				if (this->_ptr->left)
+					while (this->_ptr->left)
+							this->ptr = this->_ptr->right;
+				else if (this->_ptr.top != this->_ptr)
+				{
+					// find first previous smaller node
+					t_tree *tmp = this->_ptr.top;
+					while (tmp.value.first > this->_ptr->value.first)
+					{
+						while (tmp.right.value.first != this->_ptr->value.first && tmp.left.value.first != this->_ptr->value.first)
+						{
+							if (this->_ptr->value.first > tmp.value.first)
+								tmp = tmp.right;
+							else if (this->_ptr->value.first < tmp.value.first)
+								tmp = tmp.left;
+						}
+						this->_ptr = tmp;
+					}
+				}
+				else
+				{
+					// undefined
+				}
+				
+				return *this;
+			}
+			
 			map_iterator    operator--(int) { map_iterator tmp = *this; --*this; return tmp; }
 
 			// operators : comparison
-			friend bool operator== (const map_iterator& lhs, const map_iterator& rhs) { return lhs._ptr == rhs._ptr; }
-			friend bool operator!= (const map_iterator& lhs, const map_iterator& rhs) { return lhs._ptr != rhs._ptr; }
+			friend bool		operator== (const map_iterator& lhs, const map_iterator& rhs) { return lhs._ptr == rhs._ptr; }
+			friend bool 	operator!= (const map_iterator& lhs, const map_iterator& rhs) { return lhs._ptr != rhs._ptr; }
 
 		private:
 			T*	_ptr;
