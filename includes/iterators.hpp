@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/27 19:28:11 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/28 15:07:30 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,8 @@ namespace ft
 					// find first previous greater node
 					t_tree *tmp = this->_ptr.parent;
 					while (this->_ptr.comp(tmp.value.first,this->_ptr->value.first))
-					{
-						while (!equalKey(this->_ptr, tmp.right) && !equalKey(this->_ptr, tmp.left))
-						{
-							if (this->_ptr.comp(tmp.value.first,this->_ptr->value.first))
-								tmp = tmp.right;
-							else if (this->_ptr.comp(this->_ptr->value.first, tmp.value.first))
-								tmp = tmp.left;
-						}
-						this->_ptr = tmp;
-					}
+						tmp = tmp->parent;
+					this->_ptr = tmp;
 				}
 				else
 				{
@@ -156,16 +148,8 @@ namespace ft
 					// find first previous smaller node
 					t_tree *tmp = this->_ptr.parent;
 					while (this->_ptr.comp(this->_ptr->value.first, tmp.value.first))
-					{
-						while (!equalKey(this->_ptr, tmp->right) && !equalKey(this->_ptr, tmp->left))
-						{
-							if (this->_ptr.comp(tmp->value.first,this->_ptr->value.first))
-								tmp = tmp->right;
-							else if (this->_ptr.comp(this->_ptr->value.first, tmp->value.first))
-								tmp = tmp->left;
-						}
-						this->_ptr = tmp;
-					}
+						tmp = tmp->parent;
+					this->_ptr = tmp;
 				}
 				else
 				{
