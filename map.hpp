@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/28 17:26:05 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/29 15:01:47 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,14 +162,25 @@ namespace ft
 			//					~ Modifiers ~
 
 			pair<iterator,bool>		insert(const value_type& val) { return this->_tree.insert(val); }
+			
 			iterator				insert(iterator position, const value_type& val) { return this->_tree.insert(position, val); }
 				// utilise la position uniquement si c'est coherent
 			template <class InputIterator>
-  			void					insert(InputIterator first, InputIterator last) { this->_tree.insert(first, last); }
+  			void					insert(InputIterator first, InputIterator last)
+			{
+				for (iterator it = this->_tree.begin(); it < this->_tree.end(); it++)
+					this->insert(*it);
+			}
 
-			void					erase(iterator position) { this->_tree.erase(position); }
-			size_type				erase(const key_type& k) { this->_tree.erase(k); }
-			void					erase(iterator first, iterator last) { this->_tree.erase(first, last); }
+			size_type				erase(const key_type& k) { return this->_tree.erase(k); }
+			
+			void					erase(iterator position) { this->erase(*position); }
+
+			void					erase(iterator first, iterator last)
+			{
+				for (iterator it = this->_tree.begin(); it < this->_tree.end(); it++)
+					this->erase(*it);
+			}
 
 			void					swap(map& x)
 			{
