@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/19 17:15:48 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/30 16:23:14 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int main(void)
 				<< "(Press enter to continue ...) ";
 	std::getline(std::cin, input);
 
-	// mapTests();
+	mapTests();
 	return (0);
 }
 

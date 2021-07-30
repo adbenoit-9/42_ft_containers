@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/29 14:51:40 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/30 16:14:24 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ namespace ft
 
 			T*				base() const { return this->_tree ; }
 
-			bool			equalKey(pointeur value1, pointeur value2) const
+			bool			equalKey(pointer value1, pointer value2) const
 			{
 				return !(value1->comp(value1->value.first, value2->value.first))
 						&& !(value1->comp(value2->value.first,value1->value.first));
@@ -122,8 +122,8 @@ namespace ft
 				else if (this->_tree.parent != this->_tree)
 				{
 					// find first previous greater node
-					t_tree *tmp = this->_tree.parent;
-					while (this->_tree.comp(tmp.value.first,this->_tree.value.first))
+					T *tmp = this->_tree.parent;
+					while (this->_tree.comp(tmp->value.first,this->_tree.value.first))
 						tmp = tmp->parent;
 					this->_tree = tmp;
 				}
@@ -146,8 +146,8 @@ namespace ft
 				else if (this->_tree.parent != this->_tree)
 				{
 					// find first previous smaller node
-					t_tree *tmp = this->_tree.parent;
-					while (this->_tree.comp(this->_tree.value.first, tmp.value.first))
+					T *tmp = this->_tree.parent;
+					while (this->_tree.comp(this->_tree.value.first, tmp->value.first))
 						tmp = tmp->parent;
 					this->_tree = tmp;
 				}

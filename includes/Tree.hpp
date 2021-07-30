@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/29 18:55:35 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/07/30 16:23:37 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 # include <memory>
 # include <functional>
-# include "includes/pair.hpp"
-# include "includes/iterators.hpp"
-# include "includes/reverse_iterator.hpp"
+# include "pair.hpp"
+// # include "iterators.hpp"
+// # include "reverse_iterator.hpp"
 
 namespace ft
 {
     template < class Key, class T, class Compare = std::less<Key>,
-		   class Alloc = std::allocator<pair<const Key,T> >  >
+		   class Alloc = std::allocator<ft::pair<const Key,T> >  >
     class Tree
     {
 
@@ -45,11 +45,11 @@ namespace ft
                 struct s_node	*right;
                 struct s_node	*parent;
             }                                                           t_node;
-			typedef	map_iterator<bidirectional_iterator_tag,
-					t_node, ptrdiff_t, const T*, const T&>				const_iterator;
-			typedef	map_iterator<bidirectional_iterator_tag, t_node>	iterator;
-			typedef	reverse_iterator<const_iterator>					const_reverse_iterator;
-			typedef	reverse_iterator<iterator>							reverse_iterator;	
+			// typedef	map_iterator<bidirectional_iterator_tag,
+			// 		t_node, ptrdiff_t, const T*, const T&>				const_iterator;
+			// typedef	map_iterator<bidirectional_iterator_tag, t_node>	iterator;
+			// typedef	reverse_iterator<const_iterator>					const_reverse_iterator;
+			// typedef	reverse_iterator<iterator>							reverse_iterator;	
             
             class value_compare
 			{
@@ -65,12 +65,10 @@ namespace ft
 			};
             
             explicit Tree(const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type()) :
-                _key_compare(comp), _alloc(alloc), _size(0) { this->_root = nullptr; }
+                _key_comp(comp), _alloc(alloc), _size(0) { this->_root = nullptr; }
             
-			Tree(const Tree& x)
-			{
-				
-			}
+			Tree(const Tree& x) : _key_comp(x._key_comp), _alloc(x._alloc), _size(x._size)
+				{ this->_root = nullptr; }
 			
             ~Tree()
             {
@@ -89,17 +87,17 @@ namespace ft
 
 			//					~ Iterators ~
 
- 			iterator				begin() { return iterator(this->_root); }
- 			const_iterator			begin() const { return const_iterator(this->_root); }
+ 			// iterator				begin() { return iterator(this->_root); }
+ 			// const_iterator			begin() const { return const_iterator(this->_root); }
 
- 			iterator				end() { return iterator(this->_begin) + this->_size; }
- 			const_iterator			end() const { return const_iterator(this->_begin + this->_size); }
+ 			// iterator				end() { return iterator(this->_begin) + this->_size; }
+ 			// const_iterator			end() const { return const_iterator(this->_begin + this->_size); }
 
- 			reverse_iterator		rbegin() { return reverse_iterator(iterator(this->_begin + this->_size - 1)); }
- 			const_reverse_iterator	rbegin() const { return const_reverse_iterator(iterator(this->_begin + this->_size - 1)); }
+ 			// reverse_iterator		rbegin() { return reverse_iterator(iterator(this->_begin + this->_size - 1)); }
+ 			// const_reverse_iterator	rbegin() const { return const_reverse_iterator(iterator(this->_begin + this->_size - 1)); }
 
- 			reverse_iterator 		rend() { return reverse_iterator(iterator(this->_begin - 1)); }
- 			const_reverse_iterator	rend() const { return const_reverse_iterator(iterator(this->_begin - 1)); } 
+ 			// reverse_iterator 		rend() { return reverse_iterator(iterator(this->_begin - 1)); }
+ 			// const_reverse_iterator	rend() const { return const_reverse_iterator(iterator(this->_begin - 1)); } 
 
  			//					~ Capacity ~
 
@@ -129,53 +127,53 @@ namespace ft
 
 			//					~ Modifiers ~
 
-			pair<iterator,bool>		insert(const value_type& val)
-			{
-				if (this->count(val.first))
-				{
-					pair<iterator,bool> ret;
-					ret.first = find(val.first);
-					ret.second = false;
-					return ret;
-				}
-				t_node	*tmp = this->_root;
-				t_node	*parent;
-				while (tmp)
-				{
-					parent = tmp;
-					if (this->_key_comp(val.first, tmp->value.first))
-						tmp = tmp->left;
-					else
-						tmp = tmp->right;
-				}
-				t_node *node;
+			// pair<iterator,bool>		insert(const value_type& val)
+			// {
+			// 	if (this->count(val.first))
+			// 	{
+			// 		pair<iterator,bool> ret;
+			// 		ret.first = find(val.first);
+			// 		ret.second = false;
+			// 		return ret;
+			// 	}
+			// 	t_node	*tmp = this->_root;
+			// 	t_node	*parent;
+			// 	while (tmp)
+			// 	{
+			// 		parent = tmp;
+			// 		if (this->_key_comp(val.first, tmp->value.first))
+			// 			tmp = tmp->left;
+			// 		else
+			// 			tmp = tmp->right;
+			// 	}
+			// 	t_node *node;
 
-				this->_allocNode.allocate(node, 1);
-				this->_alloc.construt(&val, node->value);
-				this->_allocNode.construct(&node, tmp);
-				node->left = 0;
-				node->right = 0;
-				node->parent = parent;
+				// this->_allocNode.allocate(node, 1);
+				// this->_alloc.construt(&val, node->value);
+				// this->_allocNode.construct(&node, tmp);
+				// node->left = 0;
+				// node->right = 0;
+				// node->parent = parent;
 				
-				tmp = node;
+				// tmp = node;
 
-				tmp = balance_tree(parent->parent);
+			// 	tmp = balance_tree(parent->parent);
 				
-				pair<iterator,bool> ret;
-				ret.first = find(val.first);
-				ret.second = true;
-				return ret;
-			}
+			// 	pair<iterator,bool> ret;
+			// 	ret.first = find(val.first);
+			// 	ret.second = true;
+			// 	return ret;
+			// }
 
-			iterator				insert(iterator position, const value_type& val)
-			{
-				// utilise la position uniquement si c'est coherent
-			}
+			// iterator				insert(iterator position, const value_type& val)
+			// {
+			// 	// utilise la position uniquement si c'est coherent
+			// }
 
-			size_type				erase(const key_type& k)
-			{
+			// size_type				erase(const key_type& k)
+			// {
 				
-			}
+			// }
 
 			void					swap(Tree& x)
 			{
@@ -195,16 +193,19 @@ namespace ft
 
 			void	destroy_tree(t_node *node)
 			{
-				destroy_tree(node->left);
-				destroy_tree(node->right);
-				this->_alloc.destroy(node->value)
+				if (node)
+				{
+					destroy_tree(node->left);
+					destroy_tree(node->right);
+					this->_alloc.destroy(&node->value);
+				}
 				this->_allocNode.destroy(node);
 				this->_allocNode.deallocate(node, 1);
 			}
 			
-			node*	rotate_left(node* n1, node* n2)
+			t_node*	rotate_left(t_node* n1, t_node* n2)
 			{
-				node* tmp = n2->left;
+				t_node* tmp = n2->left;
 				if (tmp)
 					tmp->parent = n1;
 				
@@ -217,9 +218,9 @@ namespace ft
 				return n2;
 			}
 			
-			node*	rotate_rightLeft(node* n1, node* n2)
+			t_node*	rotate_rightLeft(t_node* n1, t_node* n2)
 			{
-				node* n3 = n2->left;
+				t_node* n3 = n2->left;
 				n3->parent = n1->parent;
 				
 				n2->parent = n3;
@@ -238,7 +239,20 @@ namespace ft
 				return n3;
 			}
 
-			node*	balance_tree(t_node *node)
+			int		height(t_node* node)
+			{
+				int	h = 0;
+
+				if (node)
+				{
+					height(node->right);
+					height(node->left);
+					++h;
+				}
+				return h;
+			}
+			
+			t_node*	balance_tree(t_node *node)
 			{
 				// calcul balance factor
 				int bf = height(node->right) - height(node->left);
@@ -256,83 +270,84 @@ namespace ft
 
 			//					~ Operations ~
     			
-			iterator							find(const key_type& k)
-			{
-				if (this->count())
-					for (iterator it = this->begin(); it != this->end(); it++)
-						if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
-							return it;
-				return this->end();
-			}
+			// iterator							find(const key_type& k)
+			// {
+			// 	if (this->count())
+			// 		for (iterator it = this->begin(); it != this->end(); it++)
+			// 			if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 				return it;
+			// 	return this->end();
+			// }
 
-			const_iterator						find(const key_type& k) const
-			{
-				if (this->count())
-					for (iterator it = this->begin(); it != this->end(); it++)
-						if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
-							return it;
-				return this->end();
-			}
+			// const_iterator						find(const key_type& k) const
+			// {
+			// 	if (this->count())
+			// 		for (iterator it = this->begin(); it != this->end(); it++)
+			// 			if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 				return it;
+			// 	return this->end();
+			// }
 
-			size_type							count(const key_type& k) const;
-			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
-						return 1;
-				return 0;
-			}
+			// size_type							count(const key_type& k) const;
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 			return 1;
+			// 	return 0;
+			// }
 
-			iterator							lower_bound(const key_type& k)
-			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_key_comp(*it->value.first, k))
-						return it;
-				return this->end();
-			}
+			// iterator							lower_bound(const key_type& k)
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(*it->value.first, k))
+			// 			return it;
+			// 	return this->end();
+			// }
 
-			const_iterator						lower_bound(const key_type& k) const
-			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_key_comp(*it->value.first, k))
-						return it;
-				return this->end();
-			}
+			// const_iterator						lower_bound(const key_type& k) const
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(*it->value.first, k))
+			// 			return it;
+			// 	return this->end();
+			// }
 
-			iterator 							upper_bound(const key_type& k)
-			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (this->_key_comp(k, *it->value.first))
-						return it;
-				return this->end();
-			}
+			// iterator 							upper_bound(const key_type& k)
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (this->_key_comp(k, *it->value.first))
+			// 			return it;
+			// 	return this->end();
+			// }
 
-			const_iterator						upper_bound(const key_type& k) const
-			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (this->_key_comp(k, *it->value.first))
-						return it;
-				return this->end();
-			}
+			// const_iterator						upper_bound(const key_type& k) const
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (this->_key_comp(k, *it->value.first))
+			// 			return it;
+			// 	return this->end();
+			// }
 
-			pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
-			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
-						return pair<const_iterator, const_iterator>(it, it + 1);
-				return pair<const_iterator, const_iterator>(this->lower_bound(), this->lower_bound()));
-			}
+			// pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 			return pair<const_iterator, const_iterator>(it, it + 1);
+			// 	return pair<const_iterator, const_iterator>(this->lower_bound(), this->lower_bound()));
+			// }
 
-			pair<iterator,iterator>				equal_range(const key_type& k);
-			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
-						return pair<iterator, iterator>(it, it + 1);
-				return pair<iterator, iterator>(this->lower_bound(), this->lower_bound()));
-			}
+			// pair<iterator,iterator>				equal_range(const key_type& k);
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 			return pair<iterator, iterator>(it, it + 1);
+			// 	return pair<iterator, iterator>(this->lower_bound(), this->lower_bound()));
+			// }
 
         private:
             key_compare		_key_comp;
             allocator_type  _alloc;
+            std::allocator<t_node>  _allocNode;
 			size_type 		_size;
             t_node			*_root;
     };
