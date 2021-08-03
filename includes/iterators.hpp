@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/30 16:14:24 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/03 17:24:29 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ namespace ft
 	**		MAP ITERATOR
 	*/
 
+	# include "Tree.hpp"
+	
 	template <	class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T& >
 	class map_iterator
 	{
@@ -97,12 +99,6 @@ namespace ft
 			virtual ~map_iterator() {}
 
 			T*				base() const { return this->_tree ; }
-
-			bool			equalKey(pointer value1, pointer value2) const
-			{
-				return !(value1->comp(value1->value.first, value2->value.first))
-						&& !(value1->comp(value2->value.first,value1->value.first));
-			}
 			
 			// operators : assignment
 			map_iterator&	operator=(pointer ptr) { this->_tree = ptr; return *this; }
@@ -123,7 +119,7 @@ namespace ft
 				{
 					// find first previous greater node
 					T *tmp = this->_tree.parent;
-					while (this->_tree.comp(tmp->value.first,this->_tree.value.first))
+					while (this->_tree._key_comp(tmp->value.first,this->_tree.value.first))
 						tmp = tmp->parent;
 					this->_tree = tmp;
 				}
@@ -147,7 +143,7 @@ namespace ft
 				{
 					// find first previous smaller node
 					T *tmp = this->_tree.parent;
-					while (this->_tree.comp(this->_tree.value.first, tmp->value.first))
+					while (this->_tree._key_comp(this->_tree.value.first, tmp->value.first))
 						tmp = tmp->parent;
 					this->_tree = tmp;
 				}
@@ -166,7 +162,7 @@ namespace ft
 			friend bool 	operator!= (const map_iterator& lhs, const map_iterator& rhs) { return lhs._tree.value != rhs._tree.value; }
 
 		private:
-			T	_tree;
+			Node<T>*	_tree;
 	};
 }
 

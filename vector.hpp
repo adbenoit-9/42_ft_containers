@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/27 19:06:15 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/03 17:16:52 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ namespace ft
 			}
 			
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0) :
+			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename enable_if<!is_integral<InputIterator>::value>::type * = 0) :
 			_alloc(alloc), _size(0)
 			{
 				for (InputIterator it = first; it != last; it++)
@@ -435,7 +435,7 @@ namespace ft
 			friend bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)	{ return !(lhs == rhs); }
 			friend bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 			{
-				return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+				return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 			}
 			friend bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(rhs < lhs); }
 			friend bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return rhs < lhs; }

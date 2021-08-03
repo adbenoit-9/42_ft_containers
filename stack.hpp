@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 14:08:07 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/19 17:33:18 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/03 17:16:20 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace ft
 {
-	template <class T, class Container = ft::vector<T> >
+	template <class T, class Container = vector<T> >
     class stack
 	{
 		private:

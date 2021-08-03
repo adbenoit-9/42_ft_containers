@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/29 15:01:47 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/03 18:44:50 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,17 +135,18 @@ namespace ft
 
 			//					~ Iterators ~
 			
-			iterator				begin() { return this->_tree.begin(); }
-			const_iterator			begin() const { return this->_tree.begin(); }
+ 			iterator				begin() { return iterator(this->_tree->getParent()); }
+ 			const_iterator			begin() const { return const_iterator(this->_tree); }
 
-			iterator				end() { return this->_tree.end();  }
-			const_iterator			end() const { return this->_tree.end();  }
+ 			iterator				end() { return iterator(this->_tree) + this->_size; }
+ 			const_iterator			end() const { return const_iterator(this->_tree + this->_size); }
 
-			reverse_iterator		rbegin() { return this->_tree.rbegin();  }
-			const_reverse_iterator	rbegin() const { return this->_tree.rbegin();  }
+ 			// reverse_iterator		rbegin() { return reverse_iterator(iterator(this->_begin + this->_size - 1)); }
+ 			// const_reverse_iterator	rbegin() const { return const_reverse_iterator(iterator(this->_begin + this->_size - 1)); }
 
-			reverse_iterator 		rend() { return this->_tree.rend();  }
-			const_reverse_iterator	rend() const { return this->_tree.rend();  } 
+ 			// reverse_iterator 		rend() { return reverse_iterator(iterator(this->_begin - 1)); }
+ 			// const_reverse_iterator	rend() const { return const_reverse_iterator(iterator(this->_begin - 1)); } 
+			 
 
 			//					~ Capacity ~
 
@@ -203,19 +204,79 @@ namespace ft
 
 			//					~ Operations ~
     			
-			iterator							find(const key_type& k) { return this->_tree.find(k); }
-			const_iterator						find(const key_type& k) const { return this->_tree.find(k); }
+						// iterator							find(const key_type& k)
+			// {
+			// 	if (this->count())
+			// 		for (iterator it = this->begin(); it != this->end(); it++)
+			// 			if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 				return it;
+			// 	return this->end();
+			// }
 
-			size_type							count(const key_type& k) const { return this->_tree.count(k); }
-			
-			iterator							lower_bound(const key_type& k) { return this->_tree.lower_bound(k); }
-			const_iterator						lower_bound(const key_type& k) const { return this->_tree.lower_bound(k); }
-			
-			iterator 							upper_bound(const key_type& k) { return this->_tree.upper_bound(k); }
-			const_iterator						upper_bound(const key_type& k) const { return this->_tree.upper_bound(k); }
+			// const_iterator						find(const key_type& k) const
+			// {
+			// 	if (this->count())
+			// 		for (iterator it = this->begin(); it != this->end(); it++)
+			// 			if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 				return it;
+			// 	return this->end();
+			// }
 
-			pair<const_iterator,const_iterator>	equal_range(const key_type& k) const { return this->_tree.equal_range(k); }
-			pair<iterator,iterator>				equal_range(const key_type& k) { return this->_tree.equal_range(k); }
+			// size_type							count(const key_type& k) const;
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 			return 1;
+			// 	return 0;
+			// }
+
+			// iterator							lower_bound(const key_type& k)
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(*it->value.first, k))
+			// 			return it;
+			// 	return this->end();
+			// }
+
+			// const_iterator						lower_bound(const key_type& k) const
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(*it->value.first, k))
+			// 			return it;
+			// 	return this->end();
+			// }
+
+			// iterator 							upper_bound(const key_type& k)
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (this->_key_comp(k, *it->value.first))
+			// 			return it;
+			// 	return this->end();
+			// }
+
+			// const_iterator						upper_bound(const key_type& k) const
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (this->_key_comp(k, *it->value.first))
+			// 			return it;
+			// 	return this->end();
+			// }
+
+			// pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 			return pair<const_iterator, const_iterator>(it, it + 1);
+			// 	return pair<const_iterator, const_iterator>(this->lower_bound(), this->lower_bound()));
+			// }
+
+			// pair<iterator,iterator>				equal_range(const key_type& k);
+			// {
+			// 	for (iterator it = this->begin(); it != this->end(); it++)
+			// 		if (!this->_key_comp(k, *it->value.first) && !this->_key_comp(*it->value.first, k))
+			// 			return pair<iterator, iterator>(it, it + 1);
+			// 	return pair<iterator, iterator>(this->lower_bound(), this->lower_bound()));
+			// }
 
 		private:
 			tree	_tree;

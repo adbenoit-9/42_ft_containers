@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/30 16:18:37 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/03 17:08:51 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,37 +43,37 @@ void	ft_iterators(T &std, T1 &ft)
 	std::cout << "-------------------------------------------------------------------------" << std::endl
 			<< "|    begin() + end()\t|\t";
 	int i = 0;
-	for (std::vector<int>::iterator it = std.begin() ; it != std.end(); ++it)
+	for (typename T::iterator it = std.begin() ; it != std.end(); ++it)
 	{
 		*it = ++i;
-    	std::cout << ' ' << *it;
+    	// std::cout << ' ' << *it.first;
 	}
 	std::cout << "\t\t|\t";
 	i = 0;
-	for (ft::vector<int>::iterator it = ft.begin() ; it != ft.end(); ++it)
+	for (typename T1::iterator it = ft.begin() ; it != ft.end(); ++it)
 	{
 		*it = ++i;
-    	std::cout << ' ' << *it;
+    	std::cout << ' ' << *it.first;
 	}
   	std::cout << "\t\t|";
 	checkAttributs(ft, std);
 
-	std::cout << "-------------------------------------------------------------------------" << std::endl
-			<< "|    rbegin() + rend()\t|\t";
-	std::vector<int>::reverse_iterator rit = std.rbegin();
-	i = 0;
-	for (rit = std.rbegin(); rit != std.rend(); ++rit)
-		*rit = ++i;
-	print_vector(std);
-	std::cout << "\t\t|\t";
-	ft::vector<int>::reverse_iterator rit1 = ft.rbegin();
-	i = 0;
-	for (rit1 = ft.rbegin(); rit1 != ft.rend(); ++rit1)
-		*rit1 = ++i;
-	print_vector(ft);
+	// std::cout << "-------------------------------------------------------------------------" << std::endl
+	// 		<< "|    rbegin() + rend()\t|\t";
+	// std::vector<int>::reverse_iterator rit = std.rbegin();
+	// i = 0;
+	// for (rit = std.rbegin(); rit != std.rend(); ++rit)
+	// 	*rit = ++i;
+	// print_vector(std);
+	// std::cout << "\t\t|\t";
+	// ft::vector<int>::reverse_iterator rit1 = ft.rbegin();
+	// i = 0;
+	// for (rit1 = ft.rbegin(); rit1 != ft.rend(); ++rit1)
+	// 	*rit1 = ++i;
+	// print_vector(ft);
 	
-  	std::cout << "\t\t|";
-	checkAttributs(ft, std);
+  	// std::cout << "\t\t|";
+	// checkAttributs(ft, std);
 }
 
 template< class T, class T1 >
@@ -178,15 +178,14 @@ void    mapTests(void)
 	title("Map");
 	
 	ft::Tree<std::string,int> tree;
-	// std::cout	<< "-------------------------------------------------------------------------" << std::endl
-	// 			<< "|\tMethodes\t|" << "\tstd::stack\t|" << "\tft::stack\t|" << std::endl
-	// 			<< "-------------------------------------------------------------------------" << std::endl;
+	std::map<std::string,int> stdMap;
 	
-	// std::vector<int> stdVector;
-	// ft::vector<int> myVector;
+	std::cout	<< "-------------------------------------------------------------------------" << std::endl
+				<< "|\tMethodes\t|" << "\tstd::stack\t|" << "\tft::stack\t|" << std::endl
+				<< "-------------------------------------------------------------------------" << std::endl;
 
+	ft_iterators(stdMap, tree);
 	// ft_capacity(stdVector, myVector);
-	// ft_iterators(stdVector, myVector);
 	// ft_modifiers(stdVector, myVector);
 	
 	// std::cout << "-------------------------------------------------------------------------\n" << std::endl;
