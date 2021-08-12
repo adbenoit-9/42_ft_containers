@@ -6,11 +6,11 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/30 16:23:14 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/12 17:55:37 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../test/test.hpp"
+#include "test.hpp"
 
 int main(void)
 {

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/03 17:24:29 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/12 17:24:47 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ namespace ft
 			friend bool 	operator!= (const map_iterator& lhs, const map_iterator& rhs) { return lhs._tree.value != rhs._tree.value; }
 
 		private:
-			Node<T>*	_tree;
+			T*	_tree;
 	};
 }
 
