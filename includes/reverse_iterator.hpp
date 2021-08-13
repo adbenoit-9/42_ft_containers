@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/30 16:09:24 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/13 19:56:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ namespace ft
 			reverse_iterator&	operator-=(difference_type n) { this->_it += n; return *this; }
 
 			// operators : member access
-			reference   		operator*() const { return *this->_it; }
+			reference   		operator*() const { return *(this->_it); }
 			pointer				operator->() const { return &(operator*()); }
-			reference			operator[](difference_type n) const { return base()[-n - 1]; }
+			reference			operator[](difference_type n) { return this->_it[-n]; }
 
 			// // operators : increment / decrement
 			reverse_iterator&   operator++() { --this->_it; return *this; }

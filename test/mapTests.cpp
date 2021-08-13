@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/12 18:04:39 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/13 17:24:04 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,7 @@ void    mapTests(void)
 {
 	title("Map");
 	
-	// ft::Tree<std::string,int> tree;
-	ft::pair<std::string,int> pair;
-	ft::vector<std::string> tree;
+	ft::Tree<std::string,int> tree;
 	std::map<std::string,int> stdMap;
 	
 	std::cout	<< "-------------------------------------------------------------------------" << std::endl
@@ -187,8 +185,8 @@ void    mapTests(void)
 				<< "-------------------------------------------------------------------------" << std::endl;
 
 	// ft_iterators(stdMap, tree);
-	// ft::pair<const std::string, int>	val("test", 1);
-	// tree.insertNode(tree.constructNode(val));
+	ft::pair<const std::string, int>	val("test", 1);
+	tree.insertNode(tree.constructNode(val));
 	// ft_capacity(stdVector, myVector);
 	// ft_modifiers(stdVector, myVector);
 	
@@ -225,7 +223,7 @@ void    mapTests(void)
 	// compareOperators((stdVector <= vct1), (myVector <= vct2));
 	// std::cout	<< "-------------------------------------------------------------------------" << std::endl
 	// 		<< "|\t>\t\t|\t\t" << (stdVector > vct1)
-	// 		<< "\t|\t\t" << (myVector > vct2) << "\t|";
+		// 		<< "\t|\t\t" << (myVector > vct2) << "\t|";
 	// compareOperators((stdVector > vct1), (myVector > vct2));
 	// std::cout	<< "-------------------------------------------------------------------------" << std::endl
 	// 		<< "|\t>=\t\t|\t\t" << (stdVector >= vct1)
