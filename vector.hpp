@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/13 19:46:08 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/19 17:55:59 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,12 +154,14 @@ namespace ft
 
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.destroy(&this->_begin[i]);
-				this->_alloc.deallocate(this->_begin, this->_capacity);
-				
+				if (this->_capacity < x._size)
+				{
+					this->_alloc.deallocate(this->_begin, this->_capacity);
+					this->_capacity = x._size;
+					this->_begin = this->_alloc.allocate(this->_capacity);
+				}
 				this->_alloc = x._alloc;
 				this->_size = x._size;
-				this->_capacity = x._size;
-				this->_begin = this->_alloc.allocate(this->_capacity);
 
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.construct(&this->_begin[i], x._begin[i]);
@@ -175,11 +177,11 @@ namespace ft
 			iterator end() { return iterator(this->_begin) + this->_size; }
 			const_iterator end() const { return const_iterator(this->_begin + this->_size); }
 
-			reverse_iterator rbegin() { return reverse_iterator(iterator(this->_begin + this->_size - 1)); }
-			const_reverse_iterator rbegin() const { return const_reverse_iterator(iterator(this->_begin + this->_size - 1)); }
+			reverse_iterator rbegin() { return reverse_iterator(this->end()); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(this->end()); }
 
-			reverse_iterator rend() { return reverse_iterator(iterator(this->_begin - 1)); }
-			const_reverse_iterator rend() const { return const_reverse_iterator(iterator(this->_begin - 1)); } 
+			reverse_iterator rend() { return reverse_iterator(iterator(this->begin())); }
+			const_reverse_iterator rend() const { return const_reverse_iterator(this->begin()); } 
 
 			// Capacity
 
@@ -410,7 +412,23 @@ namespace ft
 				return this->_begin + n;
 			}
 
-			void swap (vector& x) { vector tmp = *this; *this = x; x = tmp; }
+			void swap (vector& x)
+			{
+				pointer t_begin = this->_begin;
+				allocator_type t_alloc = this->_alloc;
+				size_type t_size = this->_size;
+				size_type t_capacity = this->_capacity;
+
+				this->_begin = x._begin;
+				this->_alloc = x._alloc;
+				this->_size = x._size;
+				this->_capacity = x._capacity;
+				
+				x._begin = t_begin;
+				x._alloc = t_alloc;
+				x._size = t_size;
+				x._capacity = t_capacity;
+			}
 
 			void clear()
 			{
