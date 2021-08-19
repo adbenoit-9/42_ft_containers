@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/19 17:35:05 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/19 18:28:33 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,16 +177,16 @@ void    mapTests(void)
 {
 	title("Map");
 	
-	// ft::Tree<std::string,int> tree;
-	// std::map<std::string,int> stdMap;
+	ft::Tree<std::string,int> tree;
+	std::map<std::string,int> stdMap;
 	
 	std::cout	<< "-------------------------------------------------------------------------" << std::endl
 				<< "|\tMethodes\t|" << "\tstd::stack\t|" << "\tft::stack\t|" << std::endl
 				<< "-------------------------------------------------------------------------" << std::endl;
 
 	// ft_iterators(stdMap, tree);
-	// ft::pair<const std::string, int>	val("test", 1);
-	// tree.insertNode(tree.constructNode(val));
+	ft::pair<std::string, int>	val = ft::make_pair("test", 1);
+	tree.insertNode(tree.constructNode(val));
 	// ft_capacity(stdVector, myVector);
 	// ft_modifiers(stdVector, myVector);
 	

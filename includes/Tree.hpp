@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/13 17:21:01 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/19 18:29:55 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,10 +182,23 @@ namespace ft
 			
 			void					swap(Tree& x)
 			{
-				Tree tmp = *this;
-				
-				*this = x;
-				x = tmp;
+				key_compare				t_key_comp = this->_key_comp;
+				allocator_type  		t_alloc = this->_alloc;
+				std::allocator< Node >  t_allocNode = this->_alloc;
+				size_type 				t_size = this->_size;
+				Node					t_root = this->_root;
+
+				this->_key_comp = x._key_comp;
+				this->_alloc = x._alloc;
+				this->_allocNode = x._alloc;
+				this->_size = x._size;
+				this->_root = x._root;
+
+				x._key_comp = t_key_comp;
+				x._alloc = t_alloc;
+				x._allocNode = t_alloc;
+				x._size = t_size;
+				x._root = t_root;
 			}
 
 			void					clear()

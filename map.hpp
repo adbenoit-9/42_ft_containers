@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/03 18:44:50 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/08/19 18:29:23 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,10 +185,7 @@ namespace ft
 
 			void					swap(map& x)
 			{
-				map tmp = *this;
-				
-				*this = x;
-				x = tmp;
+				this->_tree.swap(x._tree);
 			}
 
 			void					clear()
