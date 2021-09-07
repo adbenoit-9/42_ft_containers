@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 12:23:11 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/07 17:26:23 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ namespace ft
 {
     template < class Key, class T, class Compare = std::less<Key>,
 		   class Alloc = std::allocator< pair<const Key,T> >  >
-    struct Node
+    struct Tree
     {
 		typedef Key 												key_type;
 		typedef T 										    		mapped_type;
@@ -36,69 +36,79 @@ namespace ft
 		typedef	ptrdiff_t											difference_type;
 		typedef	size_t												size_type;
 
+		struct Node
+		{
+			value_type				value;
+			Node					*left;
+			Node					*right;
+			Node					*parent;
+		};
+		
 		key_compare				key_comp;
 		allocator_type  		alloc;
 		size_type 				size;
+		std::allocator<Node> allocNode;
+		Node*					root;
 
-		value_type		value;
-		struct Node		*left;
-		struct Node		*right;
-		struct Node		*parent;
+
+		class value_compare
+		{
+				friend struct Node;
+			protected:
+				Compare comp;
+				value_compare (key_compare c) : comp(c) {}
+			public:
+				typedef bool		result_type;
+				typedef value_type	first_argument_type;
+				typedef value_type	second_argument_type;
+				bool operator() (const value_type& x, const value_type& y) const { return comp(x.first, y.first); }
+		};
 		
-		Node(const key_compare& comp = key_compare(),const allocator_type& al = allocator_type(), value_type val = nullptr) :
+		Tree(const key_compare& comp = key_compare(),const allocator_type& al = allocator_type()) :
 			key_comp(comp), alloc(al), size(0)
 		{
-			this->_value = val;
-			this->parent = nullptr;
-			this->right = nullptr;
-			this->left = nullptr;
+			this->root = nullptr;
 		}
 		
-		Node(const key_compare& comp = key_compare(),const allocator_type& al = allocator_type()) :
-			key_comp(comp), alloc(al), allocNode(allocator_type()), size(0)
-		{
-			this->_value = nullptr;
-			this->_left = nullptr;
-			this->_right = nullptr;
-			this->_left = nullptr;
-		}
-		
-		Node(const Node& x, typename ft::enable_if<is_node<Node> >::type * = 0)
+		Tree(const Tree& x)
 		{
 			*this = x;
 		}
 		
-		~Node()
+		~Tree()
 		{
-			this->destroy(getParent(this));
+			this->destroy(this->getParent());
 		}
 
 
-		Node& operator=(const Node& x)
+		Tree& operator=(const Tree& x)
 		{		
 			if(this == &x)
 				return *this;
 			this->parent = x.parent;
 			this->left = x.left;
 			this->right = x.right;
-			this->value = x.value;
+			this->root->value = x.value;
 			this->size = x.size;
 			this->key_comp = x.key_comp;
 			this->alloc = x.alloc;
-			this->allocNode = x.allocNode;
 			return *this;
 		}
 
 		//					~ Iterators ~
 
-		Node*					getParent(Node* node)
+		Node*					getParent(Node *node = nullptr)
 		{
-			while (node && node->parent)
-				node = node->parent;
-			return node;
-		}
+			Node *tmp;
 
-		size_type				size() const { return this->size; }
+			if (!node)
+				tmp = this->root;
+			else
+				tmp = node;
+			while (tmp && tmp->parent)
+				tmp = tmp->parent;
+			return tmp;
+		}
 
 		size_type				maxsize() const { return this->alloc.maxsize(); }
 
@@ -108,7 +118,7 @@ namespace ft
 		{
 			Node *tmp;
 
-			tmp = this->_root;
+			tmp = this;
 			while (tmp)
 			{
 				if (k == tmp->value.first)
@@ -120,22 +130,51 @@ namespace ft
 			}
 		}
 		
+		Node*				constructNode(value_type val)
+		{
+			Node* node;
+			
+			node = this->allocNode.allocate(sizeof(Node));
+			this->alloc.construct(&node->value, val);
+			
+			node->parent = nullptr;
+			node->left = nullptr;
+			node->right = nullptr;
+
+			return node;
+		}
+		
 		bool					insert(Node* node)
 		{
 			Node *tmp;
 
-			tmp = this->_root;
+			tmp = this->getParent();
+			int side = -1;
 			while (tmp)
 			{
 				node->parent = tmp;
 				if (this->key_comp(node->value.first, tmp->value.first))
+				{
+					side = 0;
 					tmp = tmp->left;
+				}
 				else if (this->key_comp(tmp->value.first, node->value.first))
+				{
 					tmp = tmp->right;
+					side = 1;
+				}
 				else
 					return 1;
-			}				
-			tmp = node;
+			}
+			if (side == 0)
+				node->parent->left = node;
+			else if (side == 1)
+				node->parent->right = node;
+			else
+				this->root = node;
+			++this->size;
+			
+			this->root = balance_tree(this->root);
 			return 0;
 		}
 		
@@ -147,35 +186,35 @@ namespace ft
 				destroy(node->right);
 				this->alloc.destroy(&node->value);
 				this->allocNode.destroy(node);
-				this->allocNode.deallocate(node, 1);
+				this->allocNode.deallocate(node, sizeof(Node));
 			}
 		}
 		
-		void					swap(Tree& x)
+		void					swap(Node& x)
 		{
-			key_compare				tkey_comp = this->key_comp;
-			allocator_type  		talloc = this->alloc;
-			std::allocator< Node >  tallocNode = this->alloc;
-			size_type 				tsize = this->size;
-			Node*					tparent = this->parent;
-			Node*					tleft = this->left;
-			Node*					tright = this->right;
+			// key_compare				tkey_comp = this->key_comp;
+			// allocator_type  		talloc = this->alloc;
+			// // std::allocator< Node >  tallocNode = this->alloc;
+			// size_type 				tsize = this->size;
+			// Node*					tparent = this->parent;
+			// Node*					tleft = this->left;
+			// Node*					tright = this->right;
 
 			this->key_comp = x.key_comp;
-			this->alloc = x.alloc;
-			this->allocNode = x.alloc;
-			this->size = x.size;
-			this->parent = x.parent;
-			this->left = x.left;
-			this->right = x.right;
+			// this->alloc = x.alloc;
+			// // this->allocNode = x.alloc;
+			// this->size = x.size;
+			// this->parent = x.parent;
+			// this->left = x.left;
+			// this->right = x.right;
 
-			x.key_comp = tkey_comp;
-			x.alloc = talloc;
-			x.allocNode = talloc;
-			x.size = tsize;
-			x.parent = tparent;
-			x.left = tleft;
-			x.right = tright;
+			// x.key_comp = tkey_comp;
+			// x.alloc = talloc;
+			// // x.allocNode = talloc;
+			// x.size = tsize;
+			// x.parent = tparent;
+			// x.left = tleft;
+			// x.right = tright;
 		}
 
 		void					clear()
@@ -246,8 +285,6 @@ namespace ft
 			return rotate_rightLeft(node, node->right);
 		}
 
-		
-		key_compare				key_comp() const { return this->_comp; }
 		value_compare			value_comp() const { return value_compare(this->_comp); }
 
 

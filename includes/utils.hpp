@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 12:25:10 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/07 14:03:18 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ namespace ft
 	**		IS_INTEGRAL
 	*/
 
-	template <class T>
-	struct is_node { static const bool value = false; };
-	template <>
-	struct is_node<bool> { static const bool value = true; };
+	// template <class T>
+	// struct is_node { static const bool value = false; };
+	// template <>
+	// struct is_node<Node> { static const bool value = true; };
 
 	/*
 	**		IS_INTEGRAL

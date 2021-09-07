@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 12:26:56 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/07 17:24:42 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void    mapTests(void)
 {
 	title("Map");
 	
-	ft::Node<std::string,int> *tree;
+	ft::Tree<std::string,int> tree;
 	std::map<std::string,int> stdMap;
 	
 	std::cout	<< "-------------------------------------------------------------------------" << std::endl
@@ -185,10 +185,30 @@ void    mapTests(void)
 				<< "-------------------------------------------------------------------------" << std::endl;
 
 	// ft_iterators(stdMap, tree);
-	ft::pair<std::string, int>	val = ft::make_pair<std::string, int>("test", 1);
-	ft::Node<std::string,int> *node = new ft::Node<std::string,int>(val);
+	ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>("test", 1);
+	tree.insert(tree.constructNode(val));
+	std::cout << "size = " << tree.size << std::endl;
+	std::cout << tree.root->value.first << " | " << tree.root->value.second << std::endl;
 	
-	tree->insert(node);
+	ft::pair<const std::string, int>	val1 = ft::make_pair<const std::string, int>("test1", 2);
+	tree.insert(tree.constructNode(val1));
+	std::cout << "size = " << tree.size << std::endl;
+	std::cout << tree.root->right->value.first << " | " << tree.root->right->value.second << std::endl;
+	
+	ft::pair<const std::string, int>	val2 = ft::make_pair<const std::string, int>("test2", 3);
+	tree.insert(tree.constructNode(val2));
+	std::cout << "size = " << tree.size << std::endl;
+	std::cout << tree.root->right->right->value.first << " | " << tree.root->right->right->value.second << std::endl;
+	
+	ft::pair<const std::string, int>	val3 = ft::make_pair<const std::string, int>("tes", 8);
+	tree.insert(tree.constructNode(val3));
+	std::cout << "size = " << tree.size << std::endl;
+	std::cout << tree.root->left->value.first << " | " << tree.root->left->value.second << std::endl;
+
+	ft::pair<const std::string, int>	val4 = ft::make_pair<const std::string, int>("test3", 4);
+	tree.insert(tree.constructNode(val4));
+	std::cout << "size = " << tree.size << std::endl;
+	std::cout << tree.root->right->right->right->value.first << " | " << tree.root->right->right->right->value.second << std::endl;
 	// ft_capacity(stdVector, myVector);
 	// ft_modifiers(stdVector, myVector);
 	

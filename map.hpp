@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 11:47:38 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/07 14:03:56 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,18 +116,6 @@ namespace ft
 			// typedef	reverse_iterator<const_iterator>					const_reverse_iterator;
 			// typedef	reverse_iterator<iterator>							reverse_iterator;	
 			
-			class value_compare
-			{
-				friend class map;
-			protected:
-				Compare comp;
-				value_compare (key_compare c) : comp(c) {}
-			public:
-				typedef bool		result_type;
-				typedef value_type	first_argument_type;
-				typedef value_type	second_argument_type;
-				bool operator() (const value_type& x, const value_type& y) const { return comp(x.first, y.first); }
-			};
 			explicit map(const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type()) :
 				_tree(comp, alloc) {}
 
