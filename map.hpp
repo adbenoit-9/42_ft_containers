@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/19 18:29:23 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/07 11:47:38 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,31 @@ namespace ft
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	ptrdiff_t									difference_type;
 			typedef	size_t										size_type;
-			typedef Tree<key_type, mapped_type, key_compare,
+			typedef Node<key_type, mapped_type, key_compare,
 					allocator_type>								tree;
 			typedef	typename Tree::const_iterator				const_iterator;
 			typedef	typename Tree::iterator						iterator;
 			typedef	reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef	reverse_iterator<iterator>					reverse_iterator;	
 			
+			// typedef	map_iterator<bidirectional_iterator_tag, value_type,
+			// ptrdiff_t, const value_type*, const value_type&>				const_iterator;
+			// typedef	map_iterator<bidirectional_iterator_tag, value_type>	iterator;
+			// typedef	reverse_iterator<const_iterator>					const_reverse_iterator;
+			// typedef	reverse_iterator<iterator>							reverse_iterator;	
+			
+			class value_compare
+			{
+				friend class map;
+			protected:
+				Compare comp;
+				value_compare (key_compare c) : comp(c) {}
+			public:
+				typedef bool		result_type;
+				typedef value_type	first_argument_type;
+				typedef value_type	second_argument_type;
+				bool operator() (const value_type& x, const value_type& y) const { return comp(x.first, y.first); }
+			};
 			explicit map(const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type()) :
 				_tree(comp, alloc) {}
 
@@ -277,7 +295,7 @@ namespace ft
 
 		private:
 			tree	_tree;
-			std::allocator<Tree> _alloc;
+			std::allocator<tree> _alloc;
 	};
 }
 

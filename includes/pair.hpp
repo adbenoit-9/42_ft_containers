@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:33:21 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/19 18:30:28 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/07 12:15:08 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ namespace ft
     };
 
     template <class T1,class T2>
-    ft::pair<T1,T2> make_pair (T1 x, T2 y)
+    ft::pair<T1,T2> make_pair (const T1& x, const T2& y)
     {
-        return ( ft::pair<T1,T2>(x,y) );
+        return ft::pair<T1,T2>(x,y);
     }
 }
 
