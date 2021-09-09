@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/09 17:57:31 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/10 00:25:40 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,39 +292,76 @@ namespace ft
 
 		value_compare			value_comp() const { return value_compare(this->_comp); }
 		
-		std::vector<std::pair<key_type, std::string> >	getTreeDrawing(Node* node, std::vector<std::pair<key_type, std::string> > drawing, int l, int y = 0, int level = 0, int side = 0) const
+		std::vector<std::pair<key_type, int> >	getTreeDrawing(Node* node, std::vector<std::pair<key_type, int> > drawing, int l, int y = 0, int level = 0, int side = 0) const
 		{
 			if (node)
 			{
 				++level;
 				y += (side * (l / pow(2, level)));
+				if (side == 1)
+					++y;
 				drawing = getTreeDrawing(node->right, drawing, l, y, level, 1);
 				drawing = getTreeDrawing(node->left, drawing, l, y, level, -1);;
 				drawing[(level - 1) * l + y].first = node->value.first;
-				std::cout << drawing.size() << "\t--> " << "drawing[" << (level - 1) * l + y << "] = " <<  drawing[(level - 1) * l + y].first << std::endl;
-				// std::cout << "height = " << height(node) << "\tlevel : " << level << "\tkey -> " << node->value.first << std::endl;
+				drawing[(level - 1) * l + y].second = -1;
+				if (node->parent && node->value.first > node->parent->value.first)
+					drawing[(level - 1) * l + y].second = 1;
 			}
 			
 			return drawing;
 		}
-
+		
 		void				drawTree() const
 		{
 			int 		treeHeight = height(this->root);
 			int			l = pow(2, treeHeight - 1) * 2 - 1;
-			std::vector<std::pair<key_type, std::string> >	drawing(treeHeight * l);
+			std::vector<std::pair<key_type, int> >	drawing(treeHeight * l);
 			// std::vector<int>		count(treeHeight, 0);
 			
-			std::cout << "\033[1mTree height = " << treeHeight << "\nlenght = " << l << "\033[0m" << std::endl;
+			std::cout << "\n\033[1mTree height : " << treeHeight << "\033[0m\n" << std::endl;
 			
 			drawing = this->getTreeDrawing(this->root, drawing, l, l / 2);
 			for (size_t i = 0; i < drawing.size(); i++)
 			{
-				std::cout << drawing[i].first;
+				if (i % l == 0 && i != 0)
+				{
+					std::cout << std::endl;
+					std::string link;
+					int draw = 0;
+					for (int j = 0; j < l; j++)
+					{
+						if (!drawing[i - l + j].first.empty())
+						{
+							link += '^';
+							int n = l / (pow(2, i / l + 1)) + 1;
+							if (drawing[i + j + n].second == 1)
+								draw = 1;
+							else
+								draw = 0;
+						}
+						else if (drawing[i + j].first.empty())
+						{
+							if (draw == 1)
+								link += '-';
+							else
+								link += ' ';
+						}
+						else
+						{
+							link += '|';
+							if (drawing[i + j].second == -1)
+								draw = 1;
+							else
+								draw = 0;							
+						}
+					}
+
+					std::cout << link << std::endl;
+				}
 				if (drawing[i].first.empty())
 					std::cout << " ";
-				if (i % (l - 1) == 0)
-					std::cout << std::endl;
+				else
+					std::cout << drawing[i].first;
 			}
 			std::cout << std::endl;
 		}
