@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/09 12:16:05 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/09 17:57:31 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 // # include <functional>
 # include "pair.hpp"
 # include "utils.hpp"
+#include <math.h> 
+#include <vector> 
 
 namespace ft
 {
@@ -263,16 +265,15 @@ namespace ft
 			return n3;
 		}
 
-		int		height(Node* node)
+		int		height(Node* node, int h = 0) const
 		{
-			int	h = 0;
-
 			if (node)
 			{
-				height(node->right);
-				height(node->left);
-				std::cout << "+1\n";
 				h++;
+				int tmp = h;
+				h = height(node->right, h);
+				tmp = height(node->left, tmp); 
+				h = h > tmp ? h : tmp;
 			}
 			
 			return h;
@@ -291,32 +292,53 @@ namespace ft
 
 		value_compare			value_comp() const { return value_compare(this->_comp); }
 		
-		void					displayNode(Node* node, int level = 0)
+		std::vector<std::pair<key_type, std::string> >	getTreeDrawing(Node* node, std::vector<std::pair<key_type, std::string> > drawing, int l, int y = 0, int level = 0, int side = 0) const
 		{
 			if (node)
 			{
 				++level;
-				displayNode(node->right, level);
-				displayNode(node->left, level);
-				std::cout << "height = " << height(node) << "\tlevel : " << level << "\tkey -> " << node->value.first << std::endl;
+				y += (side * (l / pow(2, level)));
+				drawing = getTreeDrawing(node->right, drawing, l, y, level, 1);
+				drawing = getTreeDrawing(node->left, drawing, l, y, level, -1);;
+				drawing[(level - 1) * l + y].first = node->value.first;
+				std::cout << drawing.size() << "\t--> " << "drawing[" << (level - 1) * l + y << "] = " <<  drawing[(level - 1) * l + y].first << std::endl;
+				// std::cout << "height = " << height(node) << "\tlevel : " << level << "\tkey -> " << node->value.first << std::endl;
 			}
+			
+			return drawing;
 		}
 
+		void				drawTree() const
+		{
+			int 		treeHeight = height(this->root);
+			int			l = pow(2, treeHeight - 1) * 2 - 1;
+			std::vector<std::pair<key_type, std::string> >	drawing(treeHeight * l);
+			// std::vector<int>		count(treeHeight, 0);
+			
+			std::cout << "\033[1mTree height = " << treeHeight << "\nlenght = " << l << "\033[0m" << std::endl;
+			
+			drawing = this->getTreeDrawing(this->root, drawing, l, l / 2);
+			for (size_t i = 0; i < drawing.size(); i++)
+			{
+				std::cout << drawing[i].first;
+				if (drawing[i].first.empty())
+					std::cout << " ";
+				if (i % (l - 1) == 0)
+					std::cout << std::endl;
+			}
+			std::cout << std::endl;
+		}
+		
     };
 	
-    // template < class Key, class T >	
-	// std::ostream&	operator<<(std::ostream& os, const Tree<Key, T>& tree)
-	// {
-	// 	os = tree.displayNode(os, tree.root);
-	// 		// for (int i = 0; i < level; i++)
-	// 		// 	os << "\t";
-	// 		// os << " |" << std::endl;
-	// 		// for (int i = 0; i < level; i++)
-	// 		// 	os << "\t";
-	// 		// os << "test1\n";
+    template < class Key, class T >	
+	std::ostream&	operator<<(std::ostream& os, const Tree<Key, T>& tree)
+	{
 		
-	// 	return os;		
-	// }
+		// tree.displayNode(tree.root);
+		tree.drawTree();
+		return os;
+	}
 }
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/09 11:56:21 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/09 16:53:08 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,23 +185,22 @@ void    mapTests(void)
 				<< "-------------------------------------------------------------------------" << std::endl;
 
 	// ft_iterators(stdMap, tree);
-	ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>("test", 1);
+	ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>("top!!", 5);
 	tree.insert(tree.constructNode(val));
 	
-	ft::pair<const std::string, int>	val1 = ft::make_pair<const std::string, int>("test1", 2);
+	ft::pair<const std::string, int>	val1 = ft::make_pair<const std::string, int>("left", 4);
 	tree.insert(tree.constructNode(val1));
 	
-	ft::pair<const std::string, int>	val2 = ft::make_pair<const std::string, int>("test2", 3);
+	ft::pair<const std::string, int>	val2 = ft::make_pair<const std::string, int>("zright", 3);
 	tree.insert(tree.constructNode(val2));
 	
-	ft::pair<const std::string, int>	val3 = ft::make_pair<const std::string, int>("tes", 8);
+	ft::pair<const std::string, int>	val3 = ft::make_pair<const std::string, int>("d", 8);
 	tree.insert(tree.constructNode(val3));
 
-	ft::pair<const std::string, int>	val4 = ft::make_pair<const std::string, int>("test3", 4);
+	ft::pair<const std::string, int>	val4 = ft::make_pair<const std::string, int>("c", 4);
 	tree.insert(tree.constructNode(val4));
 
-	tree.displayNode(tree.root);	
-	// std::cout << tree;
+	std::cout << tree;
 	// ft_capacity(stdVector, myVector);
 	// ft_modifiers(stdVector, myVector);
 	
