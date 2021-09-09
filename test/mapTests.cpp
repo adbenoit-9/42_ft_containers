@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 17:24:42 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/09 11:56:21 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,28 +187,21 @@ void    mapTests(void)
 	// ft_iterators(stdMap, tree);
 	ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>("test", 1);
 	tree.insert(tree.constructNode(val));
-	std::cout << "size = " << tree.size << std::endl;
-	std::cout << tree.root->value.first << " | " << tree.root->value.second << std::endl;
 	
 	ft::pair<const std::string, int>	val1 = ft::make_pair<const std::string, int>("test1", 2);
 	tree.insert(tree.constructNode(val1));
-	std::cout << "size = " << tree.size << std::endl;
-	std::cout << tree.root->right->value.first << " | " << tree.root->right->value.second << std::endl;
 	
 	ft::pair<const std::string, int>	val2 = ft::make_pair<const std::string, int>("test2", 3);
 	tree.insert(tree.constructNode(val2));
-	std::cout << "size = " << tree.size << std::endl;
-	std::cout << tree.root->right->right->value.first << " | " << tree.root->right->right->value.second << std::endl;
 	
 	ft::pair<const std::string, int>	val3 = ft::make_pair<const std::string, int>("tes", 8);
 	tree.insert(tree.constructNode(val3));
-	std::cout << "size = " << tree.size << std::endl;
-	std::cout << tree.root->left->value.first << " | " << tree.root->left->value.second << std::endl;
 
 	ft::pair<const std::string, int>	val4 = ft::make_pair<const std::string, int>("test3", 4);
 	tree.insert(tree.constructNode(val4));
-	std::cout << "size = " << tree.size << std::endl;
-	std::cout << tree.root->right->right->right->value.first << " | " << tree.root->right->right->right->value.second << std::endl;
+
+	tree.displayNode(tree.root);	
+	// std::cout << tree;
 	// ft_capacity(stdVector, myVector);
 	// ft_modifiers(stdVector, myVector);
 	

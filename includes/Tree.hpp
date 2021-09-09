@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 17:26:23 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/09 12:16:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,9 @@ namespace ft
 				this->root = node;
 			++this->size;
 			
-			this->root = balance_tree(this->root);
+			// Node* balance = balance_tree(this->root);
+			// if (balance)
+			// 	this->root = balance;
 			return 0;
 		}
 		
@@ -269,8 +271,10 @@ namespace ft
 			{
 				height(node->right);
 				height(node->left);
-				++h;
+				std::cout << "+1\n";
+				h++;
 			}
+			
 			return h;
 		}
 		
@@ -286,9 +290,33 @@ namespace ft
 		}
 
 		value_compare			value_comp() const { return value_compare(this->_comp); }
-
+		
+		void					displayNode(Node* node, int level = 0)
+		{
+			if (node)
+			{
+				++level;
+				displayNode(node->right, level);
+				displayNode(node->left, level);
+				std::cout << "height = " << height(node) << "\tlevel : " << level << "\tkey -> " << node->value.first << std::endl;
+			}
+		}
 
     };
+	
+    // template < class Key, class T >	
+	// std::ostream&	operator<<(std::ostream& os, const Tree<Key, T>& tree)
+	// {
+	// 	os = tree.displayNode(os, tree.root);
+	// 		// for (int i = 0; i < level; i++)
+	// 		// 	os << "\t";
+	// 		// os << " |" << std::endl;
+	// 		// for (int i = 0; i < level; i++)
+	// 		// 	os << "\t";
+	// 		// os << "test1\n";
+		
+	// 	return os;		
+	// }
 }
 
 #endif
