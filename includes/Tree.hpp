@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/10 00:25:40 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/13 18:53:25 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,54 +132,65 @@ namespace ft
 			}
 		}
 		
-		Node*				constructNode(value_type val)
+		Node*				newNode(value_type val, Node* parent)
 		{
 			Node* node;
 			
 			node = this->allocNode.allocate(sizeof(Node));
 			this->alloc.construct(&node->value, val);
 			
-			node->parent = nullptr;
+			node->parent = parent;
 			node->left = nullptr;
 			node->right = nullptr;
 
 			return node;
 		}
 		
-		bool					insert(Node* node)
+		Node*					insert(Node* node, Node* parent, value_type val)
 		{
-			Node *tmp;
+			// Node *tmp;
 
-			tmp = this->getParent();
-			int side = -1;
-			while (tmp)
-			{
-				node->parent = tmp;
-				if (this->key_comp(node->value.first, tmp->value.first))
-				{
-					side = 0;
-					tmp = tmp->left;
-				}
-				else if (this->key_comp(tmp->value.first, node->value.first))
-				{
-					tmp = tmp->right;
-					side = 1;
-				}
-				else
-					return 1;
-			}
-			if (side == 0)
-				node->parent->left = node;
-			else if (side == 1)
-				node->parent->right = node;
-			else
-				this->root = node;
+			// tmp = this->getParent();
+			// int side = -1;
+			// while (tmp)
+			// {
+			// 	node->parent = tmp;
+			// 	if (this->key_comp(node->value.first, tmp->value.first))
+			// 	{
+			// 		side = 0;
+			// 		tmp = tmp->left;
+			// 	}
+			// 	else if (this->key_comp(tmp->value.first, node->value.first))
+			// 	{
+			// 		tmp = tmp->right;
+			// 		side = 1;
+			// 	}
+			// 	else
+			// 		return 1;
+			// }
+			// if (side == 0)
+			// 	node->parent->left = node;
+			// else if (side == 1)
+			// 	node->parent->right = node;
+			// else
+			// 	this->root = node;
+			if (!node)
+				return newNode(val, parent);
+
+			if (this->key_comp(val.first, node->value.first))
+				node->left = insert(node->left, node, val);
+			else if (this->key_comp(node->value.first, val.first))
+				node->right = insert(node->right, node, val);
+			else // Equal keys are not allowed in BST
+				return node;
 			++this->size;
+				
+			std::cout << node->value.first << "\n";
+			this->balance_tree(node);
+			// std::cout << *this;
+
 			
-			// Node* balance = balance_tree(this->root);
-			// if (balance)
-			// 	this->root = balance;
-			return 0;
+			return node;
 		}
 		
 		void				destroy(Node *node)
@@ -228,43 +239,45 @@ namespace ft
 			this->destroy(this);
 			this->size = 0;
 		}
-		
-		Node*	rotate_left(Node* n1, Node* n2)
+
+		Node*	rotate_right(Node* n1, Node* n2)
 		{
-			Node* tmp = n2->left;
-			if (tmp)
-				tmp->parent = n1;
-			
-			n2->parent = n1->parent;
-			n2->left = n1;
-			
+			n2->parent = n1->parent;   
 			n1->parent = n2;
-			n1->right = tmp;
-			
+			n1->left = nullptr;
+			n2->right = n1;  
+
+			if (n2->parent)
+			{
+				if (n2->parent->value.first < n2->value.first)
+					n2->parent->right = n2;
+				else
+					n2->parent->left = n2;
+			}
+			else
+				this->root = n2;
 			return n2;
 		}
 		
-		Node*	rotate_rightLeft(Node* n1, Node* n2)
+		Node*	rotate_left(Node* n1, Node* n2)
 		{
-			Node* n3 = n2->left;
-			n3->parent = n1->parent;
-			
-			n2->parent = n3;
-			n2->left = n3->right;
-			if (n2->left)
-				n2->left->parent = n2;
-			
-			n1->parent = n3;
-			n1->right = n3->left;
-			if (n1->right)
-				n1->right->parent = n1;
+			n2->parent = n1->parent;   
+			n1->parent = n2;
+			n1->right = nullptr;
+			n2->left = n1;  
 
-			n3->left = n1;
-			n3->right = n2;
-			
-			return n3;
+			if (n2->parent)
+			{
+				if (n2->parent->value.first < n2->value.first)
+					n2->parent->right = n2;
+				else
+					n2->parent->left = n2;
+			}
+			else
+				this->root = n2;
+			return n2;
 		}
-
+		
 		int		height(Node* node, int h = 0) const
 		{
 			if (node)
@@ -279,15 +292,40 @@ namespace ft
 			return h;
 		}
 		
-		Node*	balance_tree(Node *node)
+		Node*	balance_tree(Node* node)
 		{
 			// calcul balance factor
-			int bf = height(node->right) - height(node->left);
+			// if (height(node) <= 2)
+			// 	return this->root;
+			int bf = (node) ? height(node->right) - height(node->left) : 0;
+			std::cout << "balance factor : " << bf << std::endl;
 			if (bf >= -1 && bf <= 1)
-				return nullptr;
-			else if (bf > 1)
-				return rotate_left(node, node->right);
-			return rotate_rightLeft(node, node->right);
+				return node;
+			else
+			{
+				Node* n3 = node;
+				std::cout << "n3 = " << n3->value.first << std::endl;
+				Node* n2 = node->parent;
+				std::cout << "n2 = " << n2->value.first << std::endl;
+				Node* n1 = n2->parent;
+				std::cout << "n1 = " << n1->value.first << std::endl;
+				
+				if (n1->right && n2->right)
+					rotate_left(n1, n2);
+				else if (n1->right && n2->left)
+				{
+					rotate_left(n1, n2);
+					rotate_right(n2, n3);
+				}
+				else if (n1->left && n2->left)
+					rotate_right(n1, n2);
+				else if (n1->left && n2->right)
+				{
+					rotate_right(n1, n2);
+					rotate_left(n2, n3);
+				}
+			}
+			return node;
 		}
 
 		value_compare			value_comp() const { return value_compare(this->_comp); }
@@ -318,7 +356,6 @@ namespace ft
 			std::vector<std::pair<key_type, int> >	drawing(treeHeight * l);
 			// std::vector<int>		count(treeHeight, 0);
 			
-			std::cout << "\n\033[1mTree height : " << treeHeight << "\033[0m\n" << std::endl;
 			
 			drawing = this->getTreeDrawing(this->root, drawing, l, l / 2);
 			for (size_t i = 0; i < drawing.size(); i++)
@@ -372,7 +409,7 @@ namespace ft
 	std::ostream&	operator<<(std::ostream& os, const Tree<Key, T>& tree)
 	{
 		
-		// tree.displayNode(tree.root);
+		std::cout << "\n\033[1mTree height : " << tree.height(tree.root) << "\033[0m\n" << std::endl;
 		tree.drawTree();
 		return os;
 	}

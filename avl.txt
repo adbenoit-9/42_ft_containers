@@ -1,0 +1,47 @@
+          *******************
+          ** Possibilities **
+          *******************
+
+________________________________________
+|              n2   |                  |
+| combn  =>  n1  n3 |      moves       |
+|___________________|__________________|
+|       comb1       |                  |
+|                   |                  |
+|  n1               | rotate left      |
+|   n2              |                  |
+|    n3             |                  |
+|___________________|__________________|
+|       comb2       |                  |
+|                   |                  |
+|    n3             | rotate right     |
+|   n2              |                  |
+|  n1               |                  |
+|___________________|__________________|
+|       comb2       |                  |
+|                   |                  |
+|  n1               | rotate left      |
+|   n3              | rotate right     |
+|  n2               |                  |
+|___________________|__________________|
+|       comb3       |                  |
+|                   |                  |
+|   n3              | rotate right     |
+|  n1               | rotate left      |
+|   n2              |                  |
+|___________________|__________________|
+
+
+rotate left:
+############
+n2->parent = n1->parent;   
+n1->parent = n2;         
+n1->right = nullptr;            
+n2->left = n1;            
+
+rotate right:
+#############
+n2->parent = n3->parent;   
+n3->parent = n2;         
+n3->left = nullptr;            
+n2->right = n3;            

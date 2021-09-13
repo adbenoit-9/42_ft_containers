@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/10 00:24:21 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/13 18:40:31 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,39 +185,14 @@ void    mapTests(void)
 				<< "-------------------------------------------------------------------------" << std::endl;
 
 	// ft_iterators(stdMap, tree);
-	ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>("5", 5);
-	tree.insert(tree.constructNode(val));
+	for (char i = 48; i < 55; i++)
+	{
+		std::string str(1, i);
+		ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>(str, 5);
+		tree.root = tree.insert(tree.root, nullptr, val);
+	}
 	
-	ft::pair<const std::string, int>	val1 = ft::make_pair<const std::string, int>("2", 4);
-	tree.insert(tree.constructNode(val1));
-	
-	ft::pair<const std::string, int>	val2 = ft::make_pair<const std::string, int>("6", 3);
-	tree.insert(tree.constructNode(val2));
-	
-	ft::pair<const std::string, int>	val3 = ft::make_pair<const std::string, int>("4", 8);
-	tree.insert(tree.constructNode(val3));
-
-	ft::pair<const std::string, int>	val4 = ft::make_pair<const std::string, int>("3", 4);
-	tree.insert(tree.constructNode(val4));
-
-	ft::pair<const std::string, int>	val5 = ft::make_pair<const std::string, int>("7", 4);
-	tree.insert(tree.constructNode(val5));
-	
-	ft::pair<const std::string, int>	val6 = ft::make_pair<const std::string, int>("1", 4);
-	tree.insert(tree.constructNode(val6));
-	
-	ft::pair<const std::string, int>	val7 = ft::make_pair<const std::string, int>("9", 4);
-	tree.insert(tree.constructNode(val7));
-	
-	ft::pair<const std::string, int>	val9 = ft::make_pair<const std::string, int>("8", 4);
-	tree.insert(tree.constructNode(val9));
-	ft::pair<const std::string, int>	val10 = ft::make_pair<const std::string, int>("z", 4);
-	tree.insert(tree.constructNode(val10));
-	ft::pair<const std::string, int>	val11 = ft::make_pair<const std::string, int>("f", 4);
-	tree.insert(tree.constructNode(val11));
-	ft::pair<const std::string, int>	val12 = ft::make_pair<const std::string, int>("w", 4);
-	tree.insert(tree.constructNode(val12));
-
+	// std::cout << tree.root->value.first << std::endl;
 	std::cout << tree;
 	// ft_capacity(stdVector, myVector);
 	// ft_modifiers(stdVector, myVector);

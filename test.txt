@@ -1,0 +1,3 @@
+[33;1mcontainers[0;1m: objects deleted[0m
+[33;1mcontainers[0;1m: containers deleted[0m
+[34;1m|[0;m[34;1m|[0;m[34;1m|[0;m[34;1m|[0;m
