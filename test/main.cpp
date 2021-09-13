@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 16:11:18 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/13 20:55:54 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int main(void)
 	<< "██         ██ ███████  ██████  ██████  ██   ████    ██    ██   ██ ██ ██   ████ ███████ ██   ██ ███████" << std::endl
 	<< "\033[0m" << std::endl << std::endl;
 	
+	srand(time(NULL));
 	// std::cout << "(Press enter to continue ...) ";
 	// std::string input;
 	// std::getline(std::cin, input);

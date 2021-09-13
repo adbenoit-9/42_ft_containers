@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/13 19:49:41 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/13 20:59:48 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,9 @@ void    mapTests(void)
 				<< "-------------------------------------------------------------------------" << std::endl;
 
 	// ft_iterators(stdMap, tree);
-	for (char i = 68; i > 48; i--)
+	for (int i = 0; i < 100; i++)
 	{
-		std::string str(1, i);
+		std::string str(1, rand() % 30 + 48);
 		ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>(str, 5);
 		tree.root = tree.insert(tree.root, nullptr, val);
 	}

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/13 19:46:50 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/13 20:59:18 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,21 @@ namespace ft
 			this->size = 0;
 		}
 
+		Node*	leftRotate(Node* x)
+		{
+			Node *top = x->right;
+			Node *tmp = top->left;
+			
+			top->parent = x->parent;
+			x->parent = top;
+			if (tmp)
+				tmp->parent = x;
+			x->right = tmp;
+			top->left = x;
+
+			return top;
+		}
+
 		Node*	rightRotate(Node* y)
 		{
 			Node* top = y->left;
@@ -218,39 +233,14 @@ namespace ft
 			
 			top->parent = y->parent;   
 			y->parent = top;
-			top->right = y;  
+			if (tmp)
+				tmp->parent = y;
 			y->left = tmp;
+			top->right = y;  
 
-			if (top->parent)
-			{
-				if (top->parent->value.first < top->value.first)
-					top->parent->right = top;
-				else
-					top->parent->left = top;
-			}
 			return top;
 		}
 		
-		Node*	leftRotate(Node* x)
-		{
-			Node *top = x->right;
-			Node *tmp = top->left;
-
-			top->parent = x->parent;   
-			x->parent = top;
-			top->left = x;
-			x->right = tmp;
-
-			if (top->parent)
-			{
-				if (top->parent->value.first < top->value.first)
-					top->parent->right = top;
-				else
-					top->parent->left = top;
-			}
-			return top;
-		}
-
 		
 		int		height(Node* node, int h = 0) const
 		{
@@ -360,14 +350,14 @@ namespace ft
 						}
 					}
 
-					std::cout << link << std::endl;
+					std::cout << "\033[32m" << link << "\033[0m" << std::endl;
 				}
 				if (drawing[i].first.empty())
 					std::cout << " ";
 				else
-					std::cout << drawing[i].first;
+					std::cout << "\033[35m" <<  drawing[i].first << "\033[0m";
 			}
-			std::cout << std::endl;
+			std::cout << std::endl << std::endl;
 		}
 		
     };
@@ -375,9 +365,13 @@ namespace ft
     template < class Key, class T >	
 	std::ostream&	operator<<(std::ostream& os, const Tree<Key, T>& tree)
 	{
-		
-		std::cout << "\n\033[1mTree height : " << tree.height(tree.root) << "\033[0m\n" << std::endl;
+		std::cout << "\n\033[1;32m"
+		<< "\t┌┬┐┬─┐┌─┐┌─┐" << std::endl
+ 		<< "\t │ ├┬┘├┤ ├┤ " << std::endl 
+ 		<< "\t ┴ ┴└─└─┘└─┘" << std::endl
+ 		<< "\t~~~~~~~~~~~~~" << "\033[0m" << std::endl << std::endl;
 		tree.drawTree();
+		std::cout << "\033[2mheight : " << tree.height(tree.root) << "\033[0m\n" << std::endl;
 		return os;
 	}
 }

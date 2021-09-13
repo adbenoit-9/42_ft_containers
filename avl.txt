@@ -45,8 +45,8 @@ rotate left:
 ############
 top->parent = x->parent;   
 x->parent = top;         
-x->right = top->right;            
 top->left = x;            
+x->right = top->right;            
 
 rotate right:
 #############

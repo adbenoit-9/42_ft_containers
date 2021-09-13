@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:51:32 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/12 18:05:06 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/13 20:56:08 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <map>
 # include <iostream>
 # include <iomanip>
+# include <time.h> 
 
 void    stackTests(void);
 void    vectorTests(void);
