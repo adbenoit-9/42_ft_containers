@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/13 18:53:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/13 19:46:50 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,32 +148,6 @@ namespace ft
 		
 		Node*					insert(Node* node, Node* parent, value_type val)
 		{
-			// Node *tmp;
-
-			// tmp = this->getParent();
-			// int side = -1;
-			// while (tmp)
-			// {
-			// 	node->parent = tmp;
-			// 	if (this->key_comp(node->value.first, tmp->value.first))
-			// 	{
-			// 		side = 0;
-			// 		tmp = tmp->left;
-			// 	}
-			// 	else if (this->key_comp(tmp->value.first, node->value.first))
-			// 	{
-			// 		tmp = tmp->right;
-			// 		side = 1;
-			// 	}
-			// 	else
-			// 		return 1;
-			// }
-			// if (side == 0)
-			// 	node->parent->left = node;
-			// else if (side == 1)
-			// 	node->parent->right = node;
-			// else
-			// 	this->root = node;
 			if (!node)
 				return newNode(val, parent);
 
@@ -185,10 +159,7 @@ namespace ft
 				return node;
 			++this->size;
 				
-			std::cout << node->value.first << "\n";
-			this->balance_tree(node);
-			// std::cout << *this;
-
+			node = this->balance_tree(node, val);
 			
 			return node;
 		}
@@ -240,43 +211,46 @@ namespace ft
 			this->size = 0;
 		}
 
-		Node*	rotate_right(Node* n1, Node* n2)
+		Node*	rightRotate(Node* y)
 		{
-			n2->parent = n1->parent;   
-			n1->parent = n2;
-			n1->left = nullptr;
-			n2->right = n1;  
+			Node* top = y->left;
+			Node* tmp = top->right;
+			
+			top->parent = y->parent;   
+			y->parent = top;
+			top->right = y;  
+			y->left = tmp;
 
-			if (n2->parent)
+			if (top->parent)
 			{
-				if (n2->parent->value.first < n2->value.first)
-					n2->parent->right = n2;
+				if (top->parent->value.first < top->value.first)
+					top->parent->right = top;
 				else
-					n2->parent->left = n2;
+					top->parent->left = top;
 			}
-			else
-				this->root = n2;
-			return n2;
+			return top;
 		}
 		
-		Node*	rotate_left(Node* n1, Node* n2)
+		Node*	leftRotate(Node* x)
 		{
-			n2->parent = n1->parent;   
-			n1->parent = n2;
-			n1->right = nullptr;
-			n2->left = n1;  
+			Node *top = x->right;
+			Node *tmp = top->left;
 
-			if (n2->parent)
+			top->parent = x->parent;   
+			x->parent = top;
+			top->left = x;
+			x->right = tmp;
+
+			if (top->parent)
 			{
-				if (n2->parent->value.first < n2->value.first)
-					n2->parent->right = n2;
+				if (top->parent->value.first < top->value.first)
+					top->parent->right = top;
 				else
-					n2->parent->left = n2;
+					top->parent->left = top;
 			}
-			else
-				this->root = n2;
-			return n2;
+			return top;
 		}
+
 		
 		int		height(Node* node, int h = 0) const
 		{
@@ -292,39 +266,33 @@ namespace ft
 			return h;
 		}
 		
-		Node*	balance_tree(Node* node)
+		Node*	balance_tree(Node* node, value_type value)
 		{
 			// calcul balance factor
-			// if (height(node) <= 2)
-			// 	return this->root;
-			int bf = (node) ? height(node->right) - height(node->left) : 0;
-			std::cout << "balance factor : " << bf << std::endl;
-			if (bf >= -1 && bf <= 1)
-				return node;
-			else
+			int bf = node ? height(node->right) - height(node->left) : 0;
+			
+			// Left Left Case
+			if (bf < -1 && this->key_comp(value.first,node->left->value.first))
+				return rightRotate(node);
+		
+			// Right Right Case
+			if (bf > 1 && this->key_comp(node->right->value.first, value.first))
+				return leftRotate(node);
+		
+			// Left Right Case
+			if (bf < -1 && this->key_comp(node->left->value.first, value.first))
 			{
-				Node* n3 = node;
-				std::cout << "n3 = " << n3->value.first << std::endl;
-				Node* n2 = node->parent;
-				std::cout << "n2 = " << n2->value.first << std::endl;
-				Node* n1 = n2->parent;
-				std::cout << "n1 = " << n1->value.first << std::endl;
-				
-				if (n1->right && n2->right)
-					rotate_left(n1, n2);
-				else if (n1->right && n2->left)
-				{
-					rotate_left(n1, n2);
-					rotate_right(n2, n3);
-				}
-				else if (n1->left && n2->left)
-					rotate_right(n1, n2);
-				else if (n1->left && n2->right)
-				{
-					rotate_right(n1, n2);
-					rotate_left(n2, n3);
-				}
+				node->left = leftRotate(node->left);
+				return rightRotate(node);
 			}
+ 
+			// Right Left Case
+			if (bf > 1 && this->key_comp(value.first,node->right->value.first))
+			{
+				node->right = rightRotate(node->right);
+				return leftRotate(node);
+			}
+			
 			return node;
 		}
 
@@ -354,7 +322,6 @@ namespace ft
 			int 		treeHeight = height(this->root);
 			int			l = pow(2, treeHeight - 1) * 2 - 1;
 			std::vector<std::pair<key_type, int> >	drawing(treeHeight * l);
-			// std::vector<int>		count(treeHeight, 0);
 			
 			
 			drawing = this->getTreeDrawing(this->root, drawing, l, l / 2);
