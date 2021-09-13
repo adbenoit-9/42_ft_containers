@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 14:03:56 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/13 23:26:14 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,8 @@ namespace ft
 			template <class InputIterator>
   			void					insert(InputIterator first, InputIterator last)
 			{
-				for (iterator it = this->_tree.begin(); it < this->_tree.end(); it++)
-					this->insert(*it);
+				for (iterator it = this->begin(); it < this->end(); it++)
+					this->_tree.root = this->_tree.insertNode(this->_tree.root, nullptr, *it);
 			}
 
 			size_type				erase(const key_type& k) { return this->_tree.erase(k); }

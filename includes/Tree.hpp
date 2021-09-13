@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/13 20:59:18 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/14 00:41:36 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace ft
 		key_compare				key_comp;
 		allocator_type  		alloc;
 		size_type 				size;
-		std::allocator<Node> allocNode;
+		std::allocator<Node>	allocNode;
 		Node*					root;
 
 
@@ -146,20 +146,61 @@ namespace ft
 			return node;
 		}
 		
-		Node*					insert(Node* node, Node* parent, value_type val)
+		Node*					insertNode(Node* node, Node* parent, value_type val)
 		{
 			if (!node)
 				return newNode(val, parent);
 
 			if (this->key_comp(val.first, node->value.first))
-				node->left = insert(node->left, node, val);
+				node->left = insertNode(node->left, node, val);
 			else if (this->key_comp(node->value.first, val.first))
-				node->right = insert(node->right, node, val);
-			else // Equal keys are not allowed in BST
+				node->right = insertNode(node->right, node, val);
+			else
 				return node;
 			++this->size;
 				
-			node = this->balance_tree(node, val);
+			node = this->balance_tree(node, val.first);
+			
+			return node;
+		}
+
+		Node*				deleteNode(Node* node, key_type key)
+		{
+			if (!node)
+				return node;
+			
+			if (this->key_comp(key, node->value.first))
+				node->left = deleteNode(node->left, key);
+			else if (this->key_comp(node->value.first, key))
+				node->right = deleteNode(node->right, key);
+			else
+			{
+				--this->size;
+				if (!node->left || !node->right)
+				{
+					Node* tmp = node;
+					node = node->left ? node->right : node->left;
+					if (node)
+						node->parent = tmp->parent;
+					this->allocNode.destroy(tmp);
+					this->allocNode.deallocate(tmp, sizeof(Node));
+				}
+				else
+				{
+					Node *tmp = node->right;
+					while (tmp->left)
+						tmp = tmp->left;
+					tmp->parent = node->parent;
+					tmp->right = node->right;
+					tmp->left = node->left;
+					this->allocNode.destroy(node);
+					this->allocNode.deallocate(node, sizeof(Node));
+					node = tmp;
+				}
+			}
+			if (!node)
+				return node;
+			node = balance_tree(node, key);
 			
 			return node;
 		}
@@ -256,28 +297,28 @@ namespace ft
 			return h;
 		}
 		
-		Node*	balance_tree(Node* node, value_type value)
+		Node*	balance_tree(Node* node, key_type key)
 		{
 			// calcul balance factor
 			int bf = node ? height(node->right) - height(node->left) : 0;
 			
 			// Left Left Case
-			if (bf < -1 && this->key_comp(value.first,node->left->value.first))
+			if (bf < -1 && this->key_comp(key, node->left->value.first))
 				return rightRotate(node);
 		
 			// Right Right Case
-			if (bf > 1 && this->key_comp(node->right->value.first, value.first))
+			if (bf > 1 && this->key_comp(node->right->value.first, key))
 				return leftRotate(node);
 		
 			// Left Right Case
-			if (bf < -1 && this->key_comp(node->left->value.first, value.first))
+			if (bf < -1 && this->key_comp(node->left->value.first, key))
 			{
 				node->left = leftRotate(node->left);
 				return rightRotate(node);
 			}
  
 			// Right Left Case
-			if (bf > 1 && this->key_comp(value.first,node->right->value.first))
+			if (bf > 1 && this->key_comp(key, node->right->value.first))
 			{
 				node->right = rightRotate(node->right);
 				return leftRotate(node);
@@ -288,7 +329,7 @@ namespace ft
 
 		value_compare			value_comp() const { return value_compare(this->_comp); }
 		
-		std::vector<std::pair<key_type, int> >	getTreeDrawing(Node* node, std::vector<std::pair<key_type, int> > drawing, int l, int y = 0, int level = 0, int side = 0) const
+		ft::vector<ft::pair<key_type, int> >	getTreeDrawing(Node* node, ft::vector<ft::pair<key_type, int> > drawing, int l, int y = 0, int level = 0, int side = 0) const
 		{
 			if (node)
 			{
@@ -311,8 +352,7 @@ namespace ft
 		{
 			int 		treeHeight = height(this->root);
 			int			l = pow(2, treeHeight - 1) * 2 - 1;
-			std::vector<std::pair<key_type, int> >	drawing(treeHeight * l);
-			
+			ft::vector<ft::pair<key_type, int> >	drawing(treeHeight * l);
 			
 			drawing = this->getTreeDrawing(this->root, drawing, l, l / 2);
 			for (size_t i = 0; i < drawing.size(); i++)
@@ -328,25 +368,14 @@ namespace ft
 						{
 							link += '^';
 							int n = l / (pow(2, i / l + 1)) + 1;
-							if (drawing[i + j + n].second == 1)
-								draw = 1;
-							else
-								draw = 0;
+							draw = (drawing[i + j + n].second == 1) ? 1 : 0;
 						}
 						else if (drawing[i + j].first.empty())
-						{
-							if (draw == 1)
-								link += '-';
-							else
-								link += ' ';
-						}
+							link += (draw == 1) ? '-' : ' ';
 						else
 						{
 							link += '|';
-							if (drawing[i + j].second == -1)
-								draw = 1;
-							else
-								draw = 0;							
+							draw = (drawing[i + j].second == -1) ? 1 : 0;
 						}
 					}
 
@@ -366,10 +395,10 @@ namespace ft
 	std::ostream&	operator<<(std::ostream& os, const Tree<Key, T>& tree)
 	{
 		std::cout << "\n\033[1;32m"
-		<< "\t┌┬┐┬─┐┌─┐┌─┐" << std::endl
- 		<< "\t │ ├┬┘├┤ ├┤ " << std::endl 
- 		<< "\t ┴ ┴└─└─┘└─┘" << std::endl
- 		<< "\t~~~~~~~~~~~~~" << "\033[0m" << std::endl << std::endl;
+		<< "┌┬┐┬─┐┌─┐┌─┐" << std::endl
+ 		<< " │ ├┬┘├┤ ├┤ " << std::endl 
+ 		<< " ┴ ┴└─└─┘└─┘" << std::endl
+ 		<< "~~~~~~~~~~~~~" << "\033[0m" << std::endl << std::endl;
 		tree.drawTree();
 		std::cout << "\033[2mheight : " << tree.height(tree.root) << "\033[0m\n" << std::endl;
 		return os;
