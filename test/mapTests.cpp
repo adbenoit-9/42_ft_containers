@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/14 00:42:31 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/14 19:51:04 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,24 +185,29 @@ void    mapTests(void)
 				<< "-------------------------------------------------------------------------" << std::endl;
 
 	// ft_iterators(stdMap, tree);
-	for (int i = 48; i < 58; i++)
+	for (int i = 0; i < 100; i++)
 	{
-		// std::string str(1, rand() % 40 + 48);
-		std::string str(1, i);
+		std::string str(1, rand() % 40 + 48);
 		ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>(str, 5);
 		tree.root = tree.insertNode(tree.root, nullptr, val);
 	}
+	// for (int i = 48; i < 68; i++)
+	// {
+	// 	std::string str(1, i);
+	// 	ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>(str, 5);
+	// 	tree.root = tree.insertNode(tree.root, nullptr, val);
+	// }
 	std::cout << tree;
 	
-	// for (int i = 0; i < 10; i++)
-	// {
-	// 	std::string str(1, rand() % 40 + 48);
-	// 	ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>(str, 5);
-	// 	tree.root = tree.deleteNode(tree.root, val);
-	// }
-	tree.root = tree.deleteNode(tree.root, "9");
-	tree.root = tree.deleteNode(tree.root, "6");
-	// tree.root = tree.deleteNode(tree.root, "8"); prob quand un d'en dessous a ete suppr
+	for (int i = 0; i < 10; i++)
+	{
+		std::string str(1, rand() % 40 + 48);
+		std::cout << "deleted : " << str << std::endl;
+		tree.root = tree.deleteNode(tree.root, str);
+	}
+	// tree.root = tree.deleteNode(tree.root, "A");
+	// tree.root = tree.deleteNode(tree.root, "6");
+	// tree.root = tree.deleteNode(tree.root, "8");
 	
 	std::cout << tree;
 	// std::cout << tree.root->value.first << std::endl;

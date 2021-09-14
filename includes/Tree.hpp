@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/14 00:41:36 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/14 20:06:43 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 # define TREE_HPP
 
 # include <memory>
-// # include <functional>
 # include "pair.hpp"
 # include "utils.hpp"
-#include <math.h> 
-#include <vector> 
+# include <math.h> 
+# include <vector> 
 
 namespace ft
 {
@@ -159,7 +158,7 @@ namespace ft
 				return node;
 			++this->size;
 				
-			node = this->balance_tree(node, val.first);
+			node = this->balanceTree(node, val.first);
 			
 			return node;
 		}
@@ -188,19 +187,27 @@ namespace ft
 				else
 				{
 					Node *tmp = node->right;
+					if (tmp)
 					while (tmp->left)
 						tmp = tmp->left;
+					if (tmp != node->right)
+					{
+						tmp->right = node->right;
+						node->right->parent = tmp;
+					}
+					if (tmp != node->left)
+					{
+						tmp->left = node->left;
+						node->left->parent = tmp;
+					}
+					tmp->parent->left = nullptr;
 					tmp->parent = node->parent;
-					tmp->right = node->right;
-					tmp->left = node->left;
 					this->allocNode.destroy(node);
 					this->allocNode.deallocate(node, sizeof(Node));
 					node = tmp;
 				}
 			}
-			if (!node)
-				return node;
-			node = balance_tree(node, key);
+			node = balanceTree(node);
 			
 			return node;
 		}
@@ -217,33 +224,6 @@ namespace ft
 			}
 		}
 		
-		void					swap(Node& x)
-		{
-			// key_compare				tkey_comp = this->key_comp;
-			// allocator_type  		talloc = this->alloc;
-			// // std::allocator< Node >  tallocNode = this->alloc;
-			// size_type 				tsize = this->size;
-			// Node*					tparent = this->parent;
-			// Node*					tleft = this->left;
-			// Node*					tright = this->right;
-
-			this->key_comp = x.key_comp;
-			// this->alloc = x.alloc;
-			// // this->allocNode = x.alloc;
-			// this->size = x.size;
-			// this->parent = x.parent;
-			// this->left = x.left;
-			// this->right = x.right;
-
-			// x.key_comp = tkey_comp;
-			// x.alloc = talloc;
-			// // x.allocNode = talloc;
-			// x.size = tsize;
-			// x.parent = tparent;
-			// x.left = tleft;
-			// x.right = tright;
-		}
-
 		void					clear()
 		{
 			while (this->parent)
@@ -297,28 +277,60 @@ namespace ft
 			return h;
 		}
 		
-		Node*	balance_tree(Node* node, key_type key)
+		// calcul balance factor
+		int		balanceFactor(Node* node) const
 		{
-			// calcul balance factor
-			int bf = node ? height(node->right) - height(node->left) : 0;
+			if (!node)
+				return 0;
+			return height(node->right) - height(node->left);
+		}
+		
+		Node*	balanceTree(Node* node, key_type key)
+		{
+			int bf = balanceFactor(node);
 			
 			// Left Left Case
 			if (bf < -1 && this->key_comp(key, node->left->value.first))
 				return rightRotate(node);
-		
 			// Right Right Case
 			if (bf > 1 && this->key_comp(node->right->value.first, key))
 				return leftRotate(node);
-		
 			// Left Right Case
 			if (bf < -1 && this->key_comp(node->left->value.first, key))
 			{
 				node->left = leftRotate(node->left);
 				return rightRotate(node);
 			}
- 
 			// Right Left Case
 			if (bf > 1 && this->key_comp(key, node->right->value.first))
+			{
+				node->right = rightRotate(node->right);
+				return leftRotate(node);
+			}
+			
+			return node;
+		}
+		
+		Node*	balanceTree(Node* node)
+		{
+			if (!node)
+				return node;
+				
+			int bf = balanceFactor(node);
+			// Left Left Case
+			if (bf < -1 && balanceFactor(node->left) <= 0)
+				return rightRotate(node);
+			// Right Right Case
+			if (bf > 1 && balanceFactor(node->right) >= 0)
+				return leftRotate(node);
+			// Left Right Case
+			if (bf < -1 && balanceFactor(node->left) > 0)
+			{
+				node->left = leftRotate(node->left);
+				return rightRotate(node);
+			}
+			// Right Left Case
+			if (bf > 1 && balanceFactor(node->right) < 0)
 			{
 				node->right = rightRotate(node->right);
 				return leftRotate(node);
@@ -388,7 +400,6 @@ namespace ft
 			}
 			std::cout << std::endl << std::endl;
 		}
-		
     };
 	
     template < class Key, class T >	
