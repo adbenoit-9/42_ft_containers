@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/15 14:24:02 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/15 17:28:10 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <memory>
 # include "pair.hpp"
 # include "utils.hpp"
+# include "../vector.hpp"
+# include <vector>
 # include <math.h> 
 
 namespace ft
@@ -45,14 +47,14 @@ namespace ft
 		};
 		
 		key_compare				key_comp;
-		allocator_type  		alloc;
+		allocator_type  		allocValue;
 		std::allocator<Node>	allocNode;
 		Node*					root;
 
 
 		class value_compare
 		{
-				friend struct Node;
+				friend struct Tree;
 			protected:
 				Compare comp;
 				value_compare (key_compare c) : comp(c) {}
@@ -65,10 +67,14 @@ namespace ft
 		};
 		
 		Tree(const key_compare& comp = key_compare(),
-		const allocator_type& al = allocator_type()) :
-			key_comp(comp), alloc(al) { this->root = nullptr; }
+		const allocator_type& alloc = allocator_type()) :
+			key_comp(comp), allocValue(alloc) { this->root = nullptr; }
 		
 		Tree(const Tree& x) { *this = x; }
+		
+		Tree(const Node& node, const key_compare& comp = key_compare(),
+		const allocator_type& alloc = allocator_type()) :
+			key_comp(comp), allocValue(alloc) { this->root = node; }
 		
 		~Tree() { this->destroy(this->getParent()); }
 
@@ -77,12 +83,9 @@ namespace ft
 		{		
 			if(this == &x)
 				return *this;
-			this->parent = x.parent;
-			this->left = x.left;
-			this->right = x.right;
-			this->root->value = x.value;
+			this->root = x.root;
 			this->key_comp = x.key_comp;
-			this->alloc = x.alloc;
+			this->allocValue = x.allocValue;
 			return *this;
 		}
 
@@ -100,7 +103,7 @@ namespace ft
 			return tmp;
 		}
 
-		size_type		maxsize() const { return this->alloc.maxsize(); }
+		size_type		maxsize() const { return this->allocValue.maxsize(); }
 
 		mapped_type& 	operator[](const key_type& k)
 		{
@@ -118,12 +121,25 @@ namespace ft
 			}
 		}
 		
+		size_type		size(Node* node) const
+		{
+			size_type s = 0;
+
+			if (node)
+			{
+				s += size(node->right);
+				s += size(node->left);
+				++s;
+			}
+			return s;
+		}
+		
 		Node*			newNode(value_type val, Node* parent)
 		{
 			Node* node;
 			
 			node = this->allocNode.allocate(sizeof(Node));
-			this->alloc.construct(&node->value, val);
+			this->allocValue.construct(&node->value, val);
 			
 			node->parent = parent;
 			node->left = nullptr;
@@ -132,15 +148,15 @@ namespace ft
 			return node;
 		}
 		
-		Node*			insertNode(Node* node, Node* parent, value_type val)
+		Node*			insertNode(Node* node, const value_type& val, Node* parent = nullptr)
 		{
 			if (!node)
 				return newNode(val, parent);
 
 			if (this->key_comp(val.first, node->value.first))
-				node->left = insertNode(node->left, node, val);
+				node->left = insertNode(node->left, val, node);
 			else if (this->key_comp(node->value.first, val.first))
-				node->right = insertNode(node->right, node, val);
+				node->right = insertNode(node->right, val, node);
 			else
 				return node;
 
@@ -149,7 +165,7 @@ namespace ft
 			return node;
 		}
 
-		Node*			deleteNode(Node* node, key_type key)
+		Node*			deleteNode(Node* node, const key_type key)
 		{
 			if (!node)
 				return node;
@@ -200,7 +216,7 @@ namespace ft
 			{
 				destroy(node->left);
 				destroy(node->right);
-				this->alloc.destroy(&node->value);
+				// this->allocValue.destroy(&node->value);
 				this->allocNode.destroy(node);
 				this->allocNode.deallocate(node, sizeof(Node));
 			}
@@ -266,7 +282,7 @@ namespace ft
 			return height(node->right) - height(node->left);
 		}
 		
-		Node*			balanceTree(Node* node, key_type key)
+		Node*			balanceTree(Node* node, const key_type key)
 		{
 			int bf = balanceFactor(node);
 			
@@ -320,7 +336,7 @@ namespace ft
 			return node;
 		}
 
-		value_compare	value_comp() const { return value_compare(this->_comp); }
+		value_compare	value_comp() const { return value_compare(this->key_comp); }
 		
 		ft::vector<ft::pair<key_type, int> >	getTreeDrawing(Node* node,
 			ft::vector<ft::pair<key_type, int> > drawing, int l, int y = 0,
@@ -394,7 +410,8 @@ namespace ft
  		<< " ┴ ┴└─└─┘└─┘" << std::endl
  		<< "~~~~~~~~~~~~~" << "\033[0m" << std::endl << std::endl;
 		tree.drawTree();
-		std::cout << "\033[2mheight : " << tree.height(tree.root) << "\033[0m\n" << std::endl;
+		std::cout << "\033[2mheight : " << tree.height(tree.root) << "\033[0m\n";
+		std::cout << "\033[2msize : " << tree.size(tree.root) << "\033[0m\n" << std::endl;
 		return os;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:51:32 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/13 20:56:08 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/15 16:29:32 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "../vector.hpp"
 # include "../includes/Tree.hpp"
 # include "../includes/pair.hpp"
-// # include "../map.hpp"
+# include "../map.hpp"
 # include <stack>
 # include <vector>
 # include <map>
