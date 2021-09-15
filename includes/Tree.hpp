@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/15 17:28:10 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/15 21:22:08 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,9 +186,12 @@ namespace ft
 				}
 				else
 				{
+					// find the greatest smaller
 					Node *tmp = node->right;
 					while (tmp->left)
 						tmp = tmp->left;
+
+					// switch them
 					if (tmp != node->right)
 					{
 						tmp->right = node->right;
@@ -201,6 +204,7 @@ namespace ft
 					}
 					tmp->parent->left = nullptr;
 					tmp->parent = node->parent;
+					// delete it
 					this->allocNode.destroy(node);
 					this->allocNode.deallocate(node, sizeof(Node));
 					node = tmp;
@@ -216,7 +220,7 @@ namespace ft
 			{
 				destroy(node->left);
 				destroy(node->right);
-				// this->allocValue.destroy(&node->value);
+				this->allocValue.destroy(&node->value);
 				this->allocNode.destroy(node);
 				this->allocNode.deallocate(node, sizeof(Node));
 			}
