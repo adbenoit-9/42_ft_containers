@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/15 21:22:08 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/15 21:38:32 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@ namespace ft
 			Node					*left;
 			Node					*right;
 			Node					*parent;
+
+			Node&			operator=(const Node& x)
+			{
+				operator=(x.right);
+				operator=(x.left);
+				this->parent = x.parent;
+				this->right = x.right;
+				this->left = x.left;
+				this->allocValue.construct(&this->value, x.value);
+				return *this;
+			}
+
 		};
 		
 		key_compare				key_comp;
@@ -83,7 +95,7 @@ namespace ft
 		{		
 			if(this == &x)
 				return *this;
-			this->root = x.root;
+			this->root = insertNode(this->root, x.root->value);
 			this->key_comp = x.key_comp;
 			this->allocValue = x.allocValue;
 			return *this;
