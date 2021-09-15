@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/15 21:38:32 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 00:52:33 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,6 @@ namespace ft
 			Node					*left;
 			Node					*right;
 			Node					*parent;
-
-			Node&			operator=(const Node& x)
-			{
-				operator=(x.right);
-				operator=(x.left);
-				this->parent = x.parent;
-				this->right = x.right;
-				this->left = x.left;
-				this->allocValue.construct(&this->value, x.value);
-				return *this;
-			}
-
 		};
 		
 		key_compare				key_comp;
@@ -95,13 +83,28 @@ namespace ft
 		{		
 			if(this == &x)
 				return *this;
-			this->root = insertNode(this->root, x.root->value);
+			destroy(this->root);
+			if (!x.root)
+				return *this;
+			this->root = newNode(x.root->value, nullptr);
+			this->root = copyNode(this->root, x.root);
 			this->key_comp = x.key_comp;
 			this->allocValue = x.allocValue;
+			this->allocNode = x.allocNode;
 			return *this;
 		}
 
-
+		Node*			copyNode(Node* dest, Node* src, Node* parent = nullptr)
+		{
+			if (dest && src)
+			{
+				dest->left = copyNode(dest->left, src->left, src);
+				dest->right = copyNode(dest->right, src->right, src);
+				dest = insertNode(dest, src->value, parent);
+			}
+			return dest;
+		}
+		
 		Node*			getParent(Node *node = nullptr)
 		{
 			Node *tmp;
