@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 16:18:32 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 17:45:45 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ namespace ft
 					// find first previous greater node
 					key_type key = this->_ptr->value.first;
 					Node *tmp = this->_ptr->parent;
-					while (tmp && this->_key_comp(key, tmp->value.first))
+					while (tmp && this->_key_comp(tmp->value.first, key))
 						tmp = tmp->parent;
 					if (tmp)
 					{
@@ -153,7 +153,7 @@ namespace ft
 					// find first previous smaller node
 					key_type key = this->_ptr->value.first;
 					Node *tmp = this->_ptr->parent;
-					while (tmp && this->_key_comp(tmp->value.first, key))
+					while (tmp && this->_key_comp(key, tmp->value.first))
 						tmp = tmp->parent;
 					if (tmp)
 					{

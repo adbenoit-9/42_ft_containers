@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 17:01:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 18:01:33 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,8 +186,7 @@ namespace ft
 			}
 			
 			template <class InputIterator>
-  			void					insert(InputIterator first, InputIterator last)
-			{
+  			void					insert(InputIterator first, InputIterator last) {
 				this->_tree.unsetEnd();
 				for (iterator it = first; it != last; it++)
 					this->_tree.root = this->_tree.insertNode(this->_tree.root, *it);
@@ -196,26 +195,31 @@ namespace ft
 
 			size_type				erase(const key_type& k) {
 				this->_tree.unsetEnd();
-				this->tree.root = this->_tree.deleteNode(this->_tree.root, k);
-				this->_size = this->tree.size(this->_tree.root);
+				this->_tree.root = this->_tree.deleteNode(this->_tree.root, k);
+				this->_size = this->_tree.size(this->_tree.root);
 				this->_tree.setEnd();
 				return this->_size;
 			}
 			
-			void					erase(iterator position) { this->erase(*position.first); }
+			void					erase(iterator position) { this->erase((*position).first); }
 
-			void					erase(iterator first, iterator last)
-			{
+			void					erase(iterator first, iterator last) {
 				for (iterator it = first; it != last; it++)
 					this->erase(it);
 			}
 
-			// void					swap(map& x)
-			// {
-			// 	this->_tree.swap(x._tree);
-			// }
+			void					swap(map& x){
+				map *tmp = &x;
+				x._tree = this->_tree;
+				x._size = this->_size;
+				this->_tree = tmp->_tree;
+				this->_size = tmp->_size;
+			}
 
-			void					clear() { this->_tree.clear(); this->_size = 0; }
+			void					clear() {
+				this->_tree.clear();
+				this->_size = 0;
+			}
 			
 			//					~ Observers ~
 			
@@ -225,56 +229,49 @@ namespace ft
 
 			//					~ Operations ~
     			
-			iterator							find(const key_type& k)
-			{
+			iterator				find(const key_type& k) {
 				for (iterator it = this->begin(); it != this->end(); it++)
 					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
 						return it;
 				return this->end();
 			}
 
-			const_iterator						find(const key_type& k) const
-			{
+			const_iterator			find(const key_type& k) const {
 				for (iterator it = this->begin(); it != this->end(); it++)
 					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
 						return it;
 				return this->end();
 			}
 
-			size_type							count(const key_type& k) const
-			{
+			size_type				count(const key_type& k) const {
 				for (iterator it = this->begin(); it != this->end(); it++)
 					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
 						return 1;
 				return 0;
 			}
 
-			iterator							lower_bound(const key_type& k)
-			{
+			iterator				lower_bound(const key_type& k) {
 				for (iterator it = this->begin(); it != this->end(); it++)
 					if (!this->_tree.key_comp((*it).first, k))
 						return it;
 				return this->end();
 			}
 
-			const_iterator						lower_bound(const key_type& k) const
-			{
+			const_iterator			lower_bound(const key_type& k) const {
 				for (iterator it = this->begin(); it != this->end(); it++)
 					if (!this->_tree.key_comp((*it).first, k))
 						return it;
 				return const_iterator(this->end());
 			}
 
-			iterator 							upper_bound(const key_type& k)
-			{
+			iterator 				upper_bound(const key_type& k) {
 				for (iterator it = this->begin(); it != this->end(); it++)
 					if (this->_tree.key_comp(k, (*it).first))
 						return it;
 				return this->end();
 			}
 
-			const_iterator						upper_bound(const key_type& k) const
-			{
+			const_iterator			upper_bound(const key_type& k) const {
 				for (iterator it = this->begin(); it != this->end(); it++)
 					if (this->_tree.key_comp(k, (*it).first))
 						return it;
@@ -285,7 +282,7 @@ namespace ft
 			{
 				for (iterator it = this->begin(); it != this->end(); it++)
 					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
-						return pair<const_iterator, const_iterator>(const_iterator(it), const_iterator(++it));
+						return pair<const_iterator, const_iterator>(const_iterator(it++), const_iterator(it));
 				return pair<const_iterator, const_iterator>(this->lower_bound(k), this->lower_bound(k));
 			}
 
@@ -293,12 +290,11 @@ namespace ft
 			{
 				for (iterator it = this->begin(); it != this->end(); it++)
 					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
-						return pair<iterator, iterator>(it, ++it);
+						return pair<iterator, iterator>(it++, it);
 				return pair<iterator, iterator>(this->lower_bound(k), this->lower_bound(k));
 			}
 
-			friend std::ostream&	operator<<(std::ostream& os, map& map)
-			{
+			friend std::ostream&	operator<<(std::ostream& os, map& map) {
 				map._tree.unsetEnd();
 				os << map._tree;
 				map._tree.setEnd();

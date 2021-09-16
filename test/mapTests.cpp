@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 15:45:27 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 18:02:28 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,56 @@ void    mapTests(void)
 				<< "-------------------------------------------------------------------------" << std::endl;
 
 
-	{
-		for (int i = 0; i < 50; ++i) {
-			std::string str(1, rand() % 40 + 48);
-			std::cout << "added : " << str << std::endl;
-			ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>(str, i);
-			ftMap.insert(val);
-			
-			std::cout << ftMap;
-		}
+	for (int i = 48; i < 70; ++i) {
+		std::string str(1, i);
+		// std::cout << "added : " << str << std::endl;
+		ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>(str, i);
+		ftMap.insert(val);
+		
 	}
-
-	// for (int i = 0; i < 50; ++i) {
-	// 	std::string str(1, rand() % 40 + 48);
-	// 	ft::pair<const std::string, int>	val = ft::make_pair<const std::string, int>(str, 5);
-	// 	tree.root = tree.insertNode(tree.root, val);
-	// }
-	// tree2 = tree;
-	// std::cout << tree2;
-
-	{
-		// for (int i = 0; i < 10; ++i) {
-		// 	std::string str(1, rand() % 40 + 48);
-		// 	tree.root = tree.deleteNode(tree.root, str);
-		// }
+	std::cout << ftMap;
+	for(ft::map<std::string,int>::iterator it = ftMap.begin(); it != ftMap.end(); it++)
+		std::cout << " " << (*it).first;
+	std::cout << std::endl;
+	
+	for (int i = 48; i < 70; ++i) {
+		std::string str(1, i);
+		// std::cout << "added : " << str << std::endl;
+		std::pair<const std::string, int>	val = std::make_pair<const std::string, int>(str, i);
+		stdMap.insert(val);
+		
 	}
+	for(std::map<std::string,int>::iterator it = stdMap.begin(); it != stdMap.end(); it++)
+		std::cout << " " << (*it).first;
+	std::cout << std::endl;
+
+	for (int i = 65; i < 70; ++i) {
+		std::string str(1, i);
+		ftMap.erase(str);
+		stdMap.erase(str);
+	}
+	std::cout << ftMap;
+	for(ft::map<std::string,int>::iterator it = ftMap.begin(); it != ftMap.end(); it++)
+		std::cout << " " << (*it).first;
+	std::cout << std::endl;
+	for(std::map<std::string,int>::iterator it = stdMap.begin(); it != stdMap.end(); it++)
+		std::cout << " " << (*it).first;
+	std::cout << std::endl << std::endl;
+	
+	std::cout << (*ftMap.find("?")).second << " " << (*ftMap.find("ko")).second << std::endl;
+	std::cout << (*stdMap.find("?")).second << " " << (*stdMap.find("ko")).second << std::endl;
+	std::cout << std::endl << std::endl;
+	std::cout << ftMap.count("?") << " " << ftMap.count("ko") << std::endl;
+	std::cout << stdMap.count("?") << " " << stdMap.count("ko") << std::endl;
+	std::cout << std::endl << std::endl;
+	std::cout << (*ftMap.lower_bound("?")).first << std::endl;
+	std::cout << (*stdMap.lower_bound("?")).first << std::endl;
+	std::cout << std::endl << std::endl;
+	std::cout << (*ftMap.upper_bound("?")).first << std::endl;
+	std::cout << (*stdMap.upper_bound("?")).first << std::endl;
+	std::cout << std::endl << std::endl;
+	std::cout << (*ftMap.equal_range("5").first).first << " " << (*ftMap.equal_range("5").second).first << std::endl;
+	std::cout << (*stdMap.equal_range("5").first).first << " " << (*stdMap.equal_range("5").second).first << std::endl;
+	std::cout << (*ftMap.equal_range("50").first).first << " " << (*ftMap.equal_range("50").second).first << std::endl;
+	std::cout << (*stdMap.equal_range("50").first).first << " " << (*stdMap.equal_range("50").second).first << std::endl;
 }

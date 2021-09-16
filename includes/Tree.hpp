@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 16:58:35 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 17:36:42 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -415,7 +415,7 @@ namespace ft
 			int			l = pow(2, treeHeight - 1) * 2 - 1;
 			ft::vector<ft::pair<key_type, int> >	drawing(treeHeight * l);
 			
-			drawing = this->getTreeDrawing(this->root, drawing, l, l / 2);
+			drawing = getTreeDrawing(this->root, drawing, l, l / 2);
 			for (size_t i = 0; i < drawing.size(); i++)
 			{
 				if (i % l == 0 && i != 0)
