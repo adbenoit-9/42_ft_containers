@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 17:36:42 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 22:18:14 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,21 @@ namespace ft
 			Node*					right;
 			Node*					parent;
 
-			Node*			getParent()
-			{
+			Node*	getParent() {
 				Node* node = this;
 				while (node->parent)
 					node = node->parent;
 				return node;
 			}
 			
-			Node*			getMinimum()
-			{
+			Node*			getMinimum() {
 				Node* node = this;
 				while (node->left)
 					node = node->left;
 				return node;
 			}
 			
-			Node*			getMaximum()
-			{
+			Node*			getMaximum() {
 				Node* node = this;
 				while (node->right)
 					node = node->right;
@@ -107,9 +104,7 @@ namespace ft
 		const allocator_type& alloc = allocator_type()) :
 			key_comp(comp), allocValue(alloc) { *this->root = node; }
 		
-		~Tree() {
-				this->clear();
-			}
+		~Tree() {}
 
 
 		Tree&			operator=(const Tree& x)
@@ -123,6 +118,11 @@ namespace ft
 			this->key_comp = x.key_comp;
 			this->allocValue = x.allocValue;
 			this->allocNode = x.allocNode;
+			this->allocNode.deallocate(this->end, sizeof(Node));
+			this->end = this->allocNode.allocate(sizeof(Node));
+			this->end->parent = nullptr;
+			this->end->right = nullptr;
+			this->end->left = nullptr;
 			return *this;
 		}
 
@@ -139,12 +139,19 @@ namespace ft
 		
 		
 		void			setEnd() {
-			this->end->parent = this->root->getMaximum();
-			this->end->parent->right = this->end;
+			if (this->root)
+			{
+				this->end->parent = this->root->getMaximum();
+				this->end->parent->right = this->end;
+			}
+			else
+				this->end->parent = nullptr;
+			
 		}
 		
 		void			unsetEnd() {
-			if (this->end->parent)
+			std::cout << "end : " << this->end << std::endl;
+			if (this->root && this->end->parent)
 				this->end->parent->right = nullptr;
 		}
 

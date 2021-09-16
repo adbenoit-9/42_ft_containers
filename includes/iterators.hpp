@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 17:45:45 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 21:07:44 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ namespace ft
 			typedef Category							iterator_category;
 
 			map_iterator() {}
-			map_iterator(const map_iterator<Category, T> &toCopy) { this->_ptr = toCopy.base(); }
+			map_iterator(const map_iterator<Category, T> &toCopy) : _ptr(toCopy.base()) {}
 			map_iterator(Node* node) { this->_ptr = node; }
 			virtual ~map_iterator() {}
 
-			Node*		base() const { return this->_ptr; }
+			Node*			base() const { return this->_ptr; }
 			
 			// operators : assignment
 			// map_iterator&	operator=(pointer ptr) { this->_ptr = ptr; return *this; }

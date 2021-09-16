@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 18:01:33 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 22:23:56 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ namespace ft
 					insert(*it);
 			}
 			
-			map(const map& x) : _tree(x._tree), _size(x._size) {}
+			map(const map& x) { *this = x; }
 
 			~map() {}
 
@@ -132,15 +132,17 @@ namespace ft
 			{		
 				if(this == &x)
 					return *this;
+				// x._tree.unsetEnd(); pas possible alors trouver une autre solution
 				this->_tree = *x._tree;
 				this->_size = *x._size;
+				// x._tree.setEnd();
 				return *this;
 			}
 
 			//					~ Iterators ~
 			
- 			iterator				begin() { return iterator(this->_tree.root ? this->_tree.root->getMinimum() : nullptr); }
- 			const_iterator			begin() const { return iterator(this->_tree.root ? this->_tree.root->getMinimum() : nullptr); }
+ 			iterator				begin() { return iterator(this->_tree.root ? this->_tree.root->getMinimum() : this->end()); }
+ 			const_iterator			begin() const { return iterator(this->_tree.root ? this->_tree.root->getMinimum() : this->end()); }
 
  			iterator				end() { return iterator(this->_tree.end); }
  			const_iterator			end() const { return const_iterator(this->_tree.end); }
@@ -204,8 +206,13 @@ namespace ft
 			void					erase(iterator position) { this->erase((*position).first); }
 
 			void					erase(iterator first, iterator last) {
-				for (iterator it = first; it != last; it++)
-					this->erase(it);
+				iterator tmp;
+				while (first != last)
+				{
+					tmp = first;
+					++first;
+					this->erase(tmp);
+				}
 			}
 
 			void					swap(map& x){
