@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 22:23:56 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/17 00:32:56 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,8 @@ namespace ft
 
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type()) : _tree(comp, alloc), _size(0)
-			{
-				for (InputIterator it = first; first != last; it++)
-					insert(*it);
+			const allocator_type& alloc = allocator_type()) : _tree(comp, alloc), _size(0) {
+				this->insert(first, last);
 			}
 			
 			map(const map& x) { *this = x; }
@@ -132,20 +130,25 @@ namespace ft
 			{		
 				if(this == &x)
 					return *this;
-				// x._tree.unsetEnd(); pas possible alors trouver une autre solution
-				this->_tree = *x._tree;
-				this->_size = *x._size;
-				// x._tree.setEnd();
+				this->_tree = x._tree;
+				this->_size = x._size;
 				return *this;
 			}
 
 			//					~ Iterators ~
 			
- 			iterator				begin() { return iterator(this->_tree.root ? this->_tree.root->getMinimum() : this->end()); }
- 			const_iterator			begin() const { return iterator(this->_tree.root ? this->_tree.root->getMinimum() : this->end()); }
-
- 			iterator				end() { return iterator(this->_tree.end); }
- 			const_iterator			end() const { return const_iterator(this->_tree.end); }
+ 			iterator				begin() {
+				typename tree::Node *b;
+				b = this->_tree.root ? this->_tree.root->getMinimum() : this->_tree.end;
+				return iterator(b, this->_tree.end);
+			}
+ 			const_iterator			begin() const {
+				typename tree::Node *b;
+				b = this->_tree.root ? this->_tree.root->getMinimum() : this->_tree.end;
+				return const_iterator(b, this->_tree.end);
+			}
+ 			iterator				end() { return iterator(this->_tree.end, this->_tree.end); }
+ 			const_iterator			end() const { return const_iterator(this->_tree.end, this->_tree.end); }
 
 			reverse_iterator		rbegin() { return reverse_iterator(this->end()); }
 			const_reverse_iterator	rbegin() const { return const_reverse_iterator(this->end()); }
@@ -169,7 +172,6 @@ namespace ft
 			//					~ Modifiers ~
 
 			pair<iterator,bool>		insert(const value_type& val) {
-				this->_tree.unsetEnd();
 				this->_tree.root = this->_tree.insertNode(this->_tree.root, val);
 				this->_tree.setEnd();
 				pair<iterator,bool> ret;
@@ -184,19 +186,19 @@ namespace ft
 			
 			// utilise la position uniquement si c'est coherent
 			iterator				insert(iterator position, const value_type& val) {
-				return this->_tree.insert(position, val);
+				(void)position;
+				this->insert(val);
+				return find(val.first);
 			}
 			
 			template <class InputIterator>
   			void					insert(InputIterator first, InputIterator last) {
-				this->_tree.unsetEnd();
-				for (iterator it = first; it != last; it++)
+				for (InputIterator it = first; it != last; it++)
 					this->_tree.root = this->_tree.insertNode(this->_tree.root, *it);
 				this->_tree.setEnd();
 			}
 
 			size_type				erase(const key_type& k) {
-				this->_tree.unsetEnd();
 				this->_tree.root = this->_tree.deleteNode(this->_tree.root, k);
 				this->_size = this->_tree.size(this->_tree.root);
 				this->_tree.setEnd();
@@ -230,7 +232,7 @@ namespace ft
 			
 			//					~ Observers ~
 			
-			key_compare				key_comp() const { return this->_tree.key_comp(); }
+			key_compare				key_comp() const { return this->_tree.key_comp; }
 			
 			value_compare			value_comp() const { return this->_tree.value_comp(); }
 
@@ -302,7 +304,6 @@ namespace ft
 			}
 
 			friend std::ostream&	operator<<(std::ostream& os, map& map) {
-				map._tree.unsetEnd();
 				os << map._tree;
 				map._tree.setEnd();
 				return os;

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 21:07:44 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/17 00:38:42 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,23 @@ namespace ft
 			typedef Category							iterator_category;
 
 			map_iterator() {}
-			map_iterator(const map_iterator<Category, T> &toCopy) : _ptr(toCopy.base()) {}
-			map_iterator(Node* node) { this->_ptr = node; }
+			map_iterator(const map_iterator<Category, T> &toCopy) : _ptr(toCopy.base()), _end(toCopy.end()) {}
+			map_iterator(Node* node, Node* end) {
+				this->_ptr = node;
+				this->_end = end;
+			}
 			virtual ~map_iterator() {}
 
 			Node*			base() const { return this->_ptr; }
+			Node*			end() const { return this->_end; }
 			
 			// operators : assignment
-			// map_iterator&	operator=(pointer ptr) { this->_ptr = ptr; return *this; }
-			map_iterator&	operator=(const map_iterator &toCopy) { this->_ptr = toCopy._ptr; return *this; }
+			// map_iterator&	operator=(Node* ptr) { this->_ptr = ptr; return *this; }
+			map_iterator&	operator=(const map_iterator &toCopy) {
+				this->_ptr = toCopy._ptr;
+				this->_end = toCopy._end;
+				return *this;
+			}
 
 			// operators : member access
 			reference   	operator*() const { return this->_ptr->value; }
@@ -134,7 +142,7 @@ namespace ft
 						return *this;
 					}
 				}
-				this->_ptr = this->_ptr->getParent()->getMaximum();
+				this->_ptr = this->_end;
 				return *this;
 			}
 			
@@ -179,6 +187,7 @@ namespace ft
 
 		private:
 			Node*		_ptr;
+			Node*		_end;
 			key_compare	_key_comp;
 	};
 }

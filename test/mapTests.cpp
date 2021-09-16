@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 21:54:32 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/17 00:11:45 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void    mapTests(void)
 	std::cout << (*stdMap.equal_range("50").first).first << " " << (*stdMap.equal_range("50").second).first << std::endl;
 	
 	ft::map<std::string,int> ftcopy = ftMap;
+	std::cout << ftMap;
+	std::cout << ftcopy;
 	std::map<std::string,int> stdcopy = stdMap;
 	ftcopy.insert(ftMap.begin(), ftMap.end());
 	{
@@ -89,12 +91,21 @@ void    mapTests(void)
 	}
 	for(ft::map<std::string,int>::iterator it = ftcopy.begin(); it != ftcopy.end(); it++)
 		std::cout << " " << (*it).first;
+	std::cout << std::endl;
 	stdcopy.insert(stdMap.begin(), stdMap.end());
 	{
 		std::string str(1, 'A');
 		std::pair<const std::string, int>	val = std::make_pair<const std::string, int>(str, 42);
 		stdcopy.insert(val);
 	}
+	for(std::map<std::string,int>::iterator it = stdcopy.begin(); it != stdcopy.end(); it++)
+		std::cout << " " << (*it).first;
+	std::cout << std::endl << std::endl;
+	
+	ftcopy.erase(ftcopy.begin(), ftcopy.end());
+	for(ft::map<std::string,int>::iterator it = ftcopy.begin(); it != ftcopy.end(); it++)
+		std::cout << " " << (*it).first;
+	stdcopy.erase(stdcopy.begin(), stdcopy.end());
 	for(std::map<std::string,int>::iterator it = stdcopy.begin(); it != stdcopy.end(); it++)
 		std::cout << " " << (*it).first;
 	std::cout << std::endl << std::endl;

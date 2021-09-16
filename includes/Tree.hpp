@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 22:18:14 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 23:58:21 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,7 @@ namespace ft
 		
 		void			setEnd() {
 			if (this->root)
-			{
 				this->end->parent = this->root->getMaximum();
-				this->end->parent->right = this->end;
-			}
 			else
 				this->end->parent = nullptr;
 			
