@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/15 18:01:50 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 16:18:32 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ namespace ft
 			typedef typename T::value_type				value_type;
 			typedef typename T::Node					Node;
 			typedef typename value_type::first_type		key_type;
+			typedef	typename T::key_compare				key_compare;
 			typedef typename value_type::second_type	mapped_type;
 			typedef typename T::difference_type			difference_type;
 			typedef typename T::pointer   				pointer;
 			typedef typename T::reference 				reference;
 			typedef Category							iterator_category;
-			// typedef Tree<key_type, 
 
 			map_iterator() {}
 			map_iterator(const map_iterator<Category, T> &toCopy) { this->_ptr = toCopy.base(); }
@@ -118,25 +118,23 @@ namespace ft
 				// find the smallest greater
 				if (this->_ptr->right)
 				{
-					this->_ptr = this->_ptr->right;
-					while (this->_ptr->left)
-							this->_ptr = this->_ptr->left;
+					this->_ptr = this->_ptr->right->getMinimum();
+					return *this;
 				}
-				// else if (this->_ptr->parent)
-				// {
-				// 	// find first previous greater node
-				// 	Node *tmp = this->_ptr->parent;
-				// 	while (tmp->parent && tmp->value < this->_ptr->value)
-				// 		tmp = tmp->parent;
-				// 	this->_ptr = tmp;
-				// }
-				else
+				else if (this->_ptr->parent)
 				{
-					// is the greater
-					std::cout << "wtf\n";
-					// ptr = end
+					// find first previous greater node
+					key_type key = this->_ptr->value.first;
+					Node *tmp = this->_ptr->parent;
+					while (tmp && this->_key_comp(key, tmp->value.first))
+						tmp = tmp->parent;
+					if (tmp)
+					{
+						this->_ptr = tmp;
+						return *this;
+					}
 				}
-				
+				this->_ptr = this->_ptr->getParent()->getMaximum();
 				return *this;
 			}
 			
@@ -147,17 +145,21 @@ namespace ft
 				// find the greatest smaller
 				if (this->_ptr->left)
 				{
-					this->root = this->_ptr->left;
-					while (this->_ptr->right)
-							this->_ptr = this->_ptr->right;
+					this->_ptr = this->_ptr->left->getMaximum()->parent;
+					return *this;
 				}
 				else if (this->_ptr->parent)
 				{
 					// find first previous smaller node
-					T *tmp = this->_ptr->parent;
-					while (this->_ptr->value < tmp->value)
+					key_type key = this->_ptr->value.first;
+					Node *tmp = this->_ptr->parent;
+					while (tmp && this->_key_comp(tmp->value.first, key))
 						tmp = tmp->parent;
-					this->_node = tmp;
+					if (tmp)
+					{
+						this->_ptr = tmp;
+						return *this;
+					}
 				}
 				else
 				{
@@ -171,97 +173,14 @@ namespace ft
 
 			// operators : comparison
 			friend bool		operator== (const map_iterator& lhs, const map_iterator& rhs) {
-				return lhs._ptr->value == rhs._ptr->value; }
+				return lhs._ptr == rhs._ptr; }
 			friend bool 	operator!= (const map_iterator& lhs, const map_iterator& rhs) {
-				return lhs._ptr->value != rhs._ptr->value; }
+				return lhs._ptr != rhs._ptr; }
 
 		private:
-			Node*	_ptr;
+			Node*		_ptr;
+			key_compare	_key_comp;
 	};
-	// template <	class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T& >
-	// class map_iterator
-	// {
-	// 	public:
-	// 		typedef T         							value_type;
-	// 		typedef typename value_type::first_type		key_type;
-	// 		typedef typename value_type::second_type	mapped_type;
-	// 		typedef Distance							difference_type;
-	// 		typedef Pointer   							pointer;
-	// 		typedef Reference 							reference;
-	// 		typedef Category							iterator_category;
-	// 		// typedef Tree<key_type, 
-
-	// 		map_iterator() {}
-	// 		map_iterator(const map_iterator<Category, T, Distance, T*, T&> &toCopy) : _node(toCopy.base()) {}
-	// 		map_iterator(T* ptr) : _node(ptr) {}
-	// 		virtual ~map_iterator() {}
-
-	// 		T*				base() const { return this->_node ; }
-			
-	// 		// operators : assignment
-	// 		map_iterator&	operator=(pointer ptr) { this->_node = ptr; return *this; }
-	// 		map_iterator&	operator=(const map_iterator &toCopy) { this->_node = toCopy._node; return *this; }
-
-	// 		// operators : member access
-	// 		reference   	operator*() const { return *this->_node; }
-	// 		pointer     	operator->() const { return &(operator*()); }
-
-	// 		// operators : increment / decrement
-	// 		map_iterator&   operator++()
-	// 		{
-	// 			// find the smallest greater
-	// 			if (this->_node.right)
-	// 				while (this->_node.left)
-	// 						this->ptr = this->_node.left;
-	// 			else if (this->_node.parent != this->_node)
-	// 			{
-	// 				// find first previous greater node
-	// 				T *tmp = this->_node.parent;
-	// 				while (this->_node._key_comp(tmp->value.first,this->_node.value.first))
-	// 					tmp = tmp->parent;
-	// 				this->_node = tmp;
-	// 			}
-	// 			else
-	// 			{
-	// 				// ptr = end
-	// 			}
-				
-	// 			return *this;
-	// 		}
-			
-	// 		map_iterator    operator++(int) { map_iterator tmp = *this; ++*this; return tmp; }
-			
-	// 		map_iterator&   operator--()
-	// 		{
-	// 			// find the greatest smaller
-	// 			if (this->_node.left)
-	// 				while (this->_node.right)
-	// 						this->ptr = this->_node.right;
-	// 			else if (this->_node.parent != this->_node)
-	// 			{
-	// 				// find first previous smaller node
-	// 				T *tmp = this->_node.parent;
-	// 				while (this->_node._key_comp(this->_node.value.first, tmp->value.first))
-	// 					tmp = tmp->parent;
-	// 				this->_node = tmp;
-	// 			}
-	// 			else
-	// 			{
-	// 				// undefined
-	// 			}
-				
-	// 			return *this;
-	// 		}
-			
-	// 		map_iterator    operator--(int) { map_iterator tmp = *this; --*this; return tmp; }
-
-	// 		// operators : comparison
-	// 		friend bool		operator== (const map_iterator& lhs, const map_iterator& rhs) { return lhs._node.value == rhs._node.value; }
-	// 		friend bool 	operator!= (const map_iterator& lhs, const map_iterator& rhs) { return lhs._node.value != rhs._node.value; }
-
-	// 	private:
-	// 		Tree*	_node;
-	// };
 }
 
 #endif

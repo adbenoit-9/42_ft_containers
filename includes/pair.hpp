@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/16 13:33:21 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 12:15:08 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 16:55:48 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ namespace ft
             pair(const first_type& a, const second_type& b) : first(a), second(b) {}
             pair& operator= (const pair& pr)
             {
+                if (this == &pr)
+                    return *this;
                 this->first = pr.first;
                 this->second = pr.second;
+                return *this;
             }
             
             friend bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return lhs.first == rhs.first && lhs.second == rhs.second; }

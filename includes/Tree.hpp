@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 00:52:33 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/16 16:58:35 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,40 @@ namespace ft
 		struct Node
 		{
 			value_type				value;
-			Node					*left;
-			Node					*right;
-			Node					*parent;
+			Node*					left;
+			Node*					right;
+			Node*					parent;
+
+			Node*			getParent()
+			{
+				Node* node = this;
+				while (node->parent)
+					node = node->parent;
+				return node;
+			}
+			
+			Node*			getMinimum()
+			{
+				Node* node = this;
+				while (node->left)
+					node = node->left;
+				return node;
+			}
+			
+			Node*			getMaximum()
+			{
+				Node* node = this;
+				while (node->right)
+					node = node->right;
+				return node;
+			}
 		};
 		
 		key_compare				key_comp;
 		allocator_type  		allocValue;
 		std::allocator<Node>	allocNode;
 		Node*					root;
+		Node*					end;
 
 
 		class value_compare
@@ -68,15 +93,23 @@ namespace ft
 		
 		Tree(const key_compare& comp = key_compare(),
 		const allocator_type& alloc = allocator_type()) :
-			key_comp(comp), allocValue(alloc) { this->root = nullptr; }
+			key_comp(comp), allocValue(alloc) {
+				this->root = nullptr;
+				this->end = this->allocNode.allocate(sizeof(Node));
+				this->end->parent = nullptr;
+				this->end->right = nullptr;
+				this->end->left = nullptr;
+		}
 		
 		Tree(const Tree& x) { *this = x; }
 		
 		Tree(const Node& node, const key_compare& comp = key_compare(),
 		const allocator_type& alloc = allocator_type()) :
-			key_comp(comp), allocValue(alloc) { this->root = node; }
+			key_comp(comp), allocValue(alloc) { *this->root = node; }
 		
-		~Tree() { this->destroy(this->getParent()); }
+		~Tree() {
+				this->clear();
+			}
 
 
 		Tree&			operator=(const Tree& x)
@@ -86,7 +119,6 @@ namespace ft
 			destroy(this->root);
 			if (!x.root)
 				return *this;
-			this->root = newNode(x.root->value, nullptr);
 			this->root = copyNode(this->root, x.root);
 			this->key_comp = x.key_comp;
 			this->allocValue = x.allocValue;
@@ -94,46 +126,43 @@ namespace ft
 			return *this;
 		}
 
-		Node*			copyNode(Node* dest, Node* src, Node* parent = nullptr)
+		Node*			copyNode(Node* dest, Node* src)
 		{
-			if (dest && src)
+			if (src)
 			{
-				dest->left = copyNode(dest->left, src->left, src);
-				dest->right = copyNode(dest->right, src->right, src);
-				dest = insertNode(dest, src->value, parent);
+				dest = copyNode(dest, src->left);
+				dest = copyNode(dest, src->right);
+				dest = insertNode(dest, src->value);
 			}
 			return dest;
 		}
 		
-		Node*			getParent(Node *node = nullptr)
-		{
-			Node *tmp;
-
-			if (!node)
-				tmp = this->root;
-			else
-				tmp = node;
-			while (tmp && tmp->parent)
-				tmp = tmp->parent;
-			return tmp;
+		
+		void			setEnd() {
+			this->end->parent = this->root->getMaximum();
+			this->end->parent->right = this->end;
+		}
+		
+		void			unsetEnd() {
+			if (this->end->parent)
+				this->end->parent->right = nullptr;
 		}
 
-		size_type		maxsize() const { return this->allocValue.maxsize(); }
+		size_type		max_size() const { return this->allocValue.max_size(); }
 
 		mapped_type& 	operator[](const key_type& k)
 		{
-			Node *tmp;
-
-			tmp = this;
+			Node *tmp = this->root;
 			while (tmp)
 			{
-				if (k == tmp->value.first)
-					return tmp->value.second;
-				else if (this->key_comp(k, tmp->value.first))
+				if (this->key_comp(k, tmp->value.first))
 					tmp = tmp->left;
-				else
+				else if (this->key_comp(tmp->value.first, k))
 					tmp = tmp->right;
+				else
+					break ;
 			}
+			return tmp->value.second;
 		}
 		
 		size_type		size(Node* node) const
@@ -196,15 +225,14 @@ namespace ft
 					node = node->left ? node->left : node->right;
 					if (node)
 						node->parent = tmp->parent;
+					this->allocValue.destroy(&tmp->value);
 					this->allocNode.destroy(tmp);
 					this->allocNode.deallocate(tmp, sizeof(Node));
 				}
 				else
 				{
 					// find the greatest smaller
-					Node *tmp = node->right;
-					while (tmp->left)
-						tmp = tmp->left;
+					Node *tmp = node->right->getMinimum();
 
 					// switch them
 					if (tmp != node->right)
@@ -220,6 +248,7 @@ namespace ft
 					tmp->parent->left = nullptr;
 					tmp->parent = node->parent;
 					// delete it
+					this->allocValue.destroy(&node->value);
 					this->allocNode.destroy(node);
 					this->allocNode.deallocate(node, sizeof(Node));
 					node = tmp;
@@ -236,16 +265,18 @@ namespace ft
 				destroy(node->left);
 				destroy(node->right);
 				this->allocValue.destroy(&node->value);
-				this->allocNode.destroy(node);
+				// this->allocNode.destroy(node);
 				this->allocNode.deallocate(node, sizeof(Node));
 			}
 		}
 		
 		void			clear()
 		{
-			while (this->parent)
-				this = this->parent;
-			this->destroy(this->root);
+			this->unsetEnd();
+			// this->allocNode.destroy(node);
+			this->allocNode.deallocate(this->end, sizeof(Node));
+			if (this->root)
+				destroy(this->root->getParent());
 		}
 
 		Node*			leftRotate(Node* x)
