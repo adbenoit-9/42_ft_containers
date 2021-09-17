@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/17 00:32:56 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/17 16:47:48 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ namespace ft
 			 * 
 			 * ================================================= PRIVATE =================================================
 			 * 
-			 * pointer			_begin; 
-			 * Alloc			_alloc;
-			 * size_type 		_size;
+			 * tree			_tree; 
 			 * 
 			 **/
 
@@ -114,11 +112,11 @@ namespace ft
 			typedef	reverse_iterator<iterator>						reverse_iterator;	
 			
 			explicit map(const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type()) : _tree(comp, alloc), _size(0) {}
+			const allocator_type& alloc = allocator_type()) : _tree(comp, alloc) {}
 
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type()) : _tree(comp, alloc), _size(0) {
+			const allocator_type& alloc = allocator_type()) : _tree(comp, alloc) {
 				this->insert(first, last);
 			}
 			
@@ -131,7 +129,6 @@ namespace ft
 				if(this == &x)
 					return *this;
 				this->_tree = x._tree;
-				this->_size = x._size;
 				return *this;
 			}
 
@@ -147,8 +144,13 @@ namespace ft
 				b = this->_tree.root ? this->_tree.root->getMinimum() : this->_tree.end;
 				return const_iterator(b, this->_tree.end);
 			}
- 			iterator				end() { return iterator(this->_tree.end, this->_tree.end); }
- 			const_iterator			end() const { return const_iterator(this->_tree.end, this->_tree.end); }
+				
+ 			iterator				end() {
+				return iterator(this->_tree.end, this->_tree.end);
+			}
+ 			const_iterator			end() const {
+				return const_iterator(this->_tree.end, this->_tree.end);
+			}
 
 			reverse_iterator		rbegin() { return reverse_iterator(this->end()); }
 			const_reverse_iterator	rbegin() const { return const_reverse_iterator(this->end()); }
@@ -159,11 +161,11 @@ namespace ft
 
 			//					~ Capacity ~
 
-			size_type				size() const { return this->_size; }
+			size_type				size() const { return this->_tree.size(this->_tree.root); }
 
 			size_type				max_size() const { return this->_tree.max_size(); }
 			
-			bool					empty() const { return this->_size == 0; }
+			bool					empty() const { return this->size() == 0; }
 
 			//					~ Element access ~
 			
@@ -172,15 +174,12 @@ namespace ft
 			//					~ Modifiers ~
 
 			pair<iterator,bool>		insert(const value_type& val) {
+				size_type n = this->size();
 				this->_tree.root = this->_tree.insertNode(this->_tree.root, val);
-				this->_tree.setEnd();
 				pair<iterator,bool> ret;
-				ret.second = (this->_size != this->_tree.size(this->_tree.root));
-				this->_size += ret.second;
-				iterator it = this->begin();
-				while (it != this->end() && !value_comp()(*it, val) && !value_comp()(val, *it))
-					++it;
-				ret.first = it;
+				ret.second = (n != this->size());
+				ret.first = this->find(val.first);
+				this->_tree.setEnd();
 				return ret;
 			}
 			
@@ -196,13 +195,14 @@ namespace ft
 				for (InputIterator it = first; it != last; it++)
 					this->_tree.root = this->_tree.insertNode(this->_tree.root, *it);
 				this->_tree.setEnd();
+				
 			}
 
 			size_type				erase(const key_type& k) {
+				size_type n = this->size();
 				this->_tree.root = this->_tree.deleteNode(this->_tree.root, k);
-				this->_size = this->_tree.size(this->_tree.root);
 				this->_tree.setEnd();
-				return this->_size;
+				return (n != this->size());
 			}
 			
 			void					erase(iterator position) { this->erase((*position).first); }
@@ -220,14 +220,12 @@ namespace ft
 			void					swap(map& x){
 				map *tmp = &x;
 				x._tree = this->_tree;
-				x._size = this->_size;
 				this->_tree = tmp->_tree;
-				this->_size = tmp->_size;
 			}
 
 			void					clear() {
 				this->_tree.clear();
-				this->_size = 0;
+				this->_tree.setEnd();
 			}
 			
 			//					~ Observers ~
@@ -240,49 +238,49 @@ namespace ft
     			
 			iterator				find(const key_type& k) {
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
+					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
 						return it;
 				return this->end();
 			}
 
 			const_iterator			find(const key_type& k) const {
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
+					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
 						return it;
 				return this->end();
 			}
 
 			size_type				count(const key_type& k) const {
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
+					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
 						return 1;
 				return 0;
 			}
 
 			iterator				lower_bound(const key_type& k) {
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp((*it).first, k))
+					if (!this->_tree.key_comp(it->first, k))
 						return it;
 				return this->end();
 			}
 
 			const_iterator			lower_bound(const key_type& k) const {
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp((*it).first, k))
+					if (!this->_tree.key_comp(it->first, k))
 						return it;
 				return const_iterator(this->end());
 			}
 
 			iterator 				upper_bound(const key_type& k) {
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (this->_tree.key_comp(k, (*it).first))
+					if (this->_tree.key_comp(k, it->first))
 						return it;
 				return this->end();
 			}
 
 			const_iterator			upper_bound(const key_type& k) const {
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (this->_tree.key_comp(k, (*it).first))
+					if (this->_tree.key_comp(k, it->first))
 						return it;
 				return const_iterator(this->end());
 			}
@@ -290,7 +288,7 @@ namespace ft
 			pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
 			{
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
+					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
 						return pair<const_iterator, const_iterator>(const_iterator(it++), const_iterator(it));
 				return pair<const_iterator, const_iterator>(this->lower_bound(k), this->lower_bound(k));
 			}
@@ -298,20 +296,19 @@ namespace ft
 			pair<iterator,iterator>				equal_range(const key_type& k)
 			{
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, (*it).first) && !this->_tree.key_comp((*it).first, k))
+					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
 						return pair<iterator, iterator>(it++, it);
 				return pair<iterator, iterator>(this->lower_bound(k), this->lower_bound(k));
 			}
 
 			friend std::ostream&	operator<<(std::ostream& os, map& map) {
 				os << map._tree;
-				map._tree.setEnd();
+				std::cout << "\033[2msize : " << map.size() << "\033[0m\n" << std::endl;
 				return os;
 			}
 			
 		private:
 			tree					_tree;
-			size_type				_size;
 	};
 		
 }

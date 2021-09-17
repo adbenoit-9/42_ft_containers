@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/16 23:58:21 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/17 15:48:43 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,18 @@ namespace ft
 			key_comp(comp), allocValue(alloc) {
 				this->root = nullptr;
 				this->end = this->allocNode.allocate(sizeof(Node));
-				this->end->parent = nullptr;
-				this->end->right = nullptr;
-				this->end->left = nullptr;
+				this->setEnd();
 		}
 		
 		Tree(const Tree& x) { *this = x; }
 		
 		Tree(const Node& node, const key_compare& comp = key_compare(),
 		const allocator_type& alloc = allocator_type()) :
-			key_comp(comp), allocValue(alloc) { *this->root = node; }
+			key_comp(comp), allocValue(alloc) {
+				*this->root = node;
+				this->end = this->allocNode.allocate(sizeof(Node));
+				this->setEnd();
+		}
 		
 		~Tree() {}
 
@@ -112,20 +114,38 @@ namespace ft
 			if(this == &x)
 				return *this;
 			destroy(this->root);
+			this->root = nullptr;
 			if (!x.root)
 				return *this;
-			this->root = copyNode(this->root, x.root);
-			this->key_comp = x.key_comp;
 			this->allocValue = x.allocValue;
 			this->allocNode = x.allocNode;
 			this->allocNode.deallocate(this->end, sizeof(Node));
 			this->end = this->allocNode.allocate(sizeof(Node));
-			this->end->parent = nullptr;
-			this->end->right = nullptr;
-			this->end->left = nullptr;
+			this->setEnd();
+			this->root = copyNode(this->root, x.root);
+			this->key_comp = x.key_comp;
 			return *this;
 		}
 
+		mapped_type& 	operator[](const key_type& k)
+		{
+			Node *tmp = this->root;
+			while (tmp)
+			{
+				if (this->key_comp(k, tmp->value.first))
+					tmp = tmp->left;
+				else if (this->key_comp(tmp->value.first, k))
+					tmp = tmp->right;
+				else
+					return tmp->value.second;
+			}
+			this->root = insertNode(this->root,
+			ft::make_pair<const key_type, mapped_type>(k, mapped_type()));
+			this->setEnd();
+
+			return (*this)[k];
+		}
+		
 		Node*			copyNode(Node* dest, Node* src)
 		{
 			if (src)
@@ -143,31 +163,12 @@ namespace ft
 				this->end->parent = this->root->getMaximum();
 			else
 				this->end->parent = nullptr;
-			
-		}
-		
-		void			unsetEnd() {
-			std::cout << "end : " << this->end << std::endl;
-			if (this->root && this->end->parent)
-				this->end->parent->right = nullptr;
+			this->end->right = nullptr;
+			this->end->left = nullptr;
 		}
 
 		size_type		max_size() const { return this->allocValue.max_size(); }
 
-		mapped_type& 	operator[](const key_type& k)
-		{
-			Node *tmp = this->root;
-			while (tmp)
-			{
-				if (this->key_comp(k, tmp->value.first))
-					tmp = tmp->left;
-				else if (this->key_comp(tmp->value.first, k))
-					tmp = tmp->right;
-				else
-					break ;
-			}
-			return tmp->value.second;
-		}
 		
 		size_type		size(Node* node) const
 		{
@@ -276,11 +277,11 @@ namespace ft
 		
 		void			clear()
 		{
-			this->unsetEnd();
 			// this->allocNode.destroy(node);
 			this->allocNode.deallocate(this->end, sizeof(Node));
 			if (this->root)
 				destroy(this->root->getParent());
+			this->root = nullptr;
 		}
 
 		Node*			leftRotate(Node* x)

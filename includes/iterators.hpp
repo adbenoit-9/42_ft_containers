@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/17 00:38:42 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/17 16:40:48 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,9 +151,14 @@ namespace ft
 			map_iterator&   operator--()
 			{
 				// find the greatest smaller
-				if (this->_ptr->left)
+				if (this->_ptr == this->_end)
 				{
-					this->_ptr = this->_ptr->left->getMaximum()->parent;
+					this->_ptr = this->_ptr->parent;
+					return *this;
+				}
+				else if (this->_ptr->left)
+				{
+					this->_ptr = this->_ptr->left->getMaximum();
 					return *this;
 				}
 				else if (this->_ptr->parent)
