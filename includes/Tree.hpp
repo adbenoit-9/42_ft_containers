@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/17 15:48:43 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 22:24:50 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,20 @@
 
 namespace ft
 {
-    template < class Key, class T, class Compare = std::less<Key>,
-		   class Alloc = std::allocator< pair<const Key,T> >  >
+    template <class T, class Compare, class Alloc>
     struct Tree
     {
-		typedef Key 										key_type;
-		typedef T 									    	mapped_type;
-		typedef pair<const key_type, mapped_type>          	value_type;
-		typedef	Compare										key_compare;
-		typedef	Alloc										allocator_type;
-		typedef	typename allocator_type::reference			reference;
-		typedef	typename allocator_type::const_reference	const_reference;
-		typedef	typename allocator_type::pointer			pointer;
-		typedef	typename allocator_type::const_pointer		const_pointer;
-		typedef	ptrdiff_t									difference_type;
-		typedef	size_t										size_type;
+		typedef typename T::first_type 				key_type;
+		typedef typename T::second_type 			mapped_type;
+		typedef T									value_type;
+		typedef	Compare								key_compare;
+		typedef	Alloc								allocator_type;
+		typedef	value_type&							reference;
+		typedef	const value_type&					const_reference;
+		typedef	value_type*							pointer;
+		typedef	const value_type*					const_pointer;
+		typedef	ptrdiff_t							difference_type;
+		typedef	size_t								size_type;
 
 		struct Node
 		{
@@ -115,19 +114,28 @@ namespace ft
 				return *this;
 			destroy(this->root);
 			this->root = nullptr;
-			if (!x.root)
-				return *this;
+			this->allocNode.deallocate(this->end, sizeof(Node));
 			this->allocValue = x.allocValue;
 			this->allocNode = x.allocNode;
-			this->allocNode.deallocate(this->end, sizeof(Node));
 			this->end = this->allocNode.allocate(sizeof(Node));
-			this->setEnd();
-			this->root = copyNode(this->root, x.root);
 			this->key_comp = x.key_comp;
+			this->root = copyNode(this->root, x.root);
+			this->setEnd();
 			return *this;
 		}
 
 		mapped_type& 	operator[](const key_type& k)
+		{
+			Node* node = findNode(k);
+			if (node)
+				return node->value.second;
+			this->root = insertNode(this->root,
+			ft::make_pair<const key_type, mapped_type>(k, mapped_type()));
+			this->setEnd();
+			return (*this)[k];
+		}
+		
+		Node*			findNode(const key_type& k) const
 		{
 			Node *tmp = this->root;
 			while (tmp)
@@ -137,13 +145,9 @@ namespace ft
 				else if (this->key_comp(tmp->value.first, k))
 					tmp = tmp->right;
 				else
-					return tmp->value.second;
+					return tmp;
 			}
-			this->root = insertNode(this->root,
-			ft::make_pair<const key_type, mapped_type>(k, mapped_type()));
-			this->setEnd();
-
-			return (*this)[k];
+			return 0;
 		}
 		
 		Node*			copyNode(Node* dest, Node* src)
@@ -393,8 +397,8 @@ namespace ft
 
 		value_compare	value_comp() const { return value_compare(this->key_comp); }
 		
-		ft::vector<ft::pair<key_type, int> >	getTreeDrawing(Node* node,
-			ft::vector<ft::pair<key_type, int> > drawing, int l, int y = 0,
+		ft::vector<ft::pair<std::string, int> >	getTreeDrawing(Node* node,
+			ft::vector<ft::pair<std::string, int> > drawing, int l, int y = 0,
 			int level = 0, int side = 0) const
 		{
 			if (node)
@@ -418,7 +422,7 @@ namespace ft
 		{
 			int 		treeHeight = height(this->root);
 			int			l = pow(2, treeHeight - 1) * 2 - 1;
-			ft::vector<ft::pair<key_type, int> >	drawing(treeHeight * l);
+			ft::vector<ft::pair<std::string, int> >	drawing(treeHeight * l);
 			
 			drawing = getTreeDrawing(this->root, drawing, l, l / 2);
 			for (size_t i = 0; i < drawing.size(); i++)
@@ -456,17 +460,17 @@ namespace ft
 		}
     };
 	
-    template < class Key, class T >	
-	std::ostream&	operator<<(std::ostream& os, const Tree<Key, T>& tree)
+    template <class T, class Compare, class Alloc>	
+	std::ostream&	operator<<(std::ostream& os, const Tree<T, Compare, Alloc>& tree)
 	{
-		std::cout << "\n\033[1;32m"
+		os << "\n\033[1;32m"
 		<< "┌┬┐┬─┐┌─┐┌─┐" << std::endl
  		<< " │ ├┬┘├┤ ├┤ " << std::endl 
  		<< " ┴ ┴└─└─┘└─┘" << std::endl
  		<< "~~~~~~~~~~~~~" << "\033[0m" << std::endl << std::endl;
 		tree.drawTree();
-		std::cout << "\033[2mheight : " << tree.height(tree.root) << "\033[0m\n";
-		std::cout << "\033[2msize : " << tree.size(tree.root) << "\033[0m\n" << std::endl;
+		os	<< "\033[2mheight : " << tree.height(tree.root) << "\033[0m\n"
+			<< "\033[2msize : " << tree.size(tree.root) << "\033[0m\n" << std::endl;
 		return os;
 	}
 }

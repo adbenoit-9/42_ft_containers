@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/17 16:47:48 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 22:23:41 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,21 +92,23 @@ namespace ft
 			 **/
 
 		public:
-			typedef Tree<Key, T, Compare, Alloc>					tree;
-			typedef typename tree::key_type							key_type;
-			typedef typename tree::mapped_type				    	mapped_type;
-			typedef typename tree::value_type						value_type;
-			typedef	typename tree::key_compare						key_compare;
-			typedef	typename tree::allocator_type					allocator_type;
-			typedef	typename tree::reference						reference;
-			typedef	typename tree::const_reference					const_reference;
-			typedef	typename tree::pointer							pointer;
-			typedef	typename tree::const_pointer					const_pointer;
-			typedef	typename tree::difference_type					difference_type;
-			typedef	typename tree::size_type						size_type;
-			typedef typename tree::value_compare					value_compare;
+			typedef Key											key_type;
+			typedef T				    						mapped_type;
+			typedef	Compare										key_compare;
+			typedef	Alloc										allocator_type;
+			typedef pair<const Key,T>							value_type;
+			typedef Tree< const value_type, Compare, Alloc>	const_tree;
+			typedef Tree< value_type, Compare, Alloc>			tree;
+			typedef	typename tree::reference					reference;
+			typedef	typename tree::const_reference				const_reference;
+			typedef	typename tree::pointer						pointer;
+			typedef	typename tree::const_pointer				const_pointer;
+			typedef	typename tree::difference_type				difference_type;
+			typedef	typename tree::size_type					size_type;
+			typedef typename tree::value_compare				value_compare;
 			
-			typedef	map_iterator<bidirectional_iterator_tag, tree>	const_iterator;
+			typedef	map_iterator<bidirectional_iterator_tag,
+			const_tree, tree>										const_iterator;
 			typedef	map_iterator<bidirectional_iterator_tag, tree>	iterator;
 			typedef	reverse_iterator<const_iterator>				const_reverse_iterator;
 			typedef	reverse_iterator<iterator>						reverse_iterator;	
@@ -218,9 +220,9 @@ namespace ft
 			}
 
 			void					swap(map& x){
-				map *tmp = &x;
-				x._tree = this->_tree;
-				this->_tree = tmp->_tree;
+				typename tree::Node* tmp = x._tree.root;
+				x._tree.root = this->_tree.root;
+				this->_tree.root = tmp;
 			}
 
 			void					clear() {
@@ -237,24 +239,21 @@ namespace ft
 			//					~ Operations ~
     			
 			iterator				find(const key_type& k) {
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
-						return it;
+				typename tree::Node* node = this->_tree.findNode(k);
+				if (node)
+					return iterator(node, this->_tree.end);
 				return this->end();
 			}
 
 			const_iterator			find(const key_type& k) const {
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
-						return it;
+				typename tree::Node* node = this->_tree.findNode(k);
+				if (node)
+					return const_iterator(node, this->_tree.end);
 				return this->end();
 			}
 
 			size_type				count(const key_type& k) const {
-				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
-						return 1;
-				return 0;
+				return (this->_tree.findNode(k)) ? 1 : 0;
 			}
 
 			iterator				lower_bound(const key_type& k) {
@@ -265,10 +264,10 @@ namespace ft
 			}
 
 			const_iterator			lower_bound(const key_type& k) const {
-				for (iterator it = this->begin(); it != this->end(); it++)
+				for (const_iterator it = this->begin(); it != this->end(); it++)
 					if (!this->_tree.key_comp(it->first, k))
 						return it;
-				return const_iterator(this->end());
+				return this->end();
 			}
 
 			iterator 				upper_bound(const key_type& k) {
@@ -279,17 +278,17 @@ namespace ft
 			}
 
 			const_iterator			upper_bound(const key_type& k) const {
-				for (iterator it = this->begin(); it != this->end(); it++)
+				for (const_iterator it = this->begin(); it != this->end(); it++)
 					if (this->_tree.key_comp(k, it->first))
 						return it;
-				return const_iterator(this->end());
+				return this->end();
 			}
 
 			pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
 			{
-				for (iterator it = this->begin(); it != this->end(); it++)
+				for (const_iterator it = this->begin(); it != this->end(); it++)
 					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
-						return pair<const_iterator, const_iterator>(const_iterator(it++), const_iterator(it));
+						return pair<const_iterator, const_iterator>(it++, it);
 				return pair<const_iterator, const_iterator>(this->lower_bound(k), this->lower_bound(k));
 			}
 
@@ -303,7 +302,7 @@ namespace ft
 
 			friend std::ostream&	operator<<(std::ostream& os, map& map) {
 				os << map._tree;
-				std::cout << "\033[2msize : " << map.size() << "\033[0m\n" << std::endl;
+				os << "\033[2msize : " << map.size() << "\033[0m\n" << std::endl;
 				return os;
 			}
 			

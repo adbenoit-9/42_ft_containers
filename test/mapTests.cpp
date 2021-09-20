@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/17 14:06:38 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 22:00:00 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void    mapTests(void)
 {
 	title("Map");
 	
-	ft::Tree<std::string,int> tree;
-	ft::Tree<std::string,int> tree2;
 	std::map<std::string,int> stdMap;
 	ft::map<std::string,int> ftMap;
 	
@@ -35,7 +33,7 @@ void    mapTests(void)
 	}
 	std::cout << ftMap;
 	for(ft::map<std::string,int>::iterator it = ftMap.begin(); it != ftMap.end(); it++)
-		std::cout << " " << (*it).first;
+		std::cout << " " << it->first;
 	std::cout << std::endl;
 	
 	for (int i = 48; i < 70; ++i) {
@@ -46,7 +44,7 @@ void    mapTests(void)
 		
 	}
 	for(std::map<std::string,int>::iterator it = stdMap.begin(); it != stdMap.end(); it++)
-		std::cout << " " << (*it).first;
+		std::cout << " " << it->first;
 	std::cout << std::endl;
 
 	for (int i = 65; i < 70; ++i) {
@@ -56,10 +54,10 @@ void    mapTests(void)
 	}
 	std::cout << ftMap;
 	for(ft::map<std::string,int>::iterator it = ftMap.begin(); it != ftMap.end(); it++)
-		std::cout << " " << (*it).first;
+		std::cout << " " << it->first;
 	std::cout << std::endl;
 	for(std::map<std::string,int>::iterator it = stdMap.begin(); it != stdMap.end(); it++)
-		std::cout << " " << (*it).first;
+		std::cout << " " << it->first;
 	std::cout << std::endl << std::endl;
 	
 	std::cout << (*ftMap.find("?")).second << " " << (*ftMap.find("ko")).second << std::endl;
@@ -85,16 +83,23 @@ void    mapTests(void)
 	std::cout << ftcopy;
 	std::cout << std::endl;
 	for(ft::map<std::string,int>::iterator it = ftcopy.begin(); it != ftcopy.end(); it++)
-		std::cout << " " << (*it).first;
+		std::cout << " " << it->first;
 	for(std::map<std::string,int>::iterator it = stdcopy.begin(); it != stdcopy.end(); it++)
-		std::cout << " " << (*it).first;
+		std::cout << " " << it->first;
 	std::cout << std::endl << std::endl;
 	
 	ftcopy.erase(ftcopy.begin(), ftcopy.end());
 	for(ft::map<std::string,int>::iterator it = ftcopy.begin(); it != ftcopy.end(); it++)
-		std::cout << " " << (*it).first;
+		std::cout << " " << it->first;
 	stdcopy.erase(stdcopy.begin(), stdcopy.end());
 	for(std::map<std::string,int>::iterator it = stdcopy.begin(); it != stdcopy.end(); it++)
-		std::cout << " " << (*it).first;
+		std::cout << " " << it->first;
+	std::cout << std::endl << std::endl;
+	ftcopy = ftMap;
+	ft::map<std::string,int>::const_iterator cit(ftcopy.begin());
+	std::map<std::string,int>::const_iterator cite(stdcopy.end());
+	// cit->second = 1;
+	for(ft::map<std::string,int>::iterator it = ftcopy.begin(); it != ftcopy.end(); it++)
+		std::cout << " " << it->second;
 	std::cout << std::endl << std::endl;
 }

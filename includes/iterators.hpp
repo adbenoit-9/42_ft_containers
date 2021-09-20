@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/17 16:40:48 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 18:13:37 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,23 @@ namespace ft
 	**		MAP ITERATOR
 	*/
 	
-	template <	class Category, class T >
+	// template <	class Category, class T, class not_const_T = T>
+	template <	class Category, class T, class not_const_T = T>
 	class map_iterator
 	{
 		public:
 			typedef typename T::value_type				value_type;
-			typedef typename T::Node					Node;
-			typedef typename value_type::first_type		key_type;
+			typedef typename not_const_T::Node			Node;
+			typedef typename T::key_type				key_type;
+			typedef typename T::mapped_type				mapped_type;
 			typedef	typename T::key_compare				key_compare;
-			typedef typename value_type::second_type	mapped_type;
 			typedef typename T::difference_type			difference_type;
 			typedef typename T::pointer   				pointer;
 			typedef typename T::reference 				reference;
 			typedef Category							iterator_category;
 
 			map_iterator() {}
-			map_iterator(const map_iterator<Category, T> &toCopy) : _ptr(toCopy.base()), _end(toCopy.end()) {}
+			map_iterator(const map_iterator<Category, not_const_T> &toCopy) : _ptr(toCopy.base()), _end(toCopy.end()) {}
 			map_iterator(Node* node, Node* end) {
 				this->_ptr = node;
 				this->_end = end;
@@ -110,7 +111,7 @@ namespace ft
 			
 			// operators : assignment
 			// map_iterator&	operator=(Node* ptr) { this->_ptr = ptr; return *this; }
-			map_iterator&	operator=(const map_iterator &toCopy) {
+			map_iterator&	operator=(const map_iterator<Category, not_const_T> &toCopy) {
 				this->_ptr = toCopy._ptr;
 				this->_end = toCopy._end;
 				return *this;

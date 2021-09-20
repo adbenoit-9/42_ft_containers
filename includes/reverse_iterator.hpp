@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/19 17:32:56 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 21:37:33 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,18 @@ namespace ft
 
 			// operators : assignment
 			template <class Iter>
-			reverse_iterator&	operator=(const reverse_iterator<Iter> &rev_it) { this->_it = rev_it.base(); return *this; }
+			reverse_iterator&	operator=(const reverse_iterator<Iter> &rev_it) {
+				this->_it = rev_it.base();
+				return *this;
+			}
 			reverse_iterator&	operator+=(difference_type n) { this->_it -= n; return *this; }
 			reverse_iterator&	operator-=(difference_type n) { this->_it += n; return *this; }
 
 			// operators : member access
-			reference   		operator*() const { return *(this->_it - 1); }
+			reference   		operator*() const {
+				iterator_type tmp = this->_it;
+				return *--tmp;
+			}
 			pointer				operator->() const { return &(operator*()); }
 			reference			operator[](difference_type n) { return this->_it[-n-1]; }
 

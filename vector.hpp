@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/08/19 18:00:37 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 21:27:55 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,8 +268,9 @@ namespace ft
 			template <class InputIterator>
   			void			assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0)
 			{
-				size_type size = last - first;
-
+				size_type size = 0;
+				for (InputIterator it = first; it != last; it++)
+					++size;
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.destroy(&this->_begin[i]);
 				if (this->_capacity < size)
