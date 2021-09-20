@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/20 22:23:41 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 23:43:37 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,12 @@ namespace ft
 			
  			iterator				begin() {
 				typename tree::Node *b;
-				b = this->_tree.root ? this->_tree.root->getMinimum() : this->_tree.end;
+				b = this->_tree.root ? this->_tree.root->min() : this->_tree.end;
 				return iterator(b, this->_tree.end);
 			}
  			const_iterator			begin() const {
 				typename tree::Node *b;
-				b = this->_tree.root ? this->_tree.root->getMinimum() : this->_tree.end;
+				b = this->_tree.root ? this->_tree.root->min() : this->_tree.end;
 				return const_iterator(b, this->_tree.end);
 			}
 				
@@ -299,17 +299,10 @@ namespace ft
 						return pair<iterator, iterator>(it++, it);
 				return pair<iterator, iterator>(this->lower_bound(k), this->lower_bound(k));
 			}
-
-			friend std::ostream&	operator<<(std::ostream& os, map& map) {
-				os << map._tree;
-				os << "\033[2msize : " << map.size() << "\033[0m\n" << std::endl;
-				return os;
-			}
 			
 		private:
 			tree					_tree;
 	};
-		
 }
 
 #endif

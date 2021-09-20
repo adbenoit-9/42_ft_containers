@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/20 22:24:50 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 23:46:39 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,18 @@
 # define TREE_HPP
 
 # include <memory>
-# include "pair.hpp"
-# include "utils.hpp"
-# include "../vector.hpp"
-# include <vector>
 # include <math.h> 
+# include "pair.hpp"
 
 namespace ft
 {
-    template <class T, class Compare, class Alloc>
+    template <	class T,
+				class Compare = std::less<typename T::first_type>,
+				class Alloc = std::allocator<T> >
     struct Tree
     {
 		typedef typename T::first_type 				key_type;
-		typedef typename T::second_type 			mapped_type;
+		typedef typename T::second_type 			d;
 		typedef T									value_type;
 		typedef	Compare								key_compare;
 		typedef	Alloc								allocator_type;
@@ -51,14 +50,14 @@ namespace ft
 				return node;
 			}
 			
-			Node*			getMinimum() {
+			Node*	min() {
 				Node* node = this;
 				while (node->left)
 					node = node->left;
 				return node;
 			}
 			
-			Node*			getMaximum() {
+			Node*	max() {
 				Node* node = this;
 				while (node->right)
 					node = node->right;
@@ -124,13 +123,13 @@ namespace ft
 			return *this;
 		}
 
-		mapped_type& 	operator[](const key_type& k)
+		d& 	operator[](const key_type& k)
 		{
 			Node* node = findNode(k);
 			if (node)
 				return node->value.second;
 			this->root = insertNode(this->root,
-			ft::make_pair<const key_type, mapped_type>(k, mapped_type()));
+			ft::make_pair<const key_type, d>(k, d()));
 			this->setEnd();
 			return (*this)[k];
 		}
@@ -164,7 +163,7 @@ namespace ft
 		
 		void			setEnd() {
 			if (this->root)
-				this->end->parent = this->root->getMaximum();
+				this->end->parent = this->root->max();
 			else
 				this->end->parent = nullptr;
 			this->end->right = nullptr;
@@ -241,7 +240,7 @@ namespace ft
 				else
 				{
 					// find the greatest smaller
-					Node *tmp = node->right->getMinimum();
+					Node *tmp = node->right->min();
 
 					// switch them
 					if (tmp != node->right)
@@ -396,83 +395,7 @@ namespace ft
 		}
 
 		value_compare	value_comp() const { return value_compare(this->key_comp); }
-		
-		ft::vector<ft::pair<std::string, int> >	getTreeDrawing(Node* node,
-			ft::vector<ft::pair<std::string, int> > drawing, int l, int y = 0,
-			int level = 0, int side = 0) const
-		{
-			if (node)
-			{
-				++level;
-				y += (side * (l / pow(2, level)));
-				if (side == 1)
-					++y;
-				drawing = getTreeDrawing(node->right, drawing, l, y, level, 1);
-				drawing = getTreeDrawing(node->left, drawing, l, y, level, -1);;
-				drawing[(level - 1) * l + y].first = node->value.first;
-				drawing[(level - 1) * l + y].second = -1;
-				if (node->parent && node->value.first > node->parent->value.first)
-					drawing[(level - 1) * l + y].second = 1;
-			}
-			
-			return drawing;
-		}
-		
-		void		drawTree() const
-		{
-			int 		treeHeight = height(this->root);
-			int			l = pow(2, treeHeight - 1) * 2 - 1;
-			ft::vector<ft::pair<std::string, int> >	drawing(treeHeight * l);
-			
-			drawing = getTreeDrawing(this->root, drawing, l, l / 2);
-			for (size_t i = 0; i < drawing.size(); i++)
-			{
-				if (i % l == 0 && i != 0)
-				{
-					std::cout << std::endl;
-					std::string link;
-					int draw = 0;
-					for (int j = 0; j < l; j++)
-					{
-						if (!drawing[i - l + j].first.empty())
-						{
-							link += '^';
-							int n = l / (pow(2, i / l + 1)) + 1;
-							draw = (drawing[i + j + n].second == 1) ? 1 : 0;
-						}
-						else if (drawing[i + j].first.empty())
-							link += (draw == 1) ? '-' : ' ';
-						else
-						{
-							link += '|';
-							draw = (drawing[i + j].second == -1) ? 1 : 0;
-						}
-					}
-
-					std::cout << "\033[32m" << link << "\033[0m" << std::endl;
-				}
-				if (drawing[i].first.empty())
-					std::cout << " ";
-				else
-					std::cout << "\033[35m" <<  drawing[i].first << "\033[0m";
-			}
-			std::cout << std::endl << std::endl;
-		}
     };
-	
-    template <class T, class Compare, class Alloc>	
-	std::ostream&	operator<<(std::ostream& os, const Tree<T, Compare, Alloc>& tree)
-	{
-		os << "\n\033[1;32m"
-		<< "┌┬┐┬─┐┌─┐┌─┐" << std::endl
- 		<< " │ ├┬┘├┤ ├┤ " << std::endl 
- 		<< " ┴ ┴└─└─┘└─┘" << std::endl
- 		<< "~~~~~~~~~~~~~" << "\033[0m" << std::endl << std::endl;
-		tree.drawTree();
-		os	<< "\033[2mheight : " << tree.height(tree.root) << "\033[0m\n"
-			<< "\033[2msize : " << tree.size(tree.root) << "\033[0m\n" << std::endl;
-		return os;
-	}
 }
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/20 22:00:00 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 23:12:28 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void    mapTests(void)
 		ftMap.insert(val);
 		
 	}
-	std::cout << ftMap;
 	for(ft::map<std::string,int>::iterator it = ftMap.begin(); it != ftMap.end(); it++)
 		std::cout << " " << it->first;
 	std::cout << std::endl;
@@ -52,7 +51,6 @@ void    mapTests(void)
 		ftMap.erase(str);
 		stdMap.erase(str);
 	}
-	std::cout << ftMap;
 	for(ft::map<std::string,int>::iterator it = ftMap.begin(); it != ftMap.end(); it++)
 		std::cout << " " << it->first;
 	std::cout << std::endl;
@@ -79,8 +77,6 @@ void    mapTests(void)
 	
 	ft::map<std::string,int> ftcopy(ftMap.begin(), ftMap.end());
 	std::map<std::string,int> stdcopy(stdMap.begin(), stdMap.end());
-	std::cout << ftMap;
-	std::cout << ftcopy;
 	std::cout << std::endl;
 	for(ft::map<std::string,int>::iterator it = ftcopy.begin(); it != ftcopy.end(); it++)
 		std::cout << " " << it->first;

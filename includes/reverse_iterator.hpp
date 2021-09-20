@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/20 21:37:33 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 22:58:26 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define REVERSE_ITERATOR_HPP
 
 # include "utils.hpp"
-# include <iostream>
 
 namespace ft
 {

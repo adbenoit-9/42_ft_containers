@@ -6,18 +6,14 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:51:32 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/15 16:29:32 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/20 23:11:06 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TEST_HPP
 # define TEST_HPP
 
-# include "../stack.hpp"
-# include "../vector.hpp"
-# include "../includes/Tree.hpp"
-# include "../includes/pair.hpp"
-# include "../map.hpp"
+# include "../includes/ft.hpp"
 # include <stack>
 # include <vector>
 # include <map>
@@ -25,11 +21,16 @@
 # include <iomanip>
 # include <time.h> 
 
+# define TREE ft::Tree< ft::pair<const std::string, int> >
+# define VECT ft::vector<ft::pair<std::string, int> >
+
 void    stackTests(void);
 void    vectorTests(void);
 void    mapTests(void);
 
 void    title(std::string name);
+
+void		drawTree(TREE::Node* root);
 
 template< class T, class T1 >
 void checkAttributs(T &ft, T1 &std)
