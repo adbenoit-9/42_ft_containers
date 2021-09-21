@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/20 23:20:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/21 17:07:08 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ namespace ft
 	**		MAP ITERATOR
 	*/
 	
-	// template <	class Category, class T, class not_const_T = T>
 	template <	class Category, class T, class not_const_T = T>
 	class map_iterator
 	{

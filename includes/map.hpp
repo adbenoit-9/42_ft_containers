@@ -6,16 +6,16 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/20 23:43:37 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/21 17:05:27 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include "includes/Tree.hpp"
-# include "includes/iterators.hpp"
-# include "includes/reverse_iterator.hpp"
+# include "Tree.hpp"
+# include "iterators.hpp"
+# include "reverse_iterator.hpp"
 
 namespace ft
 {

@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/20 23:46:39 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/21 17:08:44 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ namespace ft
     struct Tree
     {
 		typedef typename T::first_type 				key_type;
-		typedef typename T::second_type 			d;
+		typedef typename T::second_type 			mapped_type;
 		typedef T									value_type;
 		typedef	Compare								key_compare;
 		typedef	Alloc								allocator_type;
@@ -123,13 +123,13 @@ namespace ft
 			return *this;
 		}
 
-		d& 	operator[](const key_type& k)
+		mapped_type& 	operator[](const key_type& k)
 		{
 			Node* node = findNode(k);
 			if (node)
 				return node->value.second;
 			this->root = insertNode(this->root,
-			ft::make_pair<const key_type, d>(k, d()));
+			ft::make_pair<const key_type, mapped_type>(k, mapped_type()));
 			this->setEnd();
 			return (*this)[k];
 		}
