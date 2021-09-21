@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/21 17:05:27 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/21 17:35:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ namespace ft
 			typedef	Compare										key_compare;
 			typedef	Alloc										allocator_type;
 			typedef pair<const Key,T>							value_type;
-			typedef Tree< const value_type, Compare, Alloc>	const_tree;
+			typedef Tree< const value_type, Compare, Alloc>		const_tree;
 			typedef Tree< value_type, Compare, Alloc>			tree;
 			typedef	typename tree::reference					reference;
 			typedef	typename tree::const_reference				const_reference;
