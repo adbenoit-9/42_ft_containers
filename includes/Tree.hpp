@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/21 17:08:44 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/21 19:14:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ namespace ft
 					this->allocValue.destroy(&tmp->value);
 					this->allocNode.destroy(tmp);
 					this->allocNode.deallocate(tmp, sizeof(Node));
+					
 				}
 				else
 				{
@@ -281,10 +282,10 @@ namespace ft
 		void			clear()
 		{
 			// this->allocNode.destroy(node);
-			this->allocNode.deallocate(this->end, sizeof(Node));
 			if (this->root)
 				destroy(this->root->getParent());
 			this->root = nullptr;
+			this->setEnd();
 		}
 
 		Node*			leftRotate(Node* x)

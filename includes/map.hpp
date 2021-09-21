@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/21 17:35:05 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/21 19:10:26 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 namespace ft
 {
 	template < class Key, class T, class Compare = std::less<Key>,
-		   class Alloc = std::allocator<pair<const Key,T> >  >
+		   class Alloc = std::allocator<ft::pair<const Key,T> >  >
 	class map
 	{
 			/**
@@ -96,7 +96,7 @@ namespace ft
 			typedef T				    						mapped_type;
 			typedef	Compare										key_compare;
 			typedef	Alloc										allocator_type;
-			typedef pair<const Key,T>							value_type;
+			typedef ft::pair<const Key,T>							value_type;
 			typedef Tree< const value_type, Compare, Alloc>		const_tree;
 			typedef Tree< value_type, Compare, Alloc>			tree;
 			typedef	typename tree::reference					reference;
@@ -227,7 +227,6 @@ namespace ft
 
 			void					clear() {
 				this->_tree.clear();
-				this->_tree.setEnd();
 			}
 			
 			//					~ Observers ~

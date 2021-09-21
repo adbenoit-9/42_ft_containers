@@ -6,11 +6,12 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/13 20:55:54 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/21 18:41:26 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.hpp"
+#include "../42_Containator/includes_and_utils/my_ft_pair.hpp"
 
 int main(void)
 {
@@ -23,6 +24,7 @@ int main(void)
 	<< "\033[0m" << std::endl << std::endl;
 	
 	srand(time(NULL));
+
 	// std::cout << "(Press enter to continue ...) ";
 	// std::string input;
 	// std::getline(std::cin, input);
