@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/22 14:10:53 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/22 14:42:16 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,72 @@ namespace ft
 				class Alloc = std::allocator<T> >
     class Tree
     {
+		/**
+		 * ================================================= PUBLIC =================================================
+		 * 
+		 * Tree(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+		 * Tree(const Tree& x);
+		 * Tree(const Node& node, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+		 * 
+		 * ~Tree();
+		 * 
+		 * Tree&			operator=(const Tree& x);
+		 * 
+		 * 						~ Capacity ~
+		 * 
+		 * size_type		size(Node* node) const;
+		 * int				height(Node* node, int h = 0) const;
+		 * size_type		max_size() const;
+		 * 
+		 * 						~ Element access ~
+		 * 
+		 * mapped_type& 	operator[](const key_type& k);
+		 * 
+		 * 						~ Modifiers ~
+		 * 
+		 * void				setEnd();
+		 * void				swap(Tree& x);
+		 * void				insertValue(const value_type& val);
+		 * void				deleteKey(const key_type key);
+		 * void				clear();
+		 * 
+		 * 						~ Observers ~
+		 * 
+		 * Node*			root() const;
+		 * Node*			end() const;
+		 * key_compare		key_comp() const;
+		 * value_compare	value_comp() const;
+		 * 
+		 * 						~ Operator ~
+		 * 
+		 * Node*			find(const key_type& k) const;
+		 * 
+		 * 						~ Balance (avl) ~
+		 * 
+		 * Node*			leftRotate(Node* x);
+		 * Node*			rightRotate(Node* y);
+		 * int				balanceFactor(Node* node) const;
+		 * Node*			balanceTree(Node* node, const key_type key);
+		 * Node*			balanceTree(Node* node);
+		 * 
+		 * 						~ Node utils ~
+		 * 
+		 * Node*			copyNode(Node* dest, Node* src);
+		 * Node*			newNode(value_type val, Node* parent);
+		 * Node*			insertNode(Node* node, const value_type& val, Node* parent = nullptr);
+		 * Node*			deleteNode(Node* node, const key_type key);
+		 * void				destroyNode(Node *node);
+		 * 
+		 * ================================================= PRIVATE =================================================
+		 * 
+		 * key_compare				_comp;
+		 * allocator_type  			_allocValue;
+		 * std::allocator<Node>		_allocNode;
+		 * Node*					_root;
+		 * Node*					_end;
+		 * 
+		 **/
+			
 		public:
 			typedef typename T::first_type 				key_type;
 			typedef typename T::second_type 			mapped_type;
@@ -121,10 +187,8 @@ namespace ft
 
 			//					~ Capacity ~
 			
-			size_type		size(Node* node) const
-			{
+			size_type		size(Node* node) const {
 				size_type s = 0;
-
 				if (node)
 				{
 					s += size(node->right);
@@ -152,9 +216,8 @@ namespace ft
 			
 			//					~ Element access ~
 			
-			mapped_type& 	operator[](const key_type& k)
-			{
-				Node* node = findNode(k);
+			mapped_type& 	operator[](const key_type& k) {
+				Node* node = this->find(k);
 				if (node)
 					return node->value.second;
 				this->_root = insertNode(this->_root,
@@ -165,6 +228,7 @@ namespace ft
 			
 			//					~ Modifiers ~
 			
+			// empty node which represents the end of the tree (after the biggest element)
 			void			setEnd() {
 				if (this->_root)
 					this->_end->parent = this->_root->max();
@@ -174,8 +238,7 @@ namespace ft
 				this->_end->left = nullptr;
 			}
 
-			void			swap(Tree& x)
-			{
+			void			swap(Tree& x) {
 				Node* tmp = this->_root;
 				this->_root = x._root;
 				x._root = tmp;
@@ -191,8 +254,7 @@ namespace ft
 				this->setEnd();
 			}
 			
-			void			clear()
-			{
+			void			clear() {
 				if (this->_root)
 					destroyNode(this->_root->getParent());
 				this->_root = nullptr;
@@ -205,6 +267,23 @@ namespace ft
 			Node*			end() const { return this->_end; }
 			key_compare		key_comp() const { return this->_comp; }
 			value_compare	value_comp() const { return value_compare(this->_comp); }
+			
+			//					~ Operator ~
+			
+			Node*			find(const key_type& k) const
+			{
+				Node *tmp = this->_root;
+				while (tmp)
+				{
+					if (this->_comp(k, tmp->value.first))
+						tmp = tmp->left;
+					else if (this->_comp(tmp->value.first, k))
+						tmp = tmp->right;
+					else
+						return tmp;
+				}
+				return 0;
+			}
 			
 			//					~ Balance (avl) ~
 
@@ -239,8 +318,7 @@ namespace ft
 			}
 			
 			// calcul balance factor
-			int				balanceFactor(Node* node) const
-			{
+			int				balanceFactor(Node* node) const {
 				if (!node)
 					return 0;
 				return height(node->right) - height(node->left);
@@ -302,23 +380,7 @@ namespace ft
 
 			//					~ Node utils ~
 			
-			Node*			findNode(const key_type& k) const
-			{
-				Node *tmp = this->_root;
-				while (tmp)
-				{
-					if (this->_comp(k, tmp->value.first))
-						tmp = tmp->left;
-					else if (this->_comp(tmp->value.first, k))
-						tmp = tmp->right;
-					else
-						return tmp;
-				}
-				return 0;
-			}
-			
-			Node*			copyNode(Node* dest, Node* src)
-			{
+			Node*			copyNode(Node* dest, Node* src) {
 				if (src)
 				{
 					dest = copyNode(dest, src->left);
@@ -408,8 +470,7 @@ namespace ft
 				return node;
 			}
 			
-			void			destroyNode(Node *node)
-			{
+			void			destroyNode(Node *node) {
 				if (node)
 				{
 					destroyNode(node->left);
