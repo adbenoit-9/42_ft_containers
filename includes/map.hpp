@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/21 19:10:26 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/22 13:32:36 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,20 +138,20 @@ namespace ft
 			
  			iterator				begin() {
 				typename tree::Node *b;
-				b = this->_tree.root ? this->_tree.root->min() : this->_tree.end;
-				return iterator(b, this->_tree.end);
+				b = this->_tree.root() ? this->_tree.root()->min() : this->_tree.end();
+				return iterator(b, this->_tree.end());
 			}
  			const_iterator			begin() const {
 				typename tree::Node *b;
-				b = this->_tree.root ? this->_tree.root->min() : this->_tree.end;
-				return const_iterator(b, this->_tree.end);
+				b = this->_tree.root() ? this->_tree.root()->min() : this->_tree.end();
+				return const_iterator(b, this->_tree.end());
 			}
 				
  			iterator				end() {
-				return iterator(this->_tree.end, this->_tree.end);
+				return iterator(this->_tree.end(), this->_tree.end());
 			}
  			const_iterator			end() const {
-				return const_iterator(this->_tree.end, this->_tree.end);
+				return const_iterator(this->_tree.end(), this->_tree.end());
 			}
 
 			reverse_iterator		rbegin() { return reverse_iterator(this->end()); }
@@ -163,7 +163,7 @@ namespace ft
 
 			//					~ Capacity ~
 
-			size_type				size() const { return this->_tree.size(this->_tree.root); }
+			size_type				size() const { return this->_tree.size(this->_tree.root()); }
 
 			size_type				max_size() const { return this->_tree.max_size(); }
 			
@@ -177,11 +177,10 @@ namespace ft
 
 			pair<iterator,bool>		insert(const value_type& val) {
 				size_type n = this->size();
-				this->_tree.root = this->_tree.insertNode(this->_tree.root, val);
+				this->_tree.insertValue(val);
 				pair<iterator,bool> ret;
 				ret.second = (n != this->size());
 				ret.first = this->find(val.first);
-				this->_tree.setEnd();
 				return ret;
 			}
 			
@@ -195,15 +194,13 @@ namespace ft
 			template <class InputIterator>
   			void					insert(InputIterator first, InputIterator last) {
 				for (InputIterator it = first; it != last; it++)
-					this->_tree.root = this->_tree.insertNode(this->_tree.root, *it);
-				this->_tree.setEnd();
+					this->_tree.insertValue(*it);
 				
 			}
 
 			size_type				erase(const key_type& k) {
 				size_type n = this->size();
-				this->_tree.root = this->_tree.deleteNode(this->_tree.root, k);
-				this->_tree.setEnd();
+				this->_tree.deleteKey(k);
 				return (n != this->size());
 			}
 			
@@ -219,19 +216,13 @@ namespace ft
 				}
 			}
 
-			void					swap(map& x){
-				typename tree::Node* tmp = x._tree.root;
-				x._tree.root = this->_tree.root;
-				this->_tree.root = tmp;
-			}
+			void					swap(map& x){ this->_tree.swap(x._tree); }
 
-			void					clear() {
-				this->_tree.clear();
-			}
+			void					clear() { this->_tree.clear(); }
 			
 			//					~ Observers ~
 			
-			key_compare				key_comp() const { return this->_tree.key_comp; }
+			key_compare				key_comp() const { return this->_tree.key_comp(); }
 			
 			value_compare			value_comp() const { return this->_tree.value_comp(); }
 
@@ -240,14 +231,14 @@ namespace ft
 			iterator				find(const key_type& k) {
 				typename tree::Node* node = this->_tree.findNode(k);
 				if (node)
-					return iterator(node, this->_tree.end);
+					return iterator(node, this->_tree.end());
 				return this->end();
 			}
 
 			const_iterator			find(const key_type& k) const {
 				typename tree::Node* node = this->_tree.findNode(k);
 				if (node)
-					return const_iterator(node, this->_tree.end);
+					return const_iterator(node, this->_tree.end());
 				return this->end();
 			}
 
@@ -257,28 +248,28 @@ namespace ft
 
 			iterator				lower_bound(const key_type& k) {
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(it->first, k))
+					if (!this->_tree.key_comp()(it->first, k))
 						return it;
 				return this->end();
 			}
 
 			const_iterator			lower_bound(const key_type& k) const {
 				for (const_iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(it->first, k))
+					if (!this->_tree.key_comp()(it->first, k))
 						return it;
 				return this->end();
 			}
 
 			iterator 				upper_bound(const key_type& k) {
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (this->_tree.key_comp(k, it->first))
+					if (this->_tree.key_comp()(k, it->first))
 						return it;
 				return this->end();
 			}
 
 			const_iterator			upper_bound(const key_type& k) const {
 				for (const_iterator it = this->begin(); it != this->end(); it++)
-					if (this->_tree.key_comp(k, it->first))
+					if (this->_tree.key_comp()(k, it->first))
 						return it;
 				return this->end();
 			}
@@ -286,7 +277,7 @@ namespace ft
 			pair<const_iterator,const_iterator>	equal_range(const key_type& k) const
 			{
 				for (const_iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
+					if (!this->_tree.key_comp()(k, it->first) && !this->_tree.key_comp()(it->first, k))
 						return pair<const_iterator, const_iterator>(it++, it);
 				return pair<const_iterator, const_iterator>(this->lower_bound(k), this->lower_bound(k));
 			}
@@ -294,7 +285,7 @@ namespace ft
 			pair<iterator,iterator>				equal_range(const key_type& k)
 			{
 				for (iterator it = this->begin(); it != this->end(); it++)
-					if (!this->_tree.key_comp(k, it->first) && !this->_tree.key_comp(it->first, k))
+					if (!this->_tree.key_comp()(k, it->first) && !this->_tree.key_comp()(it->first, k))
 						return pair<iterator, iterator>(it++, it);
 				return pair<iterator, iterator>(this->lower_bound(k), this->lower_bound(k));
 			}
