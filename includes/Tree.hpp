@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/22 14:42:16 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/22 14:45:48 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,6 @@ namespace ft
 				}
 			};
 			
-
-
 			class value_compare
 			{
 					friend class Tree;
@@ -147,6 +145,7 @@ namespace ft
 					bool operator() (const value_type& x, const value_type& y) const {
 						return comp(x.first, y.first); }
 			};
+			
 			
 			Tree(const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type()) :
@@ -167,7 +166,6 @@ namespace ft
 			}
 			
 			~Tree() {}
-
 
 			Tree&			operator=(const Tree& x)
 			{		

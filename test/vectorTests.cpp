@@ -6,18 +6,11 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/07/19 17:32:51 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/22 15:08:49 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.hpp"
-
-template< class T >
-void	print_vector(T &v)
-{
-	for (typename T::iterator it = v.begin(); it != v.end(); ++it)
-		std::cout << ' ' << *it;
-}
 
 template< class T, class T1 >
 void	ft_capacity(T &std, T1 &ft)

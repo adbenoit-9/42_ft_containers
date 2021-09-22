@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/22 13:08:18 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/22 14:48:15 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,23 @@ int main(void)
 	
 	srand(time(NULL));
 
-	// std::cout << "(Press enter to continue ...) ";
-	// std::string input;
-	// std::getline(std::cin, input);
+	std::cout << "(Press enter to continue ...) ";
+	std::string input;
+	std::getline(std::cin, input);
 
-	// vectorTests();
-	// std::cout << std::endl
-	// 			<< "(Press enter to continue ...) ";
-	// std::getline(std::cin, input);
+	vectorTests();
+	std::cout << std::endl
+				<< "(Press enter to continue ...) ";
+	std::getline(std::cin, input);
 
-	// stackTests();
-	// std::cout << std::endl
-	// 			<< "(Press enter to continue ...) ";
-	// std::getline(std::cin, input);
+	stackTests();
+	std::cout << std::endl
+				<< "(Press enter to continue ...) ";
+	std::getline(std::cin, input);
 
 	mapTests();
+	
+	std::cout << "\n\033[33mEND.\033[0m" << std::endl;
 	return (0);
 }
 
