@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/22 14:21:11 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/23 21:16:27 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ namespace ft
 		 * 
 		 * 					~ Element access ~
 		 * 
-		 * mapped_type&							operator[](const key_type& k);			 * 
+		 * mapped_type&							operator[](const key_type& k);
 		 * 
 		 * 					~ Modifiers ~
 		 * 
@@ -96,7 +96,7 @@ namespace ft
 			typedef T				    						mapped_type;
 			typedef	Compare										key_compare;
 			typedef	Alloc										allocator_type;
-			typedef ft::pair<const Key,T>							value_type;
+			typedef ft::pair<const Key,T>						value_type;
 			typedef Tree< const value_type, Compare, Alloc>		const_tree;
 			typedef Tree< value_type, Compare, Alloc>			tree;
 			typedef	typename tree::reference					reference;
@@ -184,11 +184,16 @@ namespace ft
 				return ret;
 			}
 			
-			// utilise la position uniquement si c'est coherent
 			iterator				insert(iterator position, const value_type& val) {
-				(void)position;
-				this->insert(val);
-				return find(val.first);
+				// optimizes its insertion time if position points to the element
+				// that will precede the inserted element.
+				iterator prec(position);
+				if (value_comp()(*prec, val) && value_comp()(val, *++position))
+				{
+					this->_tree.insertValue(val);
+					return this->find(val.first);
+				}
+				return this->insert(val).first;
 			}
 			
 			template <class InputIterator>

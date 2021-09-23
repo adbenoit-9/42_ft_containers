@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/22 14:45:48 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/23 21:24:43 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ namespace ft
 		 * 
 		 * Node*			copyNode(Node* dest, Node* src);
 		 * Node*			newNode(value_type val, Node* parent);
-		 * Node*			insertNode(Node* node, const value_type& val, Node* parent = nullptr);
+		 * Node*			insertNode(Node* node, const value_type& val, Node* parent = 0);
 		 * Node*			deleteNode(Node* node, const key_type key);
 		 * void				destroyNode(Node *node);
 		 * 
@@ -150,7 +150,7 @@ namespace ft
 			Tree(const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type()) :
 				_comp(comp), _allocValue(alloc) {
-					this->_root = nullptr;
+					this->_root = 0;
 					this->_end = this->_allocNode.allocate(1);
 					this->setEnd();
 			}
@@ -165,14 +165,17 @@ namespace ft
 					this->setEnd();
 			}
 			
-			~Tree() {}
+			~Tree() {
+				this->clear();
+				this->_allocNode.deallocate(this->_end, 1);
+			}
 
 			Tree&			operator=(const Tree& x)
 			{		
 				if(this == &x)
 					return *this;
 				destroyNode(this->_root);
-				this->_root = nullptr;
+				this->_root = 0;
 				this->_allocNode.deallocate(this->_end, 1);
 				this->_allocValue = x._allocValue;
 				this->_allocNode = x._allocNode;
@@ -231,9 +234,9 @@ namespace ft
 				if (this->_root)
 					this->_end->parent = this->_root->max();
 				else
-					this->_end->parent = nullptr;
-				this->_end->right = nullptr;
-				this->_end->left = nullptr;
+					this->_end->parent = 0;
+				this->_end->right = 0;
+				this->_end->left = 0;
 			}
 
 			void			swap(Tree& x) {
@@ -246,7 +249,7 @@ namespace ft
 				this->_root = insertNode(this->_root, val);
 				this->setEnd();
 			}
-			
+
 			void			deleteKey(const key_type key) {
 				this->_root = deleteNode(this->_root, key);
 				this->setEnd();
@@ -255,7 +258,7 @@ namespace ft
 			void			clear() {
 				if (this->_root)
 					destroyNode(this->_root->getParent());
-				this->_root = nullptr;
+				this->_root = 0;
 				this->setEnd();
 			}
 			
@@ -396,13 +399,13 @@ namespace ft
 				this->_allocValue.construct(&node->value, val);
 				
 				node->parent = parent;
-				node->left = nullptr;
-				node->right = nullptr;
+				node->left = 0;
+				node->right = 0;
 
 				return node;
 			}
 			
-			Node*			insertNode(Node* node, const value_type& val, Node* parent = nullptr)
+			Node*			insertNode(Node* node, const value_type& val, Node* parent = 0)
 			{
 				if (!node)
 					return newNode(val, parent);
@@ -456,7 +459,7 @@ namespace ft
 							tmp->left = node->left;
 							node->left->parent = tmp;
 						}
-						tmp->parent->left = nullptr;
+						tmp->parent->left = 0;
 						tmp->parent = node->parent;
 						// destroy it
 						this->_allocValue.destroy(&node->value);

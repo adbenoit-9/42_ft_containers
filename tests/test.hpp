@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:51:32 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/23 04:02:17 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/23 21:21:22 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void    title(std::string name);
 void	drawTree(TREE::Node* root);
 
 template<class T>
-void	compareRet(T stdRet, T ftRet)
+void	compareRet(const T& stdRet, const T& ftRet)
 {
 	if (stdRet == ftRet)
 		std::cout << "✅";
