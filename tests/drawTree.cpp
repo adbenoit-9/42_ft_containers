@@ -6,13 +6,13 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 22:29:30 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/20 23:08:02 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/23 04:03:26 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.hpp"
 
-VECT	getTreeDrawing(NODE node, VECT drawing, int l, int y = 0,
+VECT	getTreeDrawing(TREE::Node* node, VECT drawing, int l, int y = 0,
         int level = 0, int side = 0)
 {
     if (node)
@@ -34,11 +34,11 @@ VECT	getTreeDrawing(NODE node, VECT drawing, int l, int y = 0,
 
 void		drawTree(TREE tree)
 {
-    int 	treeHeight = tree.height(tree.root);
+    int 	treeHeight = tree.height(tree.root());
     int		l = pow(2, treeHeight - 1) * 2 - 1;
     VECT    drawing(treeHeight * l);
     
-    drawing = getTreeDrawing(tree.root, drawing, l, l / 2);
+    drawing = getTreeDrawing(tree.root(), drawing, l, l / 2);
     for (size_t i = 0; i < drawing.size(); i++)
     {
         if (i % l == 0 && i != 0)
@@ -81,8 +81,8 @@ void		drawTree(TREE tree)
 //     << " │ ├┬┘├┤ ├┤ " << std::endl 
 //     << " ┴ ┴└─└─┘└─┘" << std::endl
 //     << "~~~~~~~~~~~~~" << "\033[0m" << std::endl << std::endl;
-//     os	<< "\033[2mheight : " << tree.height(tree.root) << "\033[0m\n"
-//         << "\033[2msize : " << tree.size(tree.root) << "\033[0m\n" << std::endl;
-//     drawTree(tree.root);
+//     os	<< "\033[2mheight : " << tree.height(tree.root()) << "\033[0m\n"
+//         << "\033[2msize : " << tree.size(tree.root()) << "\033[0m\n" << std::endl;
+//     drawTree(tree.root());
 //     return os;
 // }

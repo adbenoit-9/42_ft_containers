@@ -6,50 +6,127 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/22 15:35:57 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/23 04:19:08 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.hpp"
 
 template< class T, class T1 >
-void	ft_iterators(T &std, T1 &ft)
+void checkMap(T &ftM, T1 &stdM)
 {
-	std::cout << "-------------------------------------------------------------------------" << std::endl
-			<< "|    begin() + end()\t|\t";
-	int i = 0;
-	for (typename T::iterator it = std.begin() ; it != std.end(); ++it)
-    	std::cout << " " << it->first;;
-	std::cout << "\t|\t";
-	i = 0;
-	for (typename T1::iterator it = ft.begin() ; it != ft.end(); ++it)
-    	std::cout << " " << it->first;;
-  	std::cout << "\t|";
-	checkMapAttributs(ft, std);
+	typename T1::iterator sit = stdM.begin();
+	for (typename T::iterator it = ftM.begin(); it != ftM.end() && sit != stdM.end(); it++, sit++)
+	{
+		if (it->first != sit->first && it->second != sit->second)
+		{
+			std::cout	<< "❌";
+			return ;
+		}
+	}
+	if (ftM.size() != stdM.size())
+		std::cout << "❌";
+	else
+		std::cout << "✅";
+}
 
-	std::cout << "-------------------------------------------------------------------------" << std::endl
-			<< "|    rbegin() + rend()\t|\t";
-	i = 0;
-	for (typename T::reverse_iterator rit = std.rbegin() ; rit != std.rend(); ++rit)
-    	std::cout << " " << rit->first;;
-	std::cout << "\t|\t";
-	for (typename T1::reverse_iterator rit = ft.rbegin() ; rit != ft.rend(); ++rit)
-    	std::cout << " " << rit->first;;
+template< class T, class T1 >
+void	checkIterators(T &stdM, T1 &ftM)
+{
+	T stdTmp;
+	T1 ftTmp;
+					/* ITERATOR */
+	std::cout << "iterator\t⬜";
+	// #0
+	for (typename T1::iterator it = ftM.begin() ; it != ftM.end(); ++it)
+		ftTmp.insert(*it);
+	for (typename T::iterator it = stdM.begin() ; it != stdM.end(); ++it)
+		stdTmp.insert(*it);
+	checkMap(ftM, stdM);
+  	std::cout << std::endl;
 	
-  	std::cout << "\t|";
-	checkMapAttributs(ft, std);
+	stdTmp.clear();
+	ftTmp.clear();
+			/* REVERSE ITERATOR */
+	std::cout << "rev_it\t\t⬜";
+	// #0
+	for (typename T1::reverse_iterator rit = ftTmp.rbegin(); rit != ftTmp.rend(); ++rit)
+		ftTmp.insert(*rit.base());
+	for (typename T::reverse_iterator rit = stdTmp.rbegin(); rit != stdTmp.rend(); ++rit)
+		stdTmp.insert(*rit.base());
+	checkMap(ftTmp, stdTmp);
+  	std::cout << std::endl;
+}
+
+
+template< class T, class T1 >
+void	checkModifiers(T &stdM, T1 &ftM)
+{
+				/* INSERT */
+	std::cout << "insert()\t⬜";
+	// #0
+	for (int i = 0; i < 5; i++)
+	{
+		std::pair<int,int> val1 = std::make_pair(i, i);
+		ft::pair<int,int> val2 = ft::make_pair(i, i);
+		stdM.insert(val1);
+		ftM.insert(val2);
+	}
+	checkMap(ftM, stdM);
+
+  	std::cout << std::endl;
+
+				/* ERASE */
+	std::cout << "erase()\t\t⬜";
+	// #0
+	stdM.erase(stdM.begin()++);
+	ftM.erase(ftM.begin()++);
+	checkMap(ftM, stdM);
+	// #1
+	stdM.erase(3);
+	ftM.erase(3);
+	checkMap(ftM, stdM);
+	// #1
+	stdM.erase(stdM.begin(), stdM.end());
+	ftM.erase(ftM.begin(), ftM.end());
+	checkMap(ftM, stdM);
+  	std::cout << std::endl;
+	
+				/* SWAP */
+	for (int i = 0; i < 5; i++)
+	{
+		std::pair<int,int> val1 = std::make_pair(i, i);
+		ft::pair<int,int> val2 = ft::make_pair(i, i);
+		stdM.insert(val1);
+		ftM.insert(val2);
+	}
+	std::cout << "swap()\t\t⬜";
+	T1 ftSwap;
+	T stdSwap;
+	ftSwap.insert(ftM.begin()++, ftM.end());
+	stdSwap.insert(stdM.begin()++, stdM.end());
+	ftM.swap(ftSwap);
+	stdM.swap(stdSwap);
+	checkMap(ftM, stdM); // #0
+  	std::cout << std::endl;
+	
+				/* CLEAR */
+	std::cout << "clear()\t\t⬜";
+	ftSwap.clear();
+	stdSwap.clear();
+	checkMap(ftM, stdM); // #0
+  	std::cout << std::endl;
 }
 
 void    mapTests(void)
 {
 	title("Map");
 	
+	std::cout << "Test n˚\t\t⬜0️⃣ 1️⃣ 2️⃣ 3️⃣ 4️⃣ 5️⃣ 6️⃣ 7️⃣ 8️⃣ 9️⃣ 🔟\n" 
+			<< "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜"<< std::endl;
+			
 	std::map<int,int> stdMap;
 	ft::map<int,int> ftMap;
-	
-	std::cout	<< "-------------------------------------------------------------------------" << std::endl
-				<< "|\tMethodes\t|" << "\tstd::stack\t|" << "\tft::stack\t|" << std::endl
-				<< "-------------------------------------------------------------------------" << std::endl;
 
 	for (int i = 0; i < 6; ++i) {
 		ft::pair<int, int>	val = ft::make_pair(i, i);
@@ -59,7 +136,9 @@ void    mapTests(void)
 		std::pair<int, int>	val = std::make_pair(i, i);
 		stdMap.insert(val);
 	}
-	ft_iterators(stdMap, ftMap);
+	
+	checkIterators(stdMap, ftMap);
+	checkModifiers(stdMap, ftMap);
 	
 		
 	// for(std::map<std::string,int>::iterator it = stdMap.begin(); it != stdMap.end(); it++)

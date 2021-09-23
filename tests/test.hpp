@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:51:32 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/22 15:32:06 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/23 04:02:17 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,58 +29,15 @@ void    vectorTests(void);
 void    mapTests(void);
 
 void    title(std::string name);
+void	drawTree(TREE::Node* root);
 
-void		drawTree(TREE::Node* root);
-
-template< class T, class T1 >
-void checkAttributs(T &ft, T1 &std)
+template<class T>
+void	compareRet(T stdRet, T ftRet)
 {
-	typename T1::iterator sit = std.begin();
-	for (typename T::iterator it = ft.begin(); it != ft.end() && sit != std.end(); it++, sit++)
-	{
-		if (*it != *sit)
-		{
-			std::cout	<< " ❌ : " << "vectors != " << std::endl;
-			return ;
-		}
-	}
-	if (ft.size() != std.size())
-		std::cout << " ❌ : " << "size " << std.size() << " - " << ft.size()<< "\t|";
-	else if (ft.max_size() != std.max_size())
-		std::cout << " ❌ : " << "max_size " << std.max_size() << " - " << ft.max_size()<< "\t|";
+	if (stdRet == ftRet)
+		std::cout << "✅";
 	else
-		std::cout << " ✅";
-	std::cout << std::endl;
-}
-
-template< class T, class T1 >
-void checkMapAttributs(T &ft, T1 &std)
-{
-	typename T1::iterator sit = std.begin();
-	for (typename T::iterator it = ft.begin(); it != ft.end() && sit != std.end(); it++, sit++)
-	{
-		if (it->first != sit->first && it->second != sit->second)
-		{
-			std::cout	<< " ❌ : " << "maps != " << std::endl;
-			return ;
-		}
-	}
-	if (ft.size() != std.size())
-		std::cout << " ❌ : " << "size " << std.size() << " - " << ft.size()<< "\t|";
-	// else if (ft.max_size() != std.max_size())
-	// 	std::cout << " ❌ : " << "max_size " << std.max_size() << " - " << ft.max_size()<< "\t|";
-	else
-		std::cout << " ✅";
-	std::cout << std::endl;
-}
-
-template<typename T>
-void	compareOperators(T std, T ft)
-{
-	if (std == ft)
-		std::cout << " ✅" << std::endl;
-	else
-		std::cout << " ❌" << std::endl;
+		std::cout << "❌";
 }
 
 template<typename T>

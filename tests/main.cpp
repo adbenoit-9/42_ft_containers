@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/22 14:48:15 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/23 04:00:31 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int main(void)
 				<< "(Press enter to continue ...) ";
 	std::getline(std::cin, input);
 
-	stackTests();
+	mapTests();
 	std::cout << std::endl
 				<< "(Press enter to continue ...) ";
 	std::getline(std::cin, input);
 
-	mapTests();
+	stackTests();
 	
-	std::cout << "\n\033[33mEND.\033[0m" << std::endl;
+	std::cout << "\n\033[34mEND.\033[0m" << std::endl;
 	return (0);
 }
 
