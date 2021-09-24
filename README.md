@@ -16,3 +16,4 @@ $ make run
 ```
 
 ## Preview
+![Example](img/screenshot.png)
