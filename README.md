@@ -9,6 +9,7 @@ The objective of this project is to implement the various container types of the
 ```
 $ git clone https://github.com/adbenoit-9/42_ft_containers.git
 $ cd 42_ft_containers/
+$ make help
 ```
 ![Example](img/help.png)
 
