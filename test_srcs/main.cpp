@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.cpp                                          :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/13 22:18:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/23 03:59:10 by adbenoit         ###   ########.fr       */
+/*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
+/*   Updated: 2021/09/25 01:46:17 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.hpp"
+# include "mapTests.hpp"
+# include "vectorTests.hpp"
+# include "stackTests.hpp"
 
 void    title(std::string name)
 {
@@ -25,9 +28,34 @@ void    title(std::string name)
     str += name;
     str.insert(str.end(), n / 2, ' ');
     str += "*"
-;    std::cout  << "\033[34;1m"
-			    << "*******************************************************" << std::endl
+;    std::cout  << "*******************************************************" << std::endl
 				<< str << std::endl
 				<< "*******************************************************" << std::endl
-				<< "\033[0m" << std::endl;
+				<< std::endl;
 }
+
+int main()
+{
+	srand(time(NULL));
+
+	ft::vector<int>				vect1;
+	ft::vector<std::string>		vect2;
+	ft::map<int, int>			map;
+	ft::stack<int>				stack;
+	// title(NAMESPACE);
+	title("MAP");
+	mapTests(map);
+	title("VECTOR");
+	vectorTests(vect1);
+	title("Stack");
+	stackTests(stack);
+	
+	// vectorTests(vect1);
+	// vectorTests(vect2);
+	// stackTests(stack);
+	
+	std::cout << "END." << std::endl;
+	return (0);
+}
+
+
