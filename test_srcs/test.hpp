@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by adbenoit          #+#    #+#             */
-/*   Updated: 2021/19/25 11:46:17 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/25 02:07:07 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define TEST_HPP
 
 # include <iostream>
-# include <time.h>
 # include <string.h>
 
 #if 0
