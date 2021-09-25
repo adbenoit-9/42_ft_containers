@@ -4,6 +4,9 @@
 ## Objective
 
 The objective of this project is to implement the various container types of the C++ standard template library.
+- vector
+- map
+- stack
 
 ## Usage
 ```
