@@ -33,3 +33,4 @@ obj/
 *.app
 
 .vscode*
+.DS_Store*
