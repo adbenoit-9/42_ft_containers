@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/25 02:07:07 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/25 14:31:21 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@
     # define NAMESPACE "FT"
     # include "../includes/ft.hpp"
 #endif
+
+void heading(std::string name);
 
 #endif

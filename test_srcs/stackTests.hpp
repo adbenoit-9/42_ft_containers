@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/25 00:45:47 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/25 16:04:10 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,116 +16,104 @@
 #include <iostream>
 
 template<class T>
-void	printStack(const T &vect, int n)
+void	printStack(const T &stack, int n)
 {
-	std::cout << n << "#  size: " << vect.size();
-	if (vect.empty() == 1)
+	std::cout << n << "#  size: " << stack.size();
+	if (stack.empty() == 1)
 		std::cout << std::endl << "    empty stack";
 	std::cout << std::endl;	
 }
 
 template<class T>
-void	checkOperators(const T& stack)
+void	checkStackObservers(const T& stack)
 {
-	std::cout << "⬜ operators:" << std::endl;
-	
-	T copy(stack);
-	std::cout << "0#  ";
-	std::cout << (stack == copy) << " ";
-	std::cout << (stack != copy) << " ";
-	std::cout << (stack < copy) << " ";
-	std::cout << (stack <= copy) << " ";
-	std::cout << (stack > copy) << " ";
-	std::cout << (stack >= copy) << " ";
-	std::cout << std::endl;	
-	
-	copy.pop();
-	std::cout << "1#  ";
-	std::cout << (stack == copy) << " ";
-	std::cout << (stack != copy) << " ";
-	std::cout << (stack < copy) << " ";
-	std::cout << (stack <= copy) << " ";
-	std::cout << (stack > copy) << " ";
-	std::cout << (stack >= copy) << " ";
-	std::cout << std::endl;	
+				/* EMPTY */
+	T tmp(stack);
+	heading("empty");
+	std::cout << "0#  " << stack.empty() << std::endl; // 0#
+	tmp.push(1);
+	std::cout << "1#  " << tmp.empty() << std::endl; // 1#
+	tmp.pop();
+	std::cout << "2#  " << tmp.empty() << std::endl; // 2#
+				/* SIZE */
+	heading("size");
+	std::cout << "0#  " << stack.size() << std::endl; // 0#
+	std::cout << "1#  " << tmp.size() << std::endl; // 1#
+	tmp.push(1);
+	std::cout << "2#  " << tmp.size() << std::endl; // 2#
+				/* TOP */
+	heading("top");
+	std::cout << "1#  " << tmp.top() << std::endl; // 1#
+	tmp.push(2);
+	std::cout << "2#  " << tmp.top() << std::endl; // 2#
 }
 
 template<class T>
-void    stackTests(T stack)
+void	checkStackModifers(T& stack)
 {
+				/* PUSH */
+	heading("push");
+	printStack(stack, 0); // #0
+	for (int i = 0; i < 5; i++)
+	{
+		stack.push(i);
+		printStack(stack, i + 1); // i+1#
+	}
+				/* POP */
+	heading("pop");
+	printStack(stack, 0); // #0
+	for (int i = 0; i < 5; i++)
+	{
+		stack.pop();
+		printStack(stack, i + 1); // i+1#
+	}
+}
 
-	{
-					/* EMPTY */
-		// 0#
-		T tmp(stack);
-		std::cout << "⬜ empty:" << std::endl;
-		printStack(tmp, 0);
-		// 1#
-		tmp.push(1);
-		printStack(tmp, 1);
-		// 2#
-		tmp.pop();
-		printStack(tmp, 2);
-		std::cout << std::endl;
-	}
-	{
-					/* SIZE */
-		// 0#
-		T tmp;
-		std::cout << "⬜ size:" << std::endl;
-		printStack(tmp, 0);
-		// 1#
-		tmp.push(1);
-		printStack(tmp, 1);
-		// 2#
-		tmp.pop();
-		printStack(tmp, 2);
-		std::cout << std::endl;
-	}
-	{
-					/* TOP */
-		// 0#
-		T tmp;
-		std::cout << "⬜ top:" << std::endl;
-		printStack(tmp, 0);
-		// 1#
-		tmp.push(1);
-		printStack(tmp, 1);
-		// 2#
-		tmp.pop();
-		printStack(tmp, 2);
-		std::cout << std::endl;
-	}
-	{
-					/* PUSH */
-		// 0#
-		T tmp;
-		std::cout << "⬜ push:" << std::endl;
-		printStack(tmp, 0);
-		for (int i = 0; i < 5; i++)
-		{
-			tmp.push(i);
-			printStack(tmp, i + 1); // i+1#
-		}
-					/* POP */
-		// 0#
-		std::cout << std::endl;
-		std::cout << "⬜ pop:" << std::endl;
-		printStack(tmp, 0);
-		for (int i = 0; i < 5; i++)
-		{
-			tmp.pop();
-			printStack(tmp, i + 1); // i+1#
-		}
-		std::cout << std::endl;
-	}
-	{
-		T tmp;
-		for (int i = 0; i < 5; i++)
-			tmp.push(i);
-		checkOperators(tmp);
-		std::cout << std::endl;
-	}
+template<class T>
+void	checkStackOperators(const T& stack)
+{
+	heading("operators");
+	
+	T copy(stack);
+	std::cout << "0#  == " << (stack == copy) << std::endl;
+	std::cout << "1#  != " << (stack != copy) << std::endl;
+	std::cout << "2#  <  " << (stack < copy) << std::endl;
+	std::cout << "3#  <= " << (stack <= copy) << std::endl;
+	std::cout << "4#  >  " << (stack > copy) << std::endl;
+	std::cout << "5#  >= " << (stack >= copy) << std::endl;
+	
+	copy.pop();
+	std::cout << "6#  == " << (stack == copy) << std::endl;
+	std::cout << "7#  != " << (stack != copy) << std::endl;
+	std::cout << "8#  <  " << (stack < copy) << std::endl;
+	std::cout << "9# <= " << (stack <= copy) << std::endl;
+	std::cout << "10# >  " << (stack > copy) << std::endl;
+	std::cout << "11# >= " << (stack >= copy) << std::endl;
+}
+
+template<class T>
+void    stackTests(T& stack)
+{
+	checkStackObservers(stack);
+	checkStackModifers(stack);
+	for (int i = 0; i < 5; i++)
+		stack.push(i);
+	checkStackOperators(stack);
+
+					/* COPY CONSTRUCTOR */
+	heading("copy constructor");
+	T copy(stack);
+	printStack(stack, 0);
+	printStack(copy, 1);
+	
+	stack.pop();
+	
+				/* OPERATOR = */
+	heading("operator =");
+	copy = stack;
+	printStack(stack, 0);
+	printStack(copy, 1);
+	std::cout << std::endl;
 }
 
 #endif
