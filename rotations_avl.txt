@@ -1,6 +1,6 @@
-     ******************************
-     ** AVL TREE ROTATION SYSTEM **
-     ******************************
+          ******************
+          ** ROTATION AVL **
+          ******************
 
 rotate left: put the first under the left side of the second        
 rotate right: put the first under the right side of the second
