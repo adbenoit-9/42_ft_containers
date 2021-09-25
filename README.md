@@ -20,7 +20,6 @@ Map is an associative container/array that store elements formed by a combinatio
 
 My map is made from an avl tree, is a self-balancing binary search tree.
 It balances at each insertion and deletion.
-
 You will find my rotation system in the `rotations_avl.txt` file.
 
 ### stack
