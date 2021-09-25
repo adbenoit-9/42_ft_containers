@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/25 01:46:17 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/25 02:04:56 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main()
 	ft::vector<std::string>		vect2;
 	ft::map<int, int>			map;
 	ft::stack<int>				stack;
-	// title(NAMESPACE);
+	
 	title("MAP");
 	mapTests(map);
 	title("VECTOR");
@@ -50,11 +50,8 @@ int main()
 	title("Stack");
 	stackTests(stack);
 	
-	// vectorTests(vect1);
-	// vectorTests(vect2);
-	// stackTests(stack);
-	
 	std::cout << "END." << std::endl;
+	
 	return (0);
 }
 
