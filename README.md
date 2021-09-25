@@ -23,20 +23,34 @@ rotate left: put the first under the left side of the second
 rotate right: put the first under the right side of the second
 
 |       case 1      |     rotation     | |       case 2      |     rotation     |
+
 |-------------------|------------------| |-------------------|------------------|
+
 |  x                |                  | |      y            | rotate right     |
+
 |   \               |   rotate left    | |     /             |                  |
+
 |   top             |                  | |   top             |                  |
+
 |     \             |                  | |   /               |                  |
+
 |      y            |                  | |  x                |                  |
 
+
 |       case 3      |     rotation     | |       case 4      |     rotation     |
+
 |-------------------|------------------| |-------------------|------------------|
+
 |  x                |                  | |    y              |                  |
+
 |   \               | rotate left      | |   /               | rotate right     |
+
 |    y              | rotate right     | |  x                | rotate left      |
+
 |   /               |                  | |   \               |                  |
+
 | top               |                  | |   top             |                  |
+
 
 ## Usage
 ```
