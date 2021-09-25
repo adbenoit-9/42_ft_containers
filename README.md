@@ -13,43 +13,9 @@ The objective of this project is to implement the various container types of the
 ### map
 
 My map is made from an avl tree, is a self-balancing binary search tree.
-At each insertion and each deletion, I balance the tree. For that I use a rotation system :
+At each insertion and each deletion, I balance the tree.
 
-                  top
-balance tree :    / \
-  (result)       x   y
-
-rotate left: put the first under the left side of the second
-rotate right: put the first under the right side of the second
-
-|       case 1      |     rotation     | |       case 2      |     rotation     |
-
-|-------------------|------------------| |-------------------|------------------|
-
-|  x                |                  | |      y            | rotate right     |
-
-|   \               |   rotate left    | |     /             |                  |
-
-|   top             |                  | |   top             |                  |
-
-|     \             |                  | |   /               |                  |
-
-|      y            |                  | |  x                |                  |
-
-
-|       case 3      |     rotation     | |       case 4      |     rotation     |
-
-|-------------------|------------------| |-------------------|------------------|
-
-|  x                |                  | |    y              |                  |
-
-|   \               | rotate left      | |   /               | rotate right     |
-
-|    y              | rotate right     | |  x                | rotate left      |
-
-|   /               |                  | |   \               |                  |
-
-| top               |                  | |   top             |                  |
+You will find my rotation system in the `avl.txt` file.
 
 
 ## Usage

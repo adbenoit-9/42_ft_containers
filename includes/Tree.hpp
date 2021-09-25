@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/23 21:24:43 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/25 17:35:51 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,7 @@ namespace ft
 			
 			//					~ Balance (avl) ~
 
+			// put x under the left side of top
 			Node*			leftRotate(Node* x)
 			{
 				Node *top = x->right;
@@ -303,6 +304,7 @@ namespace ft
 				return top;
 			}
 
+			// put y under the right side of top
 			Node*			rightRotate(Node* y)
 			{
 				Node* top = y->left;
