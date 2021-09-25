@@ -22,38 +22,21 @@ balance tree :    / \
 rotate left: put the first under the left side of the second
 rotate right: put the first under the right side of the second
 
-|       case 1      |     rotation     |
-|-------------------|------------------|
-|  x                |                  |
-|   \               |   rotate left    |
-|   top             |                  |
-|     \             |                  |
-|      y            |                  |
+|       case 1      |     rotation     | |       case 2      |     rotation     |
+|-------------------|------------------| |-------------------|------------------|
+|  x                |                  | |      y            | rotate right     |
+|   \               |   rotate left    | |     /             |                  |
+|   top             |                  | |   top             |                  |
+|     \             |                  | |   /               |                  |
+|      y            |                  | |  x                |                  |
 
-|       case 2      |     rotation     |
-|-------------------|------------------|
-|      y            | rotate right     |
-|     /             |                  |
-|   top             |                  |
-|   /               |                  |
-|  x                |                  |
-
-|       case 3      |     rotation     |
-|-------------------|------------------|
-|  x                |                  |
-|   \               | rotate left      |
-|    y              | rotate right     |
-|   /               |                  |
-| top               |                  |
-
-|       case 4      |     rotation     |
-|-------------------|------------------|
-|    y              |                  |
-|   /               | rotate right     |
-|  x                | rotate left      |
-|   \               |                  |
-|   top             |                  |
-|-------------------|------------------|
+|       case 3      |     rotation     | |       case 4      |     rotation     |
+|-------------------|------------------| |-------------------|------------------|
+|  x                |                  | |    y              |                  |
+|   \               | rotate left      | |   /               | rotate right     |
+|    y              | rotate right     | |  x                | rotate left      |
+|   /               |                  | |   \               |                  |
+| top               |                  | |   top             |                  |
 
 ## Usage
 ```
