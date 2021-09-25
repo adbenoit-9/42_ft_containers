@@ -22,30 +22,32 @@ balance tree :    / \
 rotate left: put the first under the left side of the second
 rotate right: put the first under the right side of the second
 
-|       case N      |     rotation     |
+|       case 1      |     rotation     |
 |-------------------|------------------|
-|       case 1      |                  |
 |  x                |                  |
 |   \               |   rotate left    |
 |   top             |                  |
 |     \             |                  |
 |      y            |                  |
+
+|       case 2      |     rotation     |
 |-------------------|------------------|
-|       case 2      |                  |
 |      y            | rotate right     |
 |     /             |                  |
 |   top             |                  |
 |   /               |                  |
 |  x                |                  |
+
+|       case 3      |     rotation     |
 |-------------------|------------------|
-|       case 3      |                  |
 |  x                |                  |
 |   \               | rotate left      |
 |    y              | rotate right     |
 |   /               |                  |
 | top               |                  |
+
+|       case 4      |     rotation     |
 |-------------------|------------------|
-|       case 4      |                  |
 |    y              |                  |
 |   /               | rotate right     |
 |  x                | rotate left      |
