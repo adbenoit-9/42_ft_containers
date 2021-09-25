@@ -2,6 +2,9 @@
           ** Possibilities **
           *******************
 
+rotate left: put the first under the left side of the second         
+rotate right: put the first under the right side of the second
+
 ________________________________________
 |             top   |                  |
 | caseN  =>   / \   |      moves       |
@@ -39,18 +42,3 @@ ________________________________________
 |   \               |                  |
 |   top             |                  |
 |___________________|__________________|
-
-
-rotate left:
-############
-top->parent = x->parent;   
-x->parent = top;         
-top->left = x;            
-x->right = top->right;            
-
-rotate right:
-#############
-top->parent = y->parent;   
-y->parent = top;         
-y->left = top->left;            
-top->right = y;            

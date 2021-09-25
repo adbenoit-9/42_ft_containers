@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/25 16:15:23 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/25 17:06:09 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int main()
 	ft::map<int, int>			map;
 	ft::stack<int>				stack;
 	
-     /* to be sure of the Namespace, you can uncomment this : */
+     /* to be sure of the namespace used, you can uncomment this : */
 	// title(NAMESPACE);
      
 	title("VECTOR");

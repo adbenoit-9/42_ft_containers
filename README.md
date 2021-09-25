@@ -8,10 +8,59 @@ The objective of this project is to implement the various container types of the
 - map
 - stack
 
+## Containers
+
+### map
+
+My map is made from an avl tree, is a self-balancing binary search tree.
+At each insertion and each deletion, I balance the tree. For that I use a rotation system :
+
+                  top
+balance tree :    / \
+  (result)       x   y
+
+rotate left: put the first under the left side of the second
+rotate right: put the first under the right side of the second
+
+|       case N      |     rotation     |
+|-------------------|------------------|
+|       case 1      |                  |
+|                   |                  |
+|  x                |                  |
+|   \               |   rotate left    |
+|   top             |                  |
+|     \             |                  |
+|      y            |                  |
+|-------------------|------------------|
+|       case 2      |                  |
+|                   |                  |
+|      y            | rotate right     |
+|     /             |                  |
+|   top             |                  |
+|   /               |                  |
+|  x                |                  |
+|-------------------|------------------|
+|       case 3      |                  |
+|                   |                  |
+|  x                |                  |
+|   \               | rotate left      |
+|    y              | rotate right     |
+|   /               |                  |
+| top               |                  |
+|-------------------|------------------|
+|       case 4      |                  |
+|                   |                  |
+|    y              |                  |
+|   /               | rotate right     |
+|  x                | rotate left      |
+|   \               |                  |
+|   top             |                  |
+|-------------------|------------------|
+
 ## Usage
 ```
 $ git clone https://github.com/adbenoit-9/42_ft_containers.git
-$ cd 42_ft_containers/
+$ cd 42-ft-containers/
 $ make help
 ```
 ![Example](img/help.png)
