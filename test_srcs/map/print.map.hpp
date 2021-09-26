@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printStack.hpp                                     :+:      :+:    :+:   */
+/*   print.map.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:55:38 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/26 19:46:59 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 00:37:43 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTSTACK_HPP
-# define PRINTSTACK_HPP
+#ifndef PRINT_MAP_HPP
+# define PRINT_MAP_HPP
 
-# include <iostream>
+# include "../containers.hpp"
 
-template<class T>
-void	printStack(const T &stack, int n)
+template<class key, class value>
+void	print(const ft::map<key, value>& map, int n)
 {
-	std::cout << n << "#  size: " << stack.size();
-	if (stack.empty() == 1)
-		std::cout << std::endl << "    empty stack";
-	std::cout << std::endl;	
+	std::cout << n << "#  size: " << map.size() << std::endl << "    ";
+	for (typename ft::map<key, value>::const_iterator it = map.begin() ; it != map.end(); ++it)
+		std::cout << "(" << it->first << ", " << it->second << ") ";
+	if (map.empty() == 1)
+		std::cout << "empty map";
+	std::cout << std::endl;
 }
 
 #endif

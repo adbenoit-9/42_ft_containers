@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operatorsMap.hpp                                   :+:      :+:    :+:   */
+/*   operators.map.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:55:38 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/26 19:46:49 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 00:47:19 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPERATORSMAP_HPP
-# define OPERATORSMAP_HPP
+#ifndef OPERATORS_MAP_HPP
+# define OPERATORS_MAP_HPP
 
-# include "printMap.hpp"
+# include "print.map.hpp"
 
-template<class T>
-void	mapOperators(const T& map)
+template<class Key, class Value>
+void	ft_operators(const ft::map<Key, Value>& map)
 {
 				/* FIND */
 	heading("find");
@@ -50,7 +50,7 @@ void	mapOperators(const T& map)
 	
 				/* OPERATOR [] */
 	heading("operator[]");
-	T tmp(map);
+	ft::map<Key, Value> tmp(map);
 	std::cout << "0#  map[1] = " << tmp[1] << std::endl;
 	tmp[404] = 404;
 	std::cout << "1#  map[404] = " << tmp[404] << std::endl;

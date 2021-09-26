@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   elementAccess.hpp                                  :+:      :+:    :+:   */
+/*   elementAccess.vector.hpp                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:55:38 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/26 19:49:05 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 00:53:31 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ELEMENTACCESS_HPP
-# define ELEMENTACCESS_HPP
+#ifndef ELEMENTACCESS_VECTOR_HPP
+# define ELEMENTACCESS_VECTOR_HPP
 
-# include "printVector.hpp"
+# include "print.vector.hpp"
 
 template<class T>
-void	vectorElementAccess(const T& vect)
+void	ft_elementAccess(const ft::vector<T>& vect)
 {
 				/* AT */
 	heading("at");
@@ -31,7 +31,7 @@ void	vectorElementAccess(const T& vect)
 				/* FRONT */
 	heading("front");
 	std::cout << "0#  " << vect.front() << std::endl; // 0#
-	T tmp(vect);
+	ft::vector<T> tmp(vect);
 	tmp.erase(tmp.begin());
 	std::cout << "1#  " << tmp.front() << std::endl; // 1#
 	

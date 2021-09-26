@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   observersV.hpp                                     :+:      :+:    :+:   */
+/*   observers.vector.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:55:38 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/26 19:49:15 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 00:54:58 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OBSERVERSV_HPP
-# define OBSERVERSV_HPP
+#ifndef OBSERVERS_VECTOR_HPP
+# define OBSERVERS_VECTOR_HPP
 
-# include "printVector.hpp"
+# include "print.vector.hpp"
 
 template<class T>
-void	vectorObservers(const T &vect)
+void	ft_observers(const ft::vector<T>& vect)
 {
-	T tmp = vect;
-	T tmp1;
+	ft::vector<T> tmp = vect;
+	ft::vector<T> tmp1;
 	
 				/* EMPTY */
 	heading("empty");
@@ -30,21 +30,21 @@ void	vectorObservers(const T &vect)
 				/* RESIZE */
 	heading("resize");
 	tmp.resize(0, 42);
-	printVector(tmp, 0); // 0#
+	print(tmp, 0); // 0#
 	tmp.resize(3, 42);
-	printVector(tmp, 1); // 1#
+	print(tmp, 1); // 1#
 	tmp1.resize(3, 42);
-	printVector(tmp, 2);  // 2#
+	print(tmp, 2);  // 2#
 	tmp1.clear();
 	
 				/* RESERVE */
 	heading("reserve");
 	tmp.reserve(0);
-	printVector(tmp, 0); // 0#
+	print(tmp, 0); // 0#
 	tmp.reserve(6);
-	printVector(tmp, 1); // 1#
+	print(tmp, 1); // 1#
 	tmp1.reserve(8);
-	printVector(tmp, 2); // 2#
+	print(tmp, 2); // 2#
 	tmp1.clear();
 	
 				/* SIZE */

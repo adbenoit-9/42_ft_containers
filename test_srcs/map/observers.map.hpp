@@ -1,44 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   observersStack.hpp                                 :+:      :+:    :+:   */
+/*   observers.map.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:55:38 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/26 19:46:54 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 00:47:46 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OBSERVERSSTACK_HPP
-# define OBSERVERSSTACK_HPP
+#ifndef OBSERVERS_MAP_HPP
+# define OBSERVERS_MAP_HPP
 
-# include "printStack.hpp"
+# include "print.map.hpp"
 
-template<class T>
-void	stackObservers(const T& stack)
+template<class Key, class Value>
+void	ft_observers(const ft::map<Key, Value>& map)
 {
+	ft::map<Key, Value> tmp;
 				/* EMPTY */
-	T tmp(stack);
 	heading("empty");
-	std::cout << "0#  " << stack.empty() << std::endl; // 0#
-	tmp.push(1);
+	std::cout << "0#  " << map.empty() << std::endl; // 0#
 	std::cout << "1#  " << tmp.empty() << std::endl; // 1#
-	tmp.pop();
-	std::cout << "2#  " << tmp.empty() << std::endl; // 2#
-    
+	
 				/* SIZE */
 	heading("size");
-	std::cout << "0#  " << stack.size() << std::endl; // 0#
+	std::cout << "0#  " << map.size() << std::endl; // 0#
 	std::cout << "1#  " << tmp.size() << std::endl; // 1#
-	tmp.push(1);
-	std::cout << "2#  " << tmp.size() << std::endl; // 2#
-    
-				/* TOP */
-	heading("top");
-	std::cout << "1#  " << tmp.top() << std::endl; // 1#
-	tmp.push(2);
-	std::cout << "2#  " << tmp.top() << std::endl; // 2#
+	
+	// 			/* MAX_SIZE */
+	// heading("max_size");
+	// std::cout << "0#  " << map.max_size() << std::endl; // 0#
+	// std::cout << "1#  " << tmp.max_size() << std::endl; // 1#
 }
 
 #endif

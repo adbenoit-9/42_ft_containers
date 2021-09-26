@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operatorsStack.hpp                                 :+:      :+:    :+:   */
+/*   operators.stack.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:55:38 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/26 19:46:56 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 00:49:57 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPERATORSSTACK_HPP
-# define OPERATORSSTACK_HPP
+#ifndef OPERATORS_STACK_HPP
+# define OPERATORS_STACK_HPP
 
-# include "printStack.hpp"
+# include "print.stack.hpp"
 
-template<class T>
-void	stackOperators(const T& stack)
+template<class T, class C>
+void	ft_operators(const ft::stack<T, C>& stack)
 {
 	heading("operators");
 	
-	T copy(stack);
+	ft::stack<T, C> copy(stack);
 	std::cout << "0#  == " << (stack == copy) << std::endl;
 	std::cout << "1#  != " << (stack != copy) << std::endl;
 	std::cout << "2#  <  " << (stack < copy) << std::endl;

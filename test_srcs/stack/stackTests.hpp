@@ -6,44 +6,44 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/26 19:47:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 00:55:53 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACKTESTS_HPP
 # define STACKTESTS_HPP
 
-# include "modifiersStack.hpp"
-# include "observersStack.hpp"
-# include "operatorsStack.hpp"
-# include "printStack.hpp"
+# include "modifiers.stack.hpp"
+# include "observers.stack.hpp"
+# include "operators.stack.hpp"
+# include "print.stack.hpp"
 
-template<class T>
-void    stackTests(T& stack)
+template<class T, class C>
+void    stackTests(ft::stack<T,C>& stack)
 {
-	stackObservers(stack);
+	ft_observers(stack);
 	
 				/* MODIFIERS = */
-	stackPush(stack);
-	stackPop(stack);
+	ft_push(stack);
+	ft_pop(stack);
 	for (int i = 0; i < 5; i++)
 		stack.push(i);
 
-	stackOperators(stack);
+	ft_operators(stack);
 
 				/* COPY CONSTRUCTOR */
 	heading("copy constructor");
-	T copy(stack);
-	printStack(stack, 0);
-	printStack(copy, 1);
+	ft::stack<T,C> copy(stack);
+	print(stack, 0);
+	print(copy, 1);
 	
 	stack.pop();
 	
 				/* OPERATOR = */
 	heading("operator =");
 	copy = stack;
-	printStack(stack, 0);
-	printStack(copy, 1);
+	print(stack, 0);
+	print(copy, 1);
 	std::cout << std::endl;
 }
 
