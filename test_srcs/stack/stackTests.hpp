@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 00:55:53 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 01:11:20 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "modifiers.stack.hpp"
 # include "observers.stack.hpp"
 # include "operators.stack.hpp"
-# include "print.stack.hpp"
 
 template<class T, class C>
 void    stackTests(ft::stack<T,C>& stack)

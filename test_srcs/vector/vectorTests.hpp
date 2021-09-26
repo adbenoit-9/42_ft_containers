@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 00:54:10 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 01:11:15 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "operators.vector.hpp"
 # include "observers.vector.hpp"
 # include "elementAccess.vector.hpp"
-# include "print.vector.hpp"
 
 template <class T>
 void    vectorTests(ft::vector<T>& vect)
