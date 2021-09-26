@@ -6,12 +6,13 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/09/25 02:03:55 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/09/26 17:56:06 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FT_NAME 	=	ft_containers
 STL_NAME 	=	stl_containers
+TESTER_NAME	=	Containers tester
 
 
 SRCS_PATH	=	test_srcs/
@@ -27,15 +28,23 @@ OBJ			=	$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
 all:
 	@sed -i '' 's/0/1/' "$(SRCS_PATH)test.hpp"
-	@echo "\033[33m$(STL_NAME)\033[0m: tests ajusted\033[0m"
+	@echo "\033[33m$(STL_NAME)\033[0m: namespace changed\033[0m"
 	@$(MAKE) stl
-	@sed -i '' 's/1/0/' "test_srcs/test.hpp"
-	@echo "\n\033[33m$(FT_NAME)\033[0m: tests ajusted\033[0m"
+	@sed -i '' 's/1/0/' "$(SRCS_PATH)test.hpp"
+	@echo "\n\033[33m$(FT_NAME)\033[0m: namespace changed\033[0m"
 	@$(MAKE) ft
+# uncomment all tests
+	@sed -i '' 's/\/\/ title("VECTOR")/title("VECTOR")/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/\/\/ vectorTests(vect)/vectorTests(vect)/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/\/\/ title("MAP")/title("MAP")/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/\/\/ mapTests(map)/mapTests(map)/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/\/\/ title("STACK")/title("STACK")/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/\/\/ stackTests(stack)/stackTests(stack)/' "$(SRCS_PATH)main.cpp"	
 
 ft: clean $(FT_NAME)
 
 stl: clean $(STL_NAME)
+
 
 $(FT_NAME) : $(OBJ)
 	@printf "\n"
@@ -64,15 +73,53 @@ DIFF_FILE	=	diff.txt
 SUCCESS		=	"\033[1m✅ Sucess ! \033[0mNo difference."
 FAILURE		=	"\033[1m❌ Failure ! \033[0mDifference in \033[4m$(DIFF_FILE).\033[0m"
 
-run: re
+map: fclean title
+	@echo "\t\t\t\t~ MAP ~\n"
+# comment vector and stack tests
+	@sed -i '' 's/title("VECTOR")/\/\/ title("VECTOR")/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/vectorTests(vect)/\/\/ vectorTests(vect)/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/title("STACK")/\/\/ title("STACK")/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/stackTests(stack)/\/\/ stackTests(stack)/' "$(SRCS_PATH)main.cpp"	
+	@echo "\033[33m$(TESTER_NAME)\033[0m: tests ajusted to map container\033[0m\n"
+	@$(MAKE) all
+	@$(MAKE) comp
+
+vector: fclean title
+	@echo "\t\t\t\t~ VECTOR ~\n"
+# comment map and stack tests
+	@sed -i '' 's/title("MAP")/\/\/ title("MAP")/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/mapTests(map)/\/\/ mapTests(map)/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/title("STACK")/\/\/ title("STACK")/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/stackTests(stack)/\/\/ stackTests(stack)/' "$(SRCS_PATH)main.cpp"	
+	@echo "\033[33m$(TESTER_NAME)\033[0m: tests ajusted to vector container\033[0m\n"
+	@$(MAKE) all
+	@$(MAKE) comp
+
+stack: fclean title
+	@echo "\t\t\t\t~ STACK ~\n"
+# comment map and vector tests
+	@sed -i '' 's/title("VECTOR")/\/\/ title("VECTOR")/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/vectorTests(vect)/\/\/ vectorTests(vect)/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/title("MAP")/\/\/ title("MAP")/' "$(SRCS_PATH)main.cpp"	
+	@sed -i '' 's/mapTests(map)/\/\/ mapTests(map)/' "$(SRCS_PATH)main.cpp"	
+	@echo "\033[33m$(TESTER_NAME)\033[0m: tests ajusted to stack container\033[0m\n"
+	@$(MAKE) all
+	@$(MAKE) comp
+
+run: fclean title all comp
+
+title :
 	@echo "\033[1m"
-	@echo "# ************************************************************************ #"
-	@echo "#  ____ ____ _  _ ___ ____ _ _  _ ____ ____ ____   ___ ____ ____ ___ ____  #"
-	@echo "#  |    |  | |\ |  |  |__| | |\ | |__  |__/ [__     |  |__  [__   |  [__   #"
-	@echo "#  |___ |__| | \|  |  |  | | | \| |___ |  \ ___]    |  |___ ___]  |  ___]  #"
-	@echo "#                                                                          #"
-	@echo "# ************************************************************************ #"
+	@echo "# ***************************************************************************** #"
+	@echo "#  ____ ____ _  _ ___ ____ _ _  _ ____ ____ ____   ___ ____ ____ ___ ____ ____  #"
+	@echo "#  |    |  | |\ |  |  |__| | |\ | |__  |__/ [__     |  |__  [__   |  |__  |__/  #"
+	@echo "#  |___ |__| | \|  |  |  | | | \| |___ |  \ ___]    |  |___ ___]  |  |___ |  \  #"
+	@echo "#                                                                               #"
+	@echo "# ***************************************************************************** #"
 	@echo "\033[0m"
+	
+comp:
+	@echo
 	@./$(FT_NAME) > $(FT_FILE)
 	@echo "\033[34m$(FT_NAME)\033[0m: outputs in \033[4m$(FT_FILE)\033[0m"
 	@./$(STL_NAME) > $(STL_FILE)
@@ -87,16 +134,13 @@ run: re
 
 clean:
 	@rm -rf $(OBJ) $(OBJ_PATH)
-	@echo "\033[33mContainers\033[0m: objects deleted\033[0m"
+	@echo "\033[33m$(TESTER_NAME)\033[0m: objects deleted\033[0m"
 
 fclean:	clean
-	@echo
 	@rm -rf $(STL_FILE) $(FT_FILE) $(DIFF_FILE)
-	@echo "\033[33mContainers\033[0m: outputs files deleted\033[0m"
 	@rm -rf $(FT_NAME)
-	@echo "\033[33m$(FT_NAME)\033[0m: $(FT_NAME) deleted\033[0m"
 	@rm -rf $(STL_NAME)
-	@echo "\033[33m$(STL_NAME)\033[0m: $(STL_NAME) deleted\033[0m"
+	@echo "\033[33m$(TESTER_NAME)\033[0m: cleaned up\033[0m"
 
 re: fclean all
 
@@ -108,14 +152,17 @@ debug:
 
 help:
 	@echo Usage:
-	@echo "\t[make]        : compile FT containers and STL containers tests"
-	@echo "\t[make stl]    : compile STL containers tests"
-	@echo "\t[make ft]     : compile FT containers tests"
-	@echo "\t[make run]    : run all tests and compare results"
-	@echo "\t[make clean]  : delete objects"
-	@echo "\t[make fclean] : [make clean] + delete executables and outputs files"
-	@echo "\t[make re]     : [make fclean] and [make]"
+	@echo "\t[make run]     : test all containers"
+	@echo "\t[make vector]  : test vector container"
+	@echo "\t[make map]     : test map container"
+	@echo "\t[make stack]   : test stack container"
+	@echo "\t[make]         : compile FT containers and STL containers tests"
+	@echo "\t[make stl]     : compile STL containers tests"
+	@echo "\t[make ft]      : compile FT containers tests"
+	@echo "\t[make clean]   : delete objects"
+	@echo "\t[make fclean]  : [make clean] + delete executables and outputs files"
+	@echo "\t[make re]      : [make fclean] and [make]"
 
-.PHONY: all clean fclean re run stl ft getFt getStl help
+.PHONY: all clean fclean re run stl ft getFt getStl help stack vector map title
 
 # .IGNORE:
