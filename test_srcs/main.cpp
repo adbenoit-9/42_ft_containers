@@ -6,14 +6,14 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/26 17:56:53 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/26 18:24:42 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.hpp"
-# include "mapTests.hpp"
-# include "vectorTests.hpp"
-# include "stackTests.hpp"
+#include "containers.hpp"
+#include "mapTests.hpp"
+#include "vectorTests.hpp"
+#include "stackTests.hpp"
 
 void    title(std::string name)
 {

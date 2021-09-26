@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.hpp                                           :+:      :+:    :+:   */
+/*   containers.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_HPP
-# define TEST_HPP
+#ifndef CONTAINERS_HPP
+# define CONTAINERS_HPP
 
 # include <iostream>
 # include <string.h>

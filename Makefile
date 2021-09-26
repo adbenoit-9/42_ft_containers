@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/09/26 17:56:06 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/09/26 18:24:07 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,10 @@ OBJ_NAME	=	$(SRCS:.cpp=.o)
 OBJ			=	$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
 all:
-	@sed -i '' 's/0/1/' "$(SRCS_PATH)test.hpp"
+	@sed -i '' 's/0/1/' "$(SRCS_PATH)containers.hpp"
 	@echo "\033[33m$(STL_NAME)\033[0m: namespace changed\033[0m"
 	@$(MAKE) stl
-	@sed -i '' 's/1/0/' "$(SRCS_PATH)test.hpp"
+	@sed -i '' 's/1/0/' "$(SRCS_PATH)containers.hpp"
 	@echo "\n\033[33m$(FT_NAME)\033[0m: namespace changed\033[0m"
 	@$(MAKE) ft
 # uncomment all tests
@@ -67,11 +67,12 @@ $(OBJ_PATH)%.o:	$(SRCS_PATH)%.cpp
 #										RUN TESTS										   #
 # **************************************************************************************** #
 
-FT_FILE		=	ft.out.txt
-STL_FILE	=	stl.out.txt
-DIFF_FILE	=	diff.txt
+OUT_PATH	=	results/
+FT_FILE		=	$(OUT_PATH)ft.out.txt
+STL_FILE	=	$(OUT_PATH)stl.out.txt
+DIFF_FILE	=	$(OUT_PATH)output.diff
 SUCCESS		=	"\033[1m✅ Sucess ! \033[0mNo difference."
-FAILURE		=	"\033[1m❌ Failure ! \033[0mDifference in \033[4m$(DIFF_FILE).\033[0m"
+FAILURE		=	"\033[1m❌ Failure ! \033[0mDifference in \033[4m$(DIFF_FILE)\033[0m."
 
 map: fclean title
 	@echo "\t\t\t\t~ MAP ~\n"
@@ -120,6 +121,7 @@ title :
 	
 comp:
 	@echo
+	@mkdir $(OUT_PATH) 2> /dev/null || true
 	@./$(FT_NAME) > $(FT_FILE)
 	@echo "\033[34m$(FT_NAME)\033[0m: outputs in \033[4m$(FT_FILE)\033[0m"
 	@./$(STL_NAME) > $(STL_FILE)
@@ -137,7 +139,7 @@ clean:
 	@echo "\033[33m$(TESTER_NAME)\033[0m: objects deleted\033[0m"
 
 fclean:	clean
-	@rm -rf $(STL_FILE) $(FT_FILE) $(DIFF_FILE)
+	@rm -rf $(STL_FILE) $(FT_FILE) $(DIFF_FILE) $(OUT_PATH)
 	@rm -rf $(FT_NAME)
 	@rm -rf $(STL_NAME)
 	@echo "\033[33m$(TESTER_NAME)\033[0m: cleaned up\033[0m"
