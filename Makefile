@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/09/26 18:24:07 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/09/26 20:02:26 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ FT_FILE		=	$(OUT_PATH)ft.out.txt
 STL_FILE	=	$(OUT_PATH)stl.out.txt
 DIFF_FILE	=	$(OUT_PATH)output.diff
 SUCCESS		=	"\033[1m✅ Sucess ! \033[0mNo difference."
-FAILURE		=	"\033[1m❌ Failure ! \033[0mDifference in \033[4m$(DIFF_FILE)\033[0m."
+FAILURE		=	"\033[1m❌ Failure ! \033[0mDifferences in \033[4m$(DIFF_FILE)\033[0m."
 
 map: fclean title
 	@echo "\t\t\t\t~ MAP ~\n"
