@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/26 19:48:56 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/26 19:54:10 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 template <class T>
 void    vectorTests(T& vect)
 {	
-			/*** MEMBER FUNCTIONS ***/
+		/*** MEMBER FUNCTIONS ***/
 			
 	vectorObservers(vect);
 	vectorModifiers(vect);
@@ -32,7 +32,7 @@ void    vectorTests(T& vect)
 	vectorElementAccess(vect);
 	vectorOperators(vect);
 	
-				/* COPY CONSTRUCTOR */
+			/* COPY CONSTRUCTOR */
 	heading("copy constructor");
 	T copy(vect);
 	printVector(copy, 0); // 0#
@@ -41,7 +41,7 @@ void    vectorTests(T& vect)
 	
 	vect.insert(vect.end(), 42);
 	
-				/* OPERATOR = */
+			/* OPERATOR = */
 	heading("operator =");
 	copy = vect;
 	printVector(copy, 0); // 0#
@@ -49,9 +49,9 @@ void    vectorTests(T& vect)
 	printVector(vect, 1); // 1#
 	std::cout << std::endl;
 	
-			/*** NON-MEMBER FUNCTION ***/
+		/*** NON-MEMBER FUNCTION ***/
 
-				/* SWAP */
+			/* SWAP */
 	std::cout	<< "~ non_member funtion ~" << std::endl;
 	heading("swap");
 	T swap(4);
