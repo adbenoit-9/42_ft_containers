@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/09/27 13:28:21 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/09/27 13:32:03 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,7 +117,7 @@ comp:
 	@echo "\033[34m$(FT_NAME)\033[0m: outputs in \033[4m$(FT_FILE)\033[0m"
 	@./$(STL_NAME) > $(STL_FILE)
 	@echo "\033[34m$(STL_NAME)\033[0m: outputs in \033[4m$(STL_FILE)\033[0m\n"
-	@diff $(STL_FILE) $(FT_FILE) > $(DIFF_FILE) \
+	@diff $(FT_FILE) $(STL_FILE) > $(DIFF_FILE) \
 	&& ([ $$? -eq 0 ] && echo $(SUCCESS); rm $(DIFF_FILE)) || echo $(FAILURE)
 	@echo
 
