@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/09/27 14:20:24 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/09/27 14:28:56 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,14 @@ $(STL_OBJ_PATH)%.o:	$(SRCS_PATH)%.cpp
 #										RUN TESTS										   #
 # **************************************************************************************** #
 
+TITLE = "\033[1m\n \
+		\# ***************************************************************************** \#\n \
+		\#  ____ ____ _  _ ___ ____ _ _  _ ____ ____ ____   ___ ____ ____ ___ ____ ____  \#\n \
+		\#  |    |  | |\ |  |  |__| | |\ | |__  |__/ [__     |  |__  [__   |  |__  |__/  \#\n \
+		\#  |___ |__| | \|  |  |  | | | \| |___ |  \ ___]    |  |___ ___]  |  |___ |  \  \#\n \
+		\#                                                                               \#\n \
+		\# ***************************************************************************** \#\n \
+		\033[0m"
 OUT_PATH	=	results/
 FT_FILE		=	$(OUT_PATH)ft.out.txt
 STL_FILE	=	$(OUT_PATH)stl.out.txt
@@ -75,7 +83,8 @@ DIFF_FILE	=	$(OUT_PATH)output.diff
 SUCCESS		=	"\033[1m✅ Sucess ! \033[0mNo difference."
 FAILURE		=	"\033[1m❌ Failure ! \033[0mDifferences in \033[4m$(DIFF_FILE)\033[0m."
 
-map: fclean title
+map: fclean
+	@echo $(TITLE)
 	@echo "\t\t\t\t~ MAP ~\n"
 # comment vector and stack tests
 	@sed -i '' 's/vectorTests(vect)/\/\/ vectorTests(vect)/' "$(SRCS_PATH)main.cpp"	
@@ -84,7 +93,8 @@ map: fclean title
 	@$(MAKE) all
 	@$(MAKE) comp
 
-vector: fclean title
+vector: fclean
+	@echo $(TITLE)
 	@echo "\t\t\t\t~ VECTOR ~\n"
 # comment map and stack tests
 	@sed -i '' 's/mapTests(map)/\/\/ mapTests(map)/' "$(SRCS_PATH)main.cpp"	
@@ -93,7 +103,9 @@ vector: fclean title
 	@$(MAKE) all
 	@$(MAKE) comp
 
-stack: fclean title
+	
+stack: fclean
+	@echo $(TITLE)
 	@echo "\t\t\t\t~ STACK ~\n"
 # comment map and vector tests
 	@sed -i '' 's/vectorTests(vect)/\/\/ vectorTests(vect)/' "$(SRCS_PATH)main.cpp"	
@@ -105,15 +117,8 @@ stack: fclean title
 run: fclean title all comp
 
 title :
-	@echo "\033[1m"
-	@echo "# ***************************************************************************** #"
-	@echo "#  ____ ____ _  _ ___ ____ _ _  _ ____ ____ ____   ___ ____ ____ ___ ____ ____  #"
-	@echo "#  |    |  | |\ |  |  |__| | |\ | |__  |__/ [__     |  |__  [__   |  |__  |__/  #"
-	@echo "#  |___ |__| | \|  |  |  | | | \| |___ |  \ ___]    |  |___ ___]  |  |___ |  \  #"
-	@echo "#                                                                               #"
-	@echo "# ***************************************************************************** #"
-	@echo "\033[0m"
-	
+	@echo $(TITLE)
+
 comp:
 	@echo
 	@mkdir $(OUT_PATH) 2> /dev/null || true
