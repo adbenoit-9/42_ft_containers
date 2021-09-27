@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/09/27 13:32:03 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/09/27 14:20:24 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,17 +22,15 @@ CC			=	clang++
 
 CFLAGS		=	-Wall -Wextra -Werror -std=c++98 -g3 -fsanitize=address
 
-OBJ_PATH	=	obj/
-OBJ_NAME	=	$(SRCS:.cpp=.o)
-OBJ			=	$(addprefix $(OBJ_PATH),$(OBJ_NAME))
+FT_OBJ_PATH		=	ft_obj/
+STL_OBJ_PATH	=	obj/
+OBJ_NAME		=	$(SRCS:.cpp=.o)
+FT_OBJ			=	$(addprefix $(FT_OBJ_PATH),$(OBJ_NAME))
+STL_OBJ			=	$(addprefix $(STL_OBJ_PATH),$(OBJ_NAME))
 
 all:
-	@sed -i '' 's/0/1/' "$(SRCS_PATH)containers.hpp"
-	@echo "\033[33m$(STL_NAME)\033[0m: namespace changed\033[0m"
-	@$(MAKE) stl
-	@sed -i '' 's/1/0/' "$(SRCS_PATH)containers.hpp"
-	@echo "\n\033[33m$(FT_NAME)\033[0m: namespace changed\033[0m"
-	@$(MAKE) ft
+	@$(MAKE) ft || true
+	@$(MAKE) stl || true
 # uncomment all tests
 	@sed -i '' 's/\/\/ vectorTests(vect)/vectorTests(vect)/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/\/\/ mapTests(map)/mapTests(map)/' "$(SRCS_PATH)main.cpp"	
@@ -42,22 +40,28 @@ ft: clean $(FT_NAME)
 
 stl: clean $(STL_NAME)
 
-
-$(FT_NAME) : $(OBJ)
-	@printf "\n"
-	@$(CC) $(CFLAGS) -o $(FT_NAME) $(OBJ) && ([ $$? -eq 0 ] && \
+$(FT_NAME) : $(FT_OBJ)
+	@$(CC) $(CFLAGS) -o $(FT_NAME) $(FT_OBJ) && ([ $$? -eq 0 ] && \
 	echo "Compilation of \033[33;1m$(FT_NAME)\033[0;1m: [\033[1;32mOK\033[0;1m]\033[0m") \
 	|| echo "Compilation of \033[33;1m$(FT_NAME)\033[0;1m: [\033[1;31mKO\033[0;1m]\033[0m"
-
-$(STL_NAME) : $(OBJ)
 	@printf "\n"
-	@$(CC) $(CFLAGS) -o $(STL_NAME) $(OBJ) && ([ $$? -eq 0 ] && \
+
+$(STL_NAME) : $(STL_OBJ)
+	@$(CC) $(CFLAGS) -o $(STL_NAME) $(STL_OBJ) && ([ $$? -eq 0 ] && \
 	echo "Compilation of \033[33;1m$(STL_NAME)\033[0;1m: [\033[1;32mOK\033[0;1m]\033[0m") \
 	|| echo "Compilation of \033[33;1m$(STL_NAME)\033[0;1m: [\033[1;31mKO\033[0;1m]\033[0m"
+	@printf "\n"
 	
-$(OBJ_PATH)%.o:	$(SRCS_PATH)%.cpp
-	@printf "\033[34;1m|\033[0;m"
-	@mkdir $(OBJ_PATH) 2> /dev/null || true
+$(FT_OBJ_PATH)%.o:	$(SRCS_PATH)%.cpp
+	@sed -i '' 's/1/0/' "$(SRCS_PATH)containers.hpp"
+	@echo "\033[33m$(FT_NAME)\033[0m: namespace changed\033[0m"
+	@mkdir $(FT_OBJ_PATH) 2> /dev/null || true
+	@$(CC) $(CFLAGS) -c $< -o $@ || true
+	
+$(STL_OBJ_PATH)%.o:	$(SRCS_PATH)%.cpp
+	@sed -i '' 's/0/1/' "$(SRCS_PATH)containers.hpp"
+	@echo "\033[33m$(STL_NAME)\033[0m: namespace changed\033[0m"
+	@mkdir $(STL_OBJ_PATH) 2> /dev/null || true
 	@$(CC) $(CFLAGS) -c $< -o $@ || true
 
 # **************************************************************************************** #
@@ -113,10 +117,10 @@ title :
 comp:
 	@echo
 	@mkdir $(OUT_PATH) 2> /dev/null || true
-	@./$(FT_NAME) > $(FT_FILE)
-	@echo "\033[34m$(FT_NAME)\033[0m: outputs in \033[4m$(FT_FILE)\033[0m"
 	@./$(STL_NAME) > $(STL_FILE)
-	@echo "\033[34m$(STL_NAME)\033[0m: outputs in \033[4m$(STL_FILE)\033[0m\n"
+	@echo "\033[34m$(STL_NAME)\033[0m: outputs in \033[4m$(STL_FILE)\033[0m"
+	@./$(FT_NAME) > $(FT_FILE) || echo
+	@echo "\033[34m$(FT_NAME)\033[0m: outputs in \033[4m$(FT_FILE)\033[0m\n"
 	@diff $(FT_FILE) $(STL_FILE) > $(DIFF_FILE) \
 	&& ([ $$? -eq 0 ] && echo $(SUCCESS); rm $(DIFF_FILE)) || echo $(FAILURE)
 	@echo
@@ -126,7 +130,7 @@ comp:
 # **************************************************************************************** #
 
 clean:
-	@rm -rf $(OBJ) $(OBJ_PATH)
+	@rm -rf $(FT_OBJ) $(FT_OBJ_PATH) $(STL_OBJ) $(STL_OBJ_PATH)
 	@echo "\033[33m$(TESTER_NAME)\033[0m: objects deleted\033[0m"
 
 fclean:	clean
@@ -138,7 +142,8 @@ fclean:	clean
 re: fclean all
 
 debug:
-	@echo "\033[34;1mOBJ\033[0;m\t\t= $(OBJ)"
+	@echo "\033[34;1mFT_OBJ\033[0;m\t\t= $(FT_OBJ)"
+	@echo "\033[34;1mSTL_OBJ\033[0;m\t\t= $(STL_OBJ)"
 	@echo "\033[34;1mSRCS PATH\033[0;m\t= $(SRCS_PATH)"
 	@echo "\033[34;1mSRCS\033[0;m\t\t= $(SRCS)"
 	@echo "\033[34;1mls $(SRCS_PATH)\033[0;m\t= $(shell ls $(SRCS_PATH))"
