@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:53:53 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 13:27:27 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 20:34:20 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void    mapTests(ft::map<Key, Value>& map)
 {
 	title("MAP");
 
+			/*** MEMBER FUNCTIONS ***/
+			
 	for (int i = 0; i < 6; ++i) {
 		typename ft::map<Key, Value>::value_type val(i, i);
 		map.insert(val);
@@ -51,6 +53,17 @@ void    mapTests(ft::map<Key, Value>& map)
 	print(copy, 0); // 0#
 	copy.clear();
 	print(map, 1); // 1#
+	std::cout << std::endl;
+	
+			/*** NON-MEMBER FUNCTION ***/
+
+				/* SWAP */
+	std::cout	<< "~ non_member funtion ~" << std::endl;
+	heading("swap");
+	ft::map<Key, Value> swap;
+	ft::swap(map, swap);
+	print(map, 0); // 0#
+	print(swap, 1); // 1#
 	std::cout << std::endl;
 }
 

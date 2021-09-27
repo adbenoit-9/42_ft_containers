@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:55:38 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 14:50:14 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 20:50:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_observers(const ft::map<Key, Value>& map)
 	std::cout << "1#  " << tmp.size() << std::endl; // 1#
 	
 				/* MAX_SIZE */
+	/* the results will be different because a node in ft::map is
+	different from a node in std::map, so have different sizes */
 	// heading("max_size");
 	// std::cout << "0#  " << map.max_size() << std::endl; // 0#
 	// std::cout << "1#  " << tmp.max_size() << std::endl; // 1#
