@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/25 17:35:51 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 14:49:06 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ namespace ft
 				return h;
 			}
 			
-			size_type		max_size() const { return this->_allocValue.max_size(); }
+			size_type		max_size() const { return this->_allocNode.max_size(); }
 			
 			//					~ Element access ~
 			
@@ -327,7 +327,7 @@ namespace ft
 				return height(node->right) - height(node->left);
 			}
 			
-			Node*			balanceTree(Node* node, const key_type key)
+			Node*			balance_after_insert(Node* node, const key_type key)
 			{
 				int bf = balanceFactor(node);
 				
@@ -353,7 +353,7 @@ namespace ft
 				return node;
 			}
 			
-			Node*			balanceTree(Node* node)
+			Node*			balance_after_delete(Node* node)
 			{
 				if (!node)
 					return node;
@@ -419,7 +419,7 @@ namespace ft
 				else
 					return node;
 
-				node = this->balanceTree(node, val.first);
+				node = this->balance_after_insert(node, val.first);
 				
 				return node;
 			}
@@ -469,7 +469,7 @@ namespace ft
 						node = tmp;
 					}
 				}
-				node = balanceTree(node);
+				node = balance_after_delete(node);
 				return node;
 			}
 			

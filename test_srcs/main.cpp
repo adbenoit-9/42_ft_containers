@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:46:31 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 13:49:03 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 14:50:04 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int main()
 	ft::stack<int>				stack;
 	
      /* to be sure of the namespace used, you can uncomment this : */
-	title(NAMESPACE);
+	// title(NAMESPACE);
      
 	vectorTests(vect);
 	mapTests(map);
