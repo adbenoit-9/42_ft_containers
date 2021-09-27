@@ -6,7 +6,7 @@
 #    By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 14:50:21 by adbenoit          #+#    #+#              #
-#    Updated: 2021/09/26 20:02:26 by adbenoit         ###   ########.fr        #
+#    Updated: 2021/09/27 13:28:21 by adbenoit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,8 @@ all:
 	@echo "\n\033[33m$(FT_NAME)\033[0m: namespace changed\033[0m"
 	@$(MAKE) ft
 # uncomment all tests
-	@sed -i '' 's/\/\/ title("VECTOR")/title("VECTOR")/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/\/\/ vectorTests(vect)/vectorTests(vect)/' "$(SRCS_PATH)main.cpp"	
-	@sed -i '' 's/\/\/ title("MAP")/title("MAP")/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/\/\/ mapTests(map)/mapTests(map)/' "$(SRCS_PATH)main.cpp"	
-	@sed -i '' 's/\/\/ title("STACK")/title("STACK")/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/\/\/ stackTests(stack)/stackTests(stack)/' "$(SRCS_PATH)main.cpp"	
 
 ft: clean $(FT_NAME)
@@ -77,9 +74,7 @@ FAILURE		=	"\033[1m❌ Failure ! \033[0mDifferences in \033[4m$(DIFF_FILE)\033[0
 map: fclean title
 	@echo "\t\t\t\t~ MAP ~\n"
 # comment vector and stack tests
-	@sed -i '' 's/title("VECTOR")/\/\/ title("VECTOR")/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/vectorTests(vect)/\/\/ vectorTests(vect)/' "$(SRCS_PATH)main.cpp"	
-	@sed -i '' 's/title("STACK")/\/\/ title("STACK")/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/stackTests(stack)/\/\/ stackTests(stack)/' "$(SRCS_PATH)main.cpp"	
 	@echo "\033[33m$(TESTER_NAME)\033[0m: tests ajusted to map container\033[0m\n"
 	@$(MAKE) all
@@ -88,9 +83,7 @@ map: fclean title
 vector: fclean title
 	@echo "\t\t\t\t~ VECTOR ~\n"
 # comment map and stack tests
-	@sed -i '' 's/title("MAP")/\/\/ title("MAP")/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/mapTests(map)/\/\/ mapTests(map)/' "$(SRCS_PATH)main.cpp"	
-	@sed -i '' 's/title("STACK")/\/\/ title("STACK")/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/stackTests(stack)/\/\/ stackTests(stack)/' "$(SRCS_PATH)main.cpp"	
 	@echo "\033[33m$(TESTER_NAME)\033[0m: tests ajusted to vector container\033[0m\n"
 	@$(MAKE) all
@@ -99,9 +92,7 @@ vector: fclean title
 stack: fclean title
 	@echo "\t\t\t\t~ STACK ~\n"
 # comment map and vector tests
-	@sed -i '' 's/title("VECTOR")/\/\/ title("VECTOR")/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/vectorTests(vect)/\/\/ vectorTests(vect)/' "$(SRCS_PATH)main.cpp"	
-	@sed -i '' 's/title("MAP")/\/\/ title("MAP")/' "$(SRCS_PATH)main.cpp"	
 	@sed -i '' 's/mapTests(map)/\/\/ mapTests(map)/' "$(SRCS_PATH)main.cpp"	
 	@echo "\033[33m$(TESTER_NAME)\033[0m: tests ajusted to stack container\033[0m\n"
 	@$(MAKE) all

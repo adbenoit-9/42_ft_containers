@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:53:53 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 01:11:27 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/27 13:27:27 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,13 @@
 # include "operators.map.hpp"
 # include "observers.map.hpp"
 
+void    title(std::string name);
+
 template<class Key, class Value>
 void    mapTests(ft::map<Key, Value>& map)
 {
+	title("MAP");
+
 	for (int i = 0; i < 6; ++i) {
 		typename ft::map<Key, Value>::value_type val(i, i);
 		map.insert(val);
