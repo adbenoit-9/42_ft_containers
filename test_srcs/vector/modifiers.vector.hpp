@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:55:38 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 00:52:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 13:23:24 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,22 @@ void	ft_modifiers(ft::vector<T> &vect)
 				/* SWAP */
 	heading("swap");
 	ft::vector<T> toSwap(5, 8);
+	typename ft::vector<T>::iterator it = vect.begin();
+	typename ft::vector<T>::iterator it1 = toSwap.begin();
 	vect.swap(toSwap);
 	print(vect, 0); // 0#
+	print(toSwap, 1); // 1#
+	std::cout << "2#  " << *it << " | " << *it1 << std::endl;
+			/* NON-MEMBER FUNCTION SWAP */
+	heading("non_member swap");
+	toSwap.resize(10);
+	ft::swap(vect, toSwap);
+	it = vect.begin();
+	it1 = toSwap.begin();
+	print(vect, 0); // 0#
+	print(toSwap, 1); // 1#
+	std::cout << "2#  " << *it << " | " << *it1 << std::endl;
+	std::cout << std::endl;
 	
 				/* CLEAR */
 	heading("clear");

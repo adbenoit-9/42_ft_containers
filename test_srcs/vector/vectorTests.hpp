@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 13:27:41 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 13:17:04 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,7 @@ void    vectorTests(ft::vector<T>& vect)
 	copy.clear();
 	print(vect, 1); // 1#
 	std::cout << std::endl;
-	
-		/*** NON-MEMBER FUNCTION ***/
 
-			/* SWAP */
-	std::cout	<< "~ non_member funtion ~" << std::endl;
-	heading("swap");
-	ft::vector<T> swap(4);
-	swap.resize(10);
-	ft::swap(vect, swap);
-	print(vect, 0); // 0#
-	print(swap, 1); // 1#
-	std::cout << std::endl;
 }
 
 #endif

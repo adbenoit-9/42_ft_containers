@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/26 18:55:38 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 00:45:21 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 13:27:07 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,38 @@ void	ft_modifiers(ft::map<Key, Value> &map)
 	
 				/* SWAP */
 	heading("swap");
+	ft::map<Key, Value> toSwap;
 	for (int i = 0; i < 5; i++)
 	{
 		typename ft::map<Key, Value>::value_type val(i, i);
+		typename ft::map<Key, Value>::value_type val1(i - 2, i);
 		map.insert(val);
+		toSwap.insert(val1);
 	}
-	ft::map<Key, Value> swap;
-	map.swap(swap);
+	typename ft::map<Key, Value>::iterator it = map.begin();
+	typename ft::map<Key, Value>::iterator it1 = toSwap.begin();
+	map.swap(toSwap);
 	print(map, 0); // 0#
-	print(swap, 1); // 1#
-	map.insert(swap.begin()++, swap.end());
-	map.swap(swap);
-	print(map, 2); // 2#
-	print(swap, 3); // 3#
+	print(toSwap, 1); // 1#
+	std::cout << "2#  " << it->first << " | " << it1->first << std::endl;
+	map.insert(toSwap.begin()++, toSwap.end());
+	map.swap(toSwap);
+	print(map, 3); // 3#
+	print(toSwap, 4); // 4#
+			/* NON-MEMBER FUNCTION SWAP */
+	heading("non_member swap");
+	it = map.begin();
+	it1 = toSwap.begin();
+	ft::swap(map, toSwap);
+	print(map, 0); // 0#
+	print(toSwap, 1); // 1#
+	std::cout << "2#  " << it->first << " | " << it1->first << std::endl;
+	std::cout << std::endl;
 	
 				/* CLEAR */
 	heading("clear");
-	swap.clear();
-	print(swap, 0); // 0#
+	toSwap.clear();
+	print(toSwap, 0); // 0#
 	tmp.clear();
 	print(tmp, 1); // 1#
 	ft::map<Key, Value> empty;
