@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 14:08:07 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/20 22:59:17 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 19:54:56 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ namespace ft
 	template <class T, class Container = vector<T> >
     class stack
 	{
-		private:
-			Container			_c;
-
 		public:
 			typedef Container	container_type;
 			typedef	T			value_type;
@@ -43,6 +40,9 @@ namespace ft
 		friend bool operator<=	(const stack<T, Container>& lhs, const stack<T, Container>& rhs) {return (lhs._c <= rhs._c);}
 		friend bool operator>	(const stack<T, Container>& lhs, const stack<T, Container>& rhs) {return (lhs._c > rhs._c);}
 		friend bool operator>=	(const stack<T, Container>& lhs, const stack<T, Container>& rhs) {return (lhs._c >= rhs._c);}
+		
+		private:
+			container_type		_c;
 	};
 }
 

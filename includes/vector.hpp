@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 19:52:28 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 19:54:29 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,13 +184,7 @@ namespace ft
 
 			size_type	size() const { return this->_size; }
 
-			size_type	max_size() const
-			{
-				return this->_alloc.max_size();
-				// if (sizeof(value_type) == 1)
-				// 	return (static_cast<size_type>(pow(2.0, 64.0) / 2.0) - 1);
-				// return (static_cast<size_type>(pow(2.0, 64.0) / static_cast<double>(sizeof(value_type))) - 1);
-			} 
+			size_type	max_size() const { return this->_alloc.max_size(); } 
 			
 			void		resize(size_type n, value_type val = value_type())
 			{
@@ -283,8 +277,6 @@ namespace ft
 					this->_alloc.construct(&this->_begin[i], *it);
 			}
 
-			//
-			
 			void			assign (size_type n, const value_type& val)
 			{
 				for (size_type i = 0; i < this->_size; i++)
