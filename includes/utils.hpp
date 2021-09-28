@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/07 14:03:18 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 13:55:41 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@ namespace ft
 	template <>
 	struct is_integral<char> { static const bool value = true; };
 	template <>
-	struct is_integral<char16_t> { static const bool value = true; };
-	template <>
-	struct is_integral<char32_t> { static const bool value = true; };
-	template <>
 	struct is_integral<wchar_t> { static const bool value = true; };
 	template <>
 	struct is_integral<signed char> { static const bool value = true; };
@@ -101,6 +97,17 @@ namespace ft
 			
 			return (first1 == last1) && (first2 != last2);
 	}
+	
+	// ~ less ~
+	
+	template<class T>
+	struct less
+	{
+		bool operator () (const T& lhs, const T& rhs) const {
+			return (lhs < rhs);
+		}
+	};
+	
 }
 
 #endif

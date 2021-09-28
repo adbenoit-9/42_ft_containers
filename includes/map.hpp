@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 20:30:30 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 13:54:25 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 namespace ft
 {
-	template < class Key, class T, class Compare = std::less<Key>,
+	template < class Key, class T, class Compare = ft::less<Key>,
 		   class Alloc = std::allocator<ft::pair<const Key,T> >  >
 	class map
 	{

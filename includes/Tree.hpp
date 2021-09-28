@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 20:43:27 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 13:45:04 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ namespace ft
 			typedef	const value_type&					const_reference;
 			typedef	value_type*							pointer;
 			typedef	const value_type*					const_pointer;
-			typedef	ptrdiff_t							difference_type;
+			typedef	size_t							difference_type;
 			typedef	size_t								size_type;
 
 			struct Node
