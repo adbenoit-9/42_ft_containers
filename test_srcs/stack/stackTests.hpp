@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 13:27:09 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 18:53:27 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,6 @@ void    stackTests(ft::stack<T,C>& stack)
 		stack.push(i);
 
 	ft_operators(stack);
-
-				/* COPY CONSTRUCTOR */
-	heading("copy constructor");
-	ft::stack<T,C> copy(stack);
-	print(stack, 0);
-	print(copy, 1);
-	
-	stack.pop();
-	
-				/* OPERATOR = */
-	heading("operator =");
-	copy = stack;
-	print(stack, 0);
-	print(copy, 1);
-	std::cout << std::endl;
 }
 
 #endif
