@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 20:29:24 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/29 01:05:33 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,26 +295,14 @@ namespace ft
 
 			void			push_back (const value_type& val)
 			{
-				
 				if (this->_capacity >= this->_size + 1)
 				{
 					this->_alloc.construct(&this->_begin[this->_size], val);
 					++this->_size;
 					return ;
 				}
-				else if (this->_size == 0)
-				{
-					this->_alloc.deallocate(this->_begin, 0);
-					this->_begin = this->_alloc.allocate(1);
-					this->_alloc.construct(&this->_begin[this->_size], val);
-					++this->_size;
-					this->_capacity = this->_size;
-					return ;
-				}
-
 				pointer tmp = this->_begin;
-				
-				this->_begin = this->_alloc.allocate(this->_size * 2);
+				this->_begin = this->_alloc.allocate(this->_size + 1);
 				for (size_type i = 0; i < this->_size; i++)
 				{
 					this->_alloc.construct(&this->_begin[i], tmp[i]);
@@ -322,8 +310,8 @@ namespace ft
 				}
 				this->_alloc.construct(&this->_begin[this->_size], val);
 				this->_alloc.deallocate(tmp, this->_capacity);
-				this->_capacity = this->_size * 2;
 				++this->_size;
+				this->_capacity = this->_size;
 			}
 			
 			void			pop_back ()
