@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 13:45:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:08:02 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ITERATOR_HPP
 
 # include <iostream>
+# include <cstddef>
 
 namespace ft
 {
@@ -24,7 +25,7 @@ namespace ft
 	**		VECTOR ITERATOR
 	*/
 
-	template <	class Category, class T, class Distance = size_t, class Pointer = T*, class Reference = T& >
+	template <	class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T& >
 	class vector_iterator
 	{
 		public:

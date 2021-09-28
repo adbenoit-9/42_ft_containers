@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 13:45:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:08:39 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ namespace ft
 			typedef	typename allocator_type::pointer							pointer;
 			typedef	typename allocator_type::const_pointer						const_pointer;
 			typedef	vector_iterator<random_access_iterator_tag, value_type,
-					size_t, const T*, const T&>								const_iterator;
+					ptrdiff_t, const T*, const T&>								const_iterator;
 			typedef	vector_iterator<random_access_iterator_tag, value_type>		iterator;
 			typedef	reverse_iterator<const_iterator>							const_reverse_iterator;
 			typedef	reverse_iterator<iterator>									reverse_iterator;	
