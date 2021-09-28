@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 13:45:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:00:59 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 namespace ft
 {
     template <	class T,
-				class Compare = std::less<typename T::first_type>,
+				class Compare = ft::less<typename T::first_type>,
 				class Alloc = std::allocator<T> >
     class Tree
     {
