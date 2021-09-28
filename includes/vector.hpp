@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 14:08:39 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 19:52:28 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,9 @@ namespace ft
 					this->_alloc.construct(&this->_begin[i], *it);
 			}
 			
-			vector(const vector& x)
+			vector(const vector& x) : _alloc(x._alloc), _size(x._size), _capacity(x._size)
 			{
-				this->_alloc = x._alloc;
-				this->_size = x._size;
-				this->_capacity = x._size;
-				this->_begin = this->_alloc.allocate(this->_size);
+				this->_begin = this->_alloc.allocate(this->_capacity);
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.construct(&this->_begin[i], x._begin[i]);
 			}
