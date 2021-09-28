@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 15:53:15 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 13:17:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 13:29:01 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void    vectorTests(ft::vector<T>& vect)
 {
 	title("VECTOR");
 	
-		/*** MEMBER FUNCTIONS ***/
-			
 	ft_observers(vect);
 	ft_modifiers(vect);
 	ft_iterators(vect);

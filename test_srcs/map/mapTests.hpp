@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 02:53:53 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 13:21:25 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 13:29:11 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void    mapTests(ft::map<Key, Value>& map)
 {
 	title("MAP");
 
-			/*** MEMBER FUNCTIONS ***/
-			
 	for (int i = 0; i < 6; ++i) {
 		typename ft::map<Key, Value>::value_type val(i, i);
 		map.insert(val);
