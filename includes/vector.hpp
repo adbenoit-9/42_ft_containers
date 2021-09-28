@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 19:54:29 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/28 20:29:24 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,6 +304,7 @@ namespace ft
 				}
 				else if (this->_size == 0)
 				{
+					this->_alloc.deallocate(this->_begin, 0);
 					this->_begin = this->_alloc.allocate(1);
 					this->_alloc.construct(&this->_begin[this->_size], val);
 					++this->_size;
