@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/29 01:05:33 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/29 11:49:34 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ namespace ft
 				this->_begin = this->_alloc.allocate(this->_capacity);
 				
 				int i = 0;
-				for (InputIterator it = first; it != last; it++, i++) // weird
+				for (InputIterator it = first; it != last; it++, i++)
 					this->_alloc.construct(&this->_begin[i], *it);
 			}
 			
@@ -166,7 +166,7 @@ namespace ft
 				return *this;
 			}
 
-			// Iterators
+			// 				~ Iterators ~
 			
 			iterator begin() { return iterator(this->_begin); }
 			const_iterator begin() const { return const_iterator(this->_begin); }
@@ -180,7 +180,7 @@ namespace ft
 			reverse_iterator rend() { return reverse_iterator(iterator(this->begin())); }
 			const_reverse_iterator rend() const { return const_reverse_iterator(this->begin()); } 
 
-			// Capacity
+			// 				~ Capacity ~
 
 			size_type	size() const { return this->_size; }
 
@@ -230,7 +230,7 @@ namespace ft
 				this->_capacity = n;
 			}
 
-			// Element access
+			// 				~ Element access ~
 			
 			reference		operator[] (size_type n) { return this->_begin[n]; }
 			const_reference	operator[] (size_type n) const { return this->_begin[n]; }
@@ -254,7 +254,7 @@ namespace ft
 			reference		back() { return this->_begin[this->_size - 1]; }
 			const_reference	back() const { return this->_begin[this->_size - 1]; }
 
-			// Modifiers
+			// 				~ Modifiers ~
 			
 			template <class InputIterator>
   			void			assign (InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type * = 0)
@@ -416,7 +416,7 @@ namespace ft
 				this->_size = 0;
 			}
 			
-			// Operators
+			// 				~ Operators ~
 			
 			friend bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 			{
@@ -440,7 +440,7 @@ namespace ft
 
 		private:
 			pointer			_begin;
-			Alloc			_alloc;
+			allocator_type	_alloc;
 			size_type 		_size;
 			size_type 		_capacity;
 	};

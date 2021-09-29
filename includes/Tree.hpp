@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:43:23 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 14:03:04 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/29 16:28:52 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ namespace ft
 		 * 
 		 * 						~ Capacity ~
 		 * 
-		 * size_type		size(Node* node) const;
-		 * int				height(Node* node, int h = 0) const;
+		 * size_type		size() const;
+		 * int				height() const;
 		 * size_type		max_size() const;
 		 * 
 		 * 						~ Element access ~
@@ -48,7 +48,7 @@ namespace ft
 		 * 
 		 * 						~ Modifiers ~
 		 * 
-		 * void				setEnd();
+		 * void				set_end_node();
 		 * void				swap(Tree& x);
 		 * void				insertValue(const value_type& val);
 		 * void				deleteKey(const key_type key);
@@ -57,7 +57,7 @@ namespace ft
 		 * 						~ Observers ~
 		 * 
 		 * Node*			root() const;
-		 * Node*			end() const;
+		 * Node*			end_node() const;
 		 * key_compare		key_comp() const;
 		 * value_compare	value_comp() const;
 		 * 
@@ -75,6 +75,8 @@ namespace ft
 		 * 
 		 * 						~ Node utils ~
 		 * 
+		 * size_type		sizeNode(Node* node) const;
+		 * int				heightNode(Node* node, int h = 0) const;
 		 * Node*			copyNode(Node* dest, Node* src);
 		 * Node*			newNode(value_type val, Node* parent);
 		 * Node*			insertNode(Node* node, const value_type& val, Node* parent = 0);
@@ -87,22 +89,21 @@ namespace ft
 		 * allocator_type  			_allocValue;
 		 * std::allocator<Node>		_allocNode;
 		 * Node*					_root;
-		 * Node*					_end;
+		 * Node*					_end_node;
 		 * 
 		 **/
 			
 		public:
-			typedef typename T::first_type 				key_type;
-			typedef typename T::second_type 			mapped_type;
-			typedef T									value_type;
-			typedef	Compare								key_compare;
-			typedef	Alloc								allocator_type;
-			typedef	value_type&							reference;
-			typedef	const value_type&					const_reference;
-			typedef	value_type*							pointer;
-			typedef	const value_type*					const_pointer;
-			typedef	size_t							difference_type;
-			typedef	size_t								size_type;
+			typedef typename T::first_type 						key_type;
+			typedef typename T::second_type 					mapped_type;
+			typedef T											value_type;
+			typedef	Compare										key_compare;
+			typedef	Alloc										allocator_type;
+			typedef typename allocator_type::reference			reference;
+			typedef typename allocator_type::const_reference	const_reference;
+			typedef	typename allocator_type::pointer			pointer;
+			typedef	typename allocator_type::const_pointer		const_pointer;
+			typedef	size_t										size_type;
 
 			struct Node
 			{
@@ -152,8 +153,8 @@ namespace ft
 			const allocator_type& alloc = allocator_type()) :
 				_comp(comp), _allocValue(alloc) {
 					this->_root = 0;
-					this->_end = this->_allocNode.allocate(1);
-					this->setEnd();
+					this->_end_node = this->_allocNode.allocate(1);
+					this->set_end_node();
 			}
 			
 			Tree(const Tree& x) { *this = x; }
@@ -162,13 +163,13 @@ namespace ft
 			const allocator_type& alloc = allocator_type()) :
 				_comp(comp), _allocValue(alloc) {
 					this->_root = &node;
-					this->_end = this->_allocNode.allocate(1);
-					this->setEnd();
+					this->_end_node = this->_allocNode.allocate(1);
+					this->set_end_node();
 			}
 			
 			~Tree() {
 				this->clear();
-				this->_allocNode.deallocate(this->_end, 1);
+				this->_allocNode.deallocate(this->_end_node, 1);
 			}
 
 			Tree&			operator=(const Tree& x)
@@ -177,46 +178,29 @@ namespace ft
 					return *this;
 				destroyNode(this->_root);
 				this->_root = 0;
-				this->_allocNode.deallocate(this->_end, 1);
+				this->_allocNode.deallocate(this->_end_node, 1);
 				this->_allocValue = x._allocValue;
 				this->_allocNode = x._allocNode;
-				this->_end = this->_allocNode.allocate(1);
+				this->_end_node = this->_allocNode.allocate(1);
 				this->_comp = x._comp;
 				this->_root = copyNode(this->_root, x._root);
-				this->setEnd();
+				this->set_end_node();
 				return *this;
 			}
 
 			//					~ Capacity ~
 			
-			size_type		size(Node* node) const {
-				size_type s = 0;
-				if (node)
-				{
-					s += size(node->right);
-					s += size(node->left);
-					++s;
-				}
-				return s;
+			size_type		size() const {
+				return sizeNode(this->_root);
 			}
 			
-			int				height(Node* node, int h = 0) const
-			{
-				if (node)
-				{
-					h++;
-					int tmp = h;
-					h = height(node->right, h);
-					tmp = height(node->left, tmp); 
-					h = h > tmp ? h : tmp;
-				}
-				
-				return h;
+			int				height() const {
+				return heightNode(this->_root);
 			}
 			
 			size_type		max_size() const { return this->_allocNode.max_size(); }
-			
 			//					~ Element access ~
+			
 			
 			mapped_type& 	operator[](const key_type& k) {
 				Node* node = this->find(k);
@@ -224,20 +208,20 @@ namespace ft
 					return node->value.second;
 				this->_root = insertNode(this->_root,
 				ft::make_pair<const key_type, mapped_type>(k, mapped_type()));
-				this->setEnd();
+				this->set_end_node();
 				return (*this)[k];
 			}
 			
 			//					~ Modifiers ~
 			
 			// empty node which represents the end of the tree (after the biggest element)
-			void			setEnd() {
+			void			set_end_node() {
 				if (this->_root)
-					this->_end->parent = this->_root->max();
+					this->_end_node->parent = this->_root->max();
 				else
-					this->_end->parent = 0;
-				this->_end->right = 0;
-				this->_end->left = 0;
+					this->_end_node->parent = 0;
+				this->_end_node->right = 0;
+				this->_end_node->left = 0;
 			}
 
 			void			swap(Tree& x) {
@@ -248,25 +232,26 @@ namespace ft
 			
 			void			insertValue(const value_type& val) {
 				this->_root = insertNode(this->_root, val);
-				this->setEnd();
+				this->set_end_node();
 			}
 
 			void			deleteKey(const key_type key) {
 				this->_root = deleteNode(this->_root, key);
-				this->setEnd();
+				this->set_end_node();
 			}
 			
 			void			clear() {
 				if (this->_root)
 					destroyNode(this->_root->getParent());
 				this->_root = 0;
-				this->setEnd();
+				this->set_end_node();
 			}
 			
 			//					~ Observers ~
 			
+			Node*			begin_node() const { return this->_root ? this->_root->min() : this->_end_node; }
+			Node*			end_node() const { return this->_end_node; }
 			Node*			root() const { return this->_root; }
-			Node*			end() const { return this->_end; }
 			key_compare		key_comp() const { return this->_comp; }
 			value_compare	value_comp() const { return value_compare(this->_comp); }
 			
@@ -287,6 +272,7 @@ namespace ft
 				return 0;
 			}
 			
+		private:
 			//					~ Balance (avl) ~
 
 			// put x under the left side of top
@@ -325,7 +311,7 @@ namespace ft
 			int				balanceFactor(Node* node) const {
 				if (!node)
 					return 0;
-				return height(node->right) - height(node->left);
+				return heightNode(node->right) - heightNode(node->left);
 			}
 			
 			Node*			balance_after_insert(Node* node, const key_type key)
@@ -382,7 +368,33 @@ namespace ft
 				return node;
 			}
 
+		public:
 			//					~ Node utils ~
+			
+			size_type		sizeNode(Node* node) const {
+				size_type s = 0;
+				if (node)
+				{
+					s += sizeNode(node->right);
+					s += sizeNode(node->left);
+					++s;
+				}
+				return s;
+			}
+			
+			int				heightNode(Node* node, int h = 0) const
+			{
+				if (node)
+				{
+					h++;
+					int tmp = h;
+					h = heightNode(node->right, h);
+					tmp = heightNode(node->left, tmp); 
+					h = h > tmp ? h : tmp;
+				}
+				
+				return h;
+			}
 			
 			Node*			copyNode(Node* dest, Node* src) {
 				if (src)
@@ -489,7 +501,7 @@ namespace ft
 			allocator_type  		_allocValue;
 			std::allocator<Node>	_allocNode;
 			Node*					_root;
-			Node*					_end;
+			Node*					_end_node;
     };
 }
 

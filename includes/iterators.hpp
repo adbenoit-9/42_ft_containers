@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 14:08:02 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/29 14:11:32 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ namespace ft
 			typedef typename T::key_type				key_type;
 			typedef typename T::mapped_type				mapped_type;
 			typedef	typename T::key_compare				key_compare;
-			typedef typename T::difference_type			difference_type;
 			typedef typename T::pointer   				pointer;
 			typedef typename T::reference 				reference;
+			typedef ptrdiff_t							difference_type;
 			typedef Category							iterator_category;
 
 			map_iterator() {}

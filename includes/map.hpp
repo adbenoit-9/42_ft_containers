@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 18:14:18 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/28 14:03:10 by adbenoit         ###   ########.fr       */
+/*   Updated: 2021/09/29 16:18:05 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,22 +96,27 @@ namespace ft
 			typedef T				    						mapped_type;
 			typedef	Compare										key_compare;
 			typedef	Alloc										allocator_type;
-			typedef ft::pair<const Key,T>						value_type;
+			typedef ft::pair<const key_type, mapped_type>		value_type;
+			
+		private:
 			typedef Tree< const value_type, Compare, Alloc>		const_tree;
 			typedef Tree< value_type, Compare, Alloc>			tree;
+			typedef typename tree::Node							node;
+
+		public:
 			typedef	typename tree::reference					reference;
 			typedef	typename tree::const_reference				const_reference;
 			typedef	typename tree::pointer						pointer;
 			typedef	typename tree::const_pointer				const_pointer;
-			typedef	typename tree::difference_type				difference_type;
 			typedef	typename tree::size_type					size_type;
 			typedef typename tree::value_compare				value_compare;
 			
 			typedef	map_iterator<bidirectional_iterator_tag,
-			const_tree, tree>										const_iterator;
-			typedef	map_iterator<bidirectional_iterator_tag, tree>	iterator;
-			typedef	reverse_iterator<const_iterator>				const_reverse_iterator;
-			typedef	reverse_iterator<iterator>						reverse_iterator;	
+			const_tree, tree>											const_iterator;
+			typedef	map_iterator<bidirectional_iterator_tag, tree>		iterator;
+			typedef	reverse_iterator<const_iterator>					const_reverse_iterator;
+			typedef	reverse_iterator<iterator>							reverse_iterator;	
+			typedef typename iterator_traits<iterator>::difference_type	difference_type;
 			
 			explicit map(const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type()) : _tree(comp, alloc) {}
@@ -137,21 +142,17 @@ namespace ft
 			//					~ Iterators ~
 			
  			iterator				begin() {
-				typename tree::Node *b;
-				b = this->_tree.root() ? this->_tree.root()->min() : this->_tree.end();
-				return iterator(b, this->_tree.end());
+				return iterator(this->_tree.begin_node(), this->_tree.end_node());
 			}
  			const_iterator			begin() const {
-				typename tree::Node *b;
-				b = this->_tree.root() ? this->_tree.root()->min() : this->_tree.end();
-				return const_iterator(b, this->_tree.end());
+				return const_iterator(this->_tree.begin_node(), this->_tree.end_node());
 			}
 				
  			iterator				end() {
-				return iterator(this->_tree.end(), this->_tree.end());
+				return iterator(this->_tree.end_node(), this->_tree.end_node());
 			}
  			const_iterator			end() const {
-				return const_iterator(this->_tree.end(), this->_tree.end());
+				return const_iterator(this->_tree.end_node(), this->_tree.end_node());
 			}
 
 			reverse_iterator		rbegin() { return reverse_iterator(this->end()); }
@@ -163,7 +164,7 @@ namespace ft
 
 			//					~ Capacity ~
 
-			size_type				size() const { return this->_tree.size(this->_tree.root()); }
+			size_type				size() const { return this->_tree.size(); }
 
 			size_type				max_size() const { return this->_tree.max_size(); }
 			
@@ -234,16 +235,16 @@ namespace ft
 			//					~ Operations ~
     			
 			iterator				find(const key_type& k) {
-				typename tree::Node* node = this->_tree.find(k);
+				node* node = this->_tree.find(k);
 				if (node)
-					return iterator(node, this->_tree.end());
+					return iterator(node, this->_tree.end_node());
 				return this->end();
 			}
 
 			const_iterator			find(const key_type& k) const {
-				typename tree::Node* node = this->_tree.find(k);
+				node* node = this->_tree.find(k);
 				if (node)
-					return const_iterator(node, this->_tree.end());
+					return const_iterator(node, this->_tree.end_node());
 				return this->end();
 			}
 
