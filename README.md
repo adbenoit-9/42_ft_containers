@@ -1,7 +1,7 @@
 # FT_CONTAINERS (@42Paris)
 *"The multiple available containers in C++ all have very different usage. To make sure you understand them, let’s re-implement them!"*
 
-## Objective
+## About
 
 The objective of this project is to implement the various container types of the C++ standard template library.
 - [vector](#vector) : same as dynamic arrays with the ability to resize itself automatically when an element is inserted or deleted.
