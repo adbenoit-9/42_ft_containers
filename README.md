@@ -9,7 +9,7 @@ The objective of this project is to implement the various container types of the
 
 My map : made from an avl tree = self-balancing binary search tree.
 It balances at each insertion and deletion.
-(You will find my rotation system in the `rotations_avl.txt` file)
+(my rotation system in the `rotations_avl.txt` file)
 - [stack](stack) : a type of container adaptor with LIFO(Last In First Out) type of working, where a new element is added at one end (top) and an element is removed from that end only.  
 
 ## TESTER
@@ -18,7 +18,7 @@ $ git clone https://github.com/adbenoit-9/42_ft_containers.git
 $ cd 42-ft-containers/
 $ make help
 ```
-![Example](img/help.png)
+<!-- ![Example](img/help.png) -->
 
 ### Execution
 ```
