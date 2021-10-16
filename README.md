@@ -6,7 +6,7 @@
 The objective of this project is to implement the various container types of the C++ standard template library.
 - [vector](#vector) : same as dynamic arrays with the ability to resize itself automatically when an element is inserted or deleted.
 - [map](#map) : an associative container/array that store elements formed by a combination of a key value and a mapped value.
-  - **My map** : made from an avl tree = self-balancing binary search tree.
+  - **My map** : made from an [avl tree] = self-balancing binary search tree.
 It balances at each insertion and deletion.
 (my rotation system in the `rotations_avl.txt` file)
 - [stack](stack) : a type of container adaptor with LIFO(Last In First Out) type of working, where a new element is added at one end (top) and an element is removed from that end only.  
