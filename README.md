@@ -9,7 +9,7 @@ The objective of this project is to implement the various container types of the
   - **my map** : made from an <ins>avl tree</ins> = self-balancing binary search tree.
 It balances at each insertion and deletion.
 (my rotation system in the `rotations_avl.txt` file)
-- [stack](stack) : a type of container adaptor with LIFO(Last In First Out) type of working, where a new element is added at one end (top) and an element is removed from that end only.  
+- [stack](#stack) : a type of container adaptor with LIFO(Last In First Out) type of working, where a new element is added at one end (top) and an element is removed from that end only.  
 
 ## Tester
 ```
