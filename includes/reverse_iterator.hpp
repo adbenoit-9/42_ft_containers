@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 18:24:40 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/27 14:21:23 by adbenoit         ###   ########.fr       */
+/*   Updated: 2022/02/15 14:37:59 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,6 @@ namespace ft
 	template<class It>
 	reverse_iterator<It> operator+(typename reverse_iterator<It>::difference_type n, const reverse_iterator<It>& rev_it) 
 	{ reverse_iterator<It> tmp(rev_it); tmp += n; return tmp; }
-	template<class It>
-	reverse_iterator<It> operator-(typename reverse_iterator<It>::difference_type n, const reverse_iterator<It>& rev_it)
-	{ reverse_iterator<It> tmp(rev_it); tmp -= n;; return tmp; }
 	template<class It>
 	typename reverse_iterator<It>::difference_type	operator-(const reverse_iterator<It>& lhs, const reverse_iterator<It>& rhs)
 	{ return rhs.base() - lhs.base(); }

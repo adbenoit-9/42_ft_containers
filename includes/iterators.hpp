@@ -6,7 +6,7 @@
 /*   By: adbenoit <adbenoit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 16:07:16 by adbenoit          #+#    #+#             */
-/*   Updated: 2021/09/29 14:11:32 by adbenoit         ###   ########.fr       */
+/*   Updated: 2022/02/15 14:33:51 by adbenoit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ namespace ft
 			vector_iterator&	operator=(pointer ptr) { this->_ptr = ptr; return *this; }
 			vector_iterator&	operator=(const vector_iterator &toCopy) { this->_ptr = toCopy._ptr; return *this; }
 			vector_iterator&	operator+=(difference_type n) { this->_ptr += n; return *this; }
-			// vector_iterator&	operator+=(const vector_iterator &it) { this->_ptr += it._ptr; return *this; }
 			vector_iterator&	operator-=(difference_type n) { this->_ptr -= n; return *this; }
-			vector_iterator&	operator-=(const vector_iterator &it) { this->_ptr -= it._ptr; return *this; }
 
 			// operators : member access
 			reference   		operator*() const { return *this->_ptr; }
